@@ -24,6 +24,6 @@ class Campaings extends Model
         self::ID => 'integer',
         self::ID_USER => 'integer',
         self::NAME => 'string',
-        self::NAME => 'string',
+        self::DESCRIPTION => 'string',
     ];
 }

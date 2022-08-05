@@ -48,7 +48,7 @@ class Characters extends Model
         self::ID => 'integer',
         self::ID_USER => 'integer',
         self::NAME => 'string',
-        self::NAME => 'string',
+        self::DESCRIPTION => 'string',
         self::RACE => 'string',
         self::CASTE => 'string',
         self::TENDENCY => 'string',

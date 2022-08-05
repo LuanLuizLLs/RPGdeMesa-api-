@@ -12,39 +12,28 @@ class CharactersController extends Controller
    * Controller Characters
    */
 
-  function create(Request $request, $id)
+  function create(Request $request)
   {
-    $model = Users::where('id', $id)->first();
+    $model = Users::where('id', $request->id_user)->first();
 
     if (empty($model)) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Usuário não encontrado',
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Usuário não encontrado',
+        ],
       ], 400);
     }
 
     $model = new Characters();
-    $model->id_user = $id;
-    $model->id_campaing = $request->id_campaing;
-    $model->name = $request->name;
-    $model->description = $request->description;
-    $model->race = $request->race;;
-    $model->caste = $request->caste;
-    $model->tendency = $request->tendency;
-    $model->life = $request->life;
-    $model->coins = $request->coins;
-    $model->actions = $request->actions;
-    $model->strength = $request->strength;
-    $model->dexterity = $request->dexterity;
-    $model->constitution = $request->constitution;
-    $model->intelligence = $request->intelligence;
-    $model->wisdom = $request->wisdom;
-    $model->charisma = $request->charisma;
-    $model->save();
+    $data = array_intersect_key($request->all(), $model->getCasts());
+    $model->create($data);
 
     return response()->json([
-      'status' => 'success',
-      'message' => 'Personagem criado com sucesso',
+      'message' => [
+        'type' => 'success',
+        'message' => 'Personagem criado',
+      ],
     ], 200);
   }
 
@@ -59,8 +48,19 @@ class CharactersController extends Controller
 
     if ($id) $model = Characters::where('id', $id)->get();
 
+    if (empty($model)) {
+      return response()->json([
+        'status' => 'warning',
+        'message' => 'Personagem não encontrado',
+      ], 400);
+    }
+    
     return response()->json([
       'response' => $model,
+      'message' => [
+        'type' => 'success',
+        'message' => 'Personagem encontrado',
+      ],
     ], 200);
   }
 
@@ -70,33 +70,21 @@ class CharactersController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Personagem não encontrado',
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Personagem não encontrado',
+        ],
       ], 400);
     }
     
-    Characters::where('id', $id)->update([
-      'id_user' => $request->id_user,
-      'id_campaing' => $request->id_campaing,
-      'name' => $request->name,
-      'description' => $request->description,
-      'race' => $request->race,
-      'caste' => $request->caste,
-      'tendency' => $request->tendency,
-      'life' => $request->life,
-      'coins' => $request->coins,
-      'actions' => $request->actions,
-      'strength' => $request->strength,
-      'dexterity' => $request->dexterity,
-      'constitution' => $request->constitution,
-      'intelligence' => $request->intelligence,
-      'wisdom' => $request->wisdom,
-      'charisma' => $request->charisma,
-    ]);
+    $data = array_intersect_key($request->all(), $model->getCasts());
+    Characters::where('id', $id)->update($data);
 
     return response()->json([
-      'status' => 'success',
-      'message' => 'Personagem atualizado com sucesso',
+      'message' => [
+        'type' => 'success',
+        'message' => 'Personagem atualizado',
+      ],
     ], 200);
   }
 
@@ -106,16 +94,20 @@ class CharactersController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Personagem não encontrado',
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Personagem não encontrado',
+        ],
       ], 400);
     }
 
     Characters::where('id', $id)->delete();
 
     return response()->json([
-      'status' => 'success',
-      'message' => 'Usuário deletado com sucesso',
+      'message' => [
+        'type' => 'success',
+        'message' => 'Usuário deletado',
+      ],
     ], 200);
   }
 }

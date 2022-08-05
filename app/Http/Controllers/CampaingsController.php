@@ -12,26 +12,28 @@ class CampaingsController extends Controller
    * Controller Campaings
    */
 
-  function create(Request $request, $id)
+  function create(Request $request)
   {
-    $model = Users::where('id', $id)->first();
+    $model = Users::where('id', $request->id_user)->first();
 
     if (empty($model)) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Usuário não encontrado',
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Usuário não encontrado',
+        ],
       ], 400);
     }
 
     $model = new Campaings();
-    $model->id_user = $id;
-    $model->name = $request->name;
-    $model->description = $request->description;
-    $model->save();
+    $data = array_intersect_key($request->all(), $model->getCasts());
+    $model->create($data);
 
     return response()->json([
-      'status' => 'success',
-      'message' => 'Campanha criada com sucesso',
+      'message' => [
+        'type' => 'success',
+        'message' => 'Campanha criada',
+      ],
     ], 200);
   }
 
@@ -41,11 +43,24 @@ class CampaingsController extends Controller
       if (isset($request->id_user))
         $query = $query->where('id_user', $request->id_user);
     })->get();
-
+    
     if ($id) $model = Campaings::where('id', $id)->get();
 
+    if (empty($model)) {
+      return response()->json([
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Campanha não encontrada',
+        ],
+      ], 400);
+    }
+    
     return response()->json([
       'response' => $model,
+      'message' => [
+        'type' => 'success',
+        'message' => 'Campanha encontrada',
+      ],
     ], 200);
   }
 
@@ -55,20 +70,21 @@ class CampaingsController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Campanha não encontrada',
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Campanha não encontrada',
+        ],
       ], 200);
     }
 
-    Campaings::where('id', $id)->update([
-      'id_user' => $request->id_user,
-      'name' => $request->name,
-      'description' => $request->description,
-    ]);
+    $data = array_intersect_key($request->all(), $model->getCasts());
+    Campaings::where('id', $id)->update($data);
 
     return response()->json([
-      'status' => 'success',
-      'message' => 'Campanha atualizada com sucesso',
+      'message' => [
+        'type' => 'success',
+        'message' => 'Campanha atualizada',
+      ],
     ], 200);
   }
 
@@ -78,16 +94,20 @@ class CampaingsController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Campanha não encontrada',
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Campanha não encontrada',
+        ],
       ], 200);
     }
 
     Campaings::where('id', $id)->delete();
 
     return response()->json([
-      'status' => 'success',
-      'message' => 'Campanha deletada com sucesso',
+      'message' => [
+        'type' => 'success',
+        'message' => 'Campanha deletada',
+      ],
     ], 200);
   }
 }

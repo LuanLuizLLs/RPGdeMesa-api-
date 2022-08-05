@@ -1,0 +1,3 @@
+# Run project    | php -S 127.0.0.1:{port} -t public
+# Create migrate | php artisan make:migration create_{name}_table
+# Update migrate | php artisan migrate:fresh --seed

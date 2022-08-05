@@ -17,7 +17,7 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'users'], function () use 
 
 /** Routes campaings */
 $router->group(['middleware' => ['auth'], 'prefix' => 'campaings'], function () use ($router) {
-    $router->post('/create/{id}', 'CampaingsController@create');
+    $router->post('/create', 'CampaingsController@create');
     $router->get('/read[/{id}]', 'CampaingsController@read');
     $router->patch('/update/{id}', 'CampaingsController@update');
     $router->delete('/delete/{id}', 'CampaingsController@delete');
@@ -25,7 +25,7 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'campaings'], function () 
 
 /** Routes characters */
 $router->group(['middleware' => ['auth'], 'prefix' => 'characters'], function () use ($router) {
-    $router->post('/create/{id}', 'CharactersController@create');
+    $router->post('/create', 'CharactersController@create');
     $router->get('/read[/{id}]', 'CharactersController@read');
     $router->patch('/update/{id}', 'CharactersController@update');
     $router->delete('/delete/{id}', 'CharactersController@delete');

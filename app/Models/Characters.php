@@ -41,6 +41,7 @@ class Characters extends Model
         self::DEXTERITY,
         self::CONSTITUTION,
         self::INTELLIGENCE,
+        self::WISDOW,
         self::CHARISMA,
     ];
 
@@ -59,6 +60,7 @@ class Characters extends Model
         self::DEXTERITY => 'integer',
         self::CONSTITUTION => 'integer',
         self::INTELLIGENCE => 'integer',
+        self::WISDOW => 'integer',
         self::CHARISMA => 'integer',
     ];
 }

@@ -29,6 +29,7 @@ class Characters extends Model
     protected $fillable = [
         self::ID,
         self::ID_USER,
+        self::ID_CAMPAING,
         self::NAME,
         self::DESCRIPTION,
         self::RACE,
@@ -48,6 +49,7 @@ class Characters extends Model
     protected $casts = [
         self::ID => 'integer',
         self::ID_USER => 'integer',
+        self::ID_CAMPAING => 'integer',
         self::NAME => 'string',
         self::DESCRIPTION => 'string',
         self::RACE => 'string',

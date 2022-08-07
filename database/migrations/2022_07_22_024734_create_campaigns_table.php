@@ -6,29 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCampaignsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('campaigns', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_user')->constrained()->references('id')->on('users');
-            $table->string('name');
-            $table->string('description');
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    Schema::create('campaigns', function (Blueprint $table) {
+      $table->id();
+      $table->foreignId('id_user')->constrained()->references('id')->on('users');
+      $table->string('name');
+      $table->string('description');
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('campaigns');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('campaigns');
+  }
 }

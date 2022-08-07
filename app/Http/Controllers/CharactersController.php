@@ -106,7 +106,7 @@ class CharactersController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Usuário deletado',
+        'message' => 'Personagem deletado',
       ],
     ], 200);
   }

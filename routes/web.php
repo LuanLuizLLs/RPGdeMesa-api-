@@ -30,3 +30,10 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'characters'], function ()
     $router->patch('/update/{id}', 'CharactersController@update');
     $router->delete('/delete/{id}', 'CharactersController@delete');
 });
+
+/** Routes features */
+$router->group(['middleware' => ['auth'], 'prefix' => 'features'], function () use ($router) {
+  $router->post('/create', 'FeaturesController@create');
+  $router->get('/read[/{id}]', 'FeaturesController@read');
+  $router->delete('/delete/{id}', 'FeaturesController@delete');
+});

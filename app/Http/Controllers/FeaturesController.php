@@ -15,6 +15,14 @@ class FeaturesController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
+    $attributes = [
+      'strength' => $character->strength + $request->strength,
+      'dexterity' => $character->dexterity + $request->dexterity,
+      'constitution' => $character->constitution + $request->constitution,
+      'intelligence' => $character->intelligence + $request->intelligence,
+      'wisdom' => $character->wisdom + $request->wisdom,
+      'charisma' => $character->charisma + $request->charisma,
+    ];
 
     if (empty($character)) {
       return response()->json([
@@ -22,21 +30,38 @@ class FeaturesController extends Controller
           'type' => 'warning',
           'message' => 'Personagem não encontrado',
         ],
-      ], 400);
+      ], 202);
     }
 
+    if ($character->actions < 1 && $request->player) {
+      return response()->json([
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Personagem não possui ações',
+        ],
+      ], 202);
+    } elseif ($request->player) {
+      Characters::where('id', $request->id_character)->update([
+        'actions' => $character->actions - 1,
+      ]);
+
+      foreach ($attributes as $attribute) {
+        if ($attribute > 6) {
+          return response()->json([
+            'message' => [
+              'type' => 'warning',
+              'message' => 'Atributo atingiu o nível máximo',
+            ],
+          ], 202);
+        }
+      };
+    }
+    
     $model = new Features();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
 
-    Characters::where('id', $request->id_character)->update([
-      'strength' => $character->strength + $request->strength,
-      'dexterity' => $character->dexterity + $request->dexterity,
-      'constitution' => $character->constitution + $request->constitution,
-      'intelligence' => $character->intelligence + $request->intelligence,
-      'wisdom' => $character->wisdom + $request->wisdom,
-      'charisma' => $character->charisma + $request->charisma,
-    ]);
+    Characters::where('id', $request->id_character)->update($attributes);
 
     return response()->json([
       'message' => [
@@ -59,7 +84,7 @@ class FeaturesController extends Controller
       return response()->json([
         'status' => 'warning',
         'message' => 'Característica não encontrada',
-      ], 400);
+      ], 202);
     }
     
     return response()->json([
@@ -82,11 +107,11 @@ class FeaturesController extends Controller
           'type' => 'warning',
           'message' => 'Característica não encontrada',
         ],
-      ], 400);
+      ], 202);
     }
 
     Features::where('id', $id)->delete();
-    
+
     Characters::where('id', $model->id_character)->update([
       'strength' => $character->strength - $model->strength,
       'dexterity' => $character->dexterity - $model->dexterity,

@@ -22,7 +22,7 @@ class UsersController extends Controller
             'type' => 'warning',
             'message' => 'Usuário já existe',
           ],
-        ], 400);
+        ], 202);
       }
 
     $model = new Users();
@@ -54,7 +54,7 @@ class UsersController extends Controller
           'type' => 'warning',
           'message' => 'Usuário não encontrado',
         ],
-      ], 400);
+      ], 202);
     }
 
     return response()->json([
@@ -81,7 +81,7 @@ class UsersController extends Controller
           'type' => 'warning',
           'message' => 'Usuário não encontrado',
         ],
-      ], 400);
+      ], 202);
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());

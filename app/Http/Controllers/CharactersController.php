@@ -16,15 +16,15 @@ class CharactersController extends Controller
 
   function create(Request $request)
   {
-    $model = Users::where('id', $request->id_user)->first();
+    $user = Users::where('id', $request->id_user)->first();
 
-    if (empty($model)) {
+    if (empty($user)) {
       return response()->json([
         'message' => [
           'type' => 'warning',
           'message' => 'Usuário não encontrado',
         ],
-      ], 400);
+      ], 202);
     }
 
     $model = new Characters();
@@ -54,7 +54,7 @@ class CharactersController extends Controller
       return response()->json([
         'status' => 'warning',
         'message' => 'Personagem não encontrado',
-      ], 400);
+      ], 202);
     }
     
     return response()->json([
@@ -76,7 +76,7 @@ class CharactersController extends Controller
           'type' => 'warning',
           'message' => 'Personagem não encontrado',
         ],
-      ], 400);
+      ], 202);
     }
     
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -100,7 +100,7 @@ class CharactersController extends Controller
           'type' => 'warning',
           'message' => 'Personagem não encontrado',
         ],
-      ], 400);
+      ], 202);
     }
 
     Characters::where('id', $id)->delete();

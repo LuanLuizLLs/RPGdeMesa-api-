@@ -14,15 +14,15 @@ class CampaingsController extends Controller
 
   function create(Request $request)
   {
-    $model = Users::where('id', $request->id_user)->first();
+    $user = Users::where('id', $request->id_user)->first();
 
-    if (empty($model)) {
+    if (empty($user)) {
       return response()->json([
         'message' => [
           'type' => 'warning',
           'message' => 'Usuário não encontrado',
         ],
-      ], 400);
+      ], 202);
     }
 
     $model = new Campaings();
@@ -52,7 +52,7 @@ class CampaingsController extends Controller
           'type' => 'warning',
           'message' => 'Campanha não encontrada',
         ],
-      ], 400);
+      ], 202);
     }
     
     return response()->json([

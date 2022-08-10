@@ -37,3 +37,11 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'features'], function () u
   $router->get('/read[/{id}]', 'FeaturesController@read');
   $router->delete('/delete/{id}', 'FeaturesController@delete');
 });
+
+/** Routes abilities */
+$router->group(['middleware' => ['auth'], 'prefix' => 'abilities'], function () use ($router) {
+  $router->post('/create', 'AbilitiesController@create');
+  $router->get('/read[/{id}]', 'AbilitiesController@read');
+  $router->patch('/update/{id}', 'AbilitiesController@update');
+  $router->delete('/delete/{id}', 'AbilitiesController@delete');
+});

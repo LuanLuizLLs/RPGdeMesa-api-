@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Users;
 use App\Models\Characters;
+use App\Models\Features;
+use App\Models\Abilities;
 use Illuminate\Http\Request;
 
 class CharactersController extends Controller
@@ -102,6 +104,8 @@ class CharactersController extends Controller
     }
 
     Characters::where('id', $id)->delete();
+    Features::where('id_character', $id)->delete();
+    Abilities::where('id_character', $id)->delete();
 
     return response()->json([
       'message' => [

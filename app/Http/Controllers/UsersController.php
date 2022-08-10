@@ -94,27 +94,4 @@ class UsersController extends Controller
       ]
     ], 200);
   }
-
-  public function delete($id)
-  {
-    $model = Users::where('id', $id)->first();
-
-    if (empty($model)) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Usuário não encontrado',
-        ],
-      ], 400);
-    }
-
-    Users::where('id', $id)->delete();
-
-    return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Usuário deletado',
-      ],
-    ], 200);
-  }
 }

@@ -12,7 +12,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'users'], function () use 
     $router->post('/create', 'UsersController@create');
     $router->get('/read[/{id}]', 'UsersController@read');
     $router->patch('/update[/{id}]', 'UsersController@update');
-    $router->delete('/delete/{id}', 'UsersController@delete');
 });
 
 /** Routes campaings */

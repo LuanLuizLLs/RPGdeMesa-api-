@@ -97,18 +97,18 @@ class AbilitiesController extends Controller
         ],
       ], 202);
     } elseif ($request->player) {
+      if ($request->level > env('MAX_LEVEL_ABILITY')) {
+        return response()->json([
+          'message' => [
+            'type' => 'warning',
+            'message' => 'Habilidade atingiu o nível máximo',
+          ],
+        ], 202);
+      }
+
       Characters::where('id', $model->id_character)->update([
         'actions' => $character->actions - 1,
       ]);
-    }
-
-    if ($request->level > 3 && $request->player) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Habilidade atingiu o nível máximo',
-        ],
-      ], 202);
     }
     
     $data = array_intersect_key($request->all(), $model->getCasts());

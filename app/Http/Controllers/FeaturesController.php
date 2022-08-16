@@ -46,7 +46,7 @@ class FeaturesController extends Controller
       ]);
 
       foreach ($attributes as $attribute) {
-        if ($attribute > 6) {
+        if ($attribute > env('MAX_LEVEL_ATTRIBUTE')) {
           return response()->json([
             'message' => [
               'type' => 'warning',

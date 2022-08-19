@@ -15,7 +15,7 @@ class CreateAbilitiesTable extends Migration
   {
     Schema::create('abilities', function (Blueprint $table) {
       $table->id();
-      $table->integer('id_character');
+      $table->foreignId('id_character')->constrained()->references('id')->on('characters');
       $table->string('name');
       $table->string('description');
       $table->string('attribute');

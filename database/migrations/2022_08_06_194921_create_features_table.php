@@ -15,7 +15,7 @@ class CreateFeaturesTable extends Migration
   {
     Schema::create('features', function (Blueprint $table) {
       $table->id();
-      $table->integer('id_character');
+      $table->foreignId('id_character')->constrained()->references('id')->on('characters');
       $table->string('name');
       $table->integer('strength');
       $table->integer('dexterity');

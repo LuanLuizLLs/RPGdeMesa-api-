@@ -13,10 +13,10 @@ class UsersController extends Controller
 
   function create(Request $request)
   {
-    $model = Users::where('user', $request->user)->first();
+    $model = Users::where('name', $request->name)->first();
 
     if ($model)
-      if ($model->user === $request->user) {
+      if ($model->name === $request->name) {
         return response()->json([
           'message' => [
             'type' => 'warning',
@@ -40,8 +40,8 @@ class UsersController extends Controller
   public function read(Request $request, $id = null)
   {
     $model = Users::select()->where(function ($query) use ($request) {
-      if (isset($request->user))
-        $query = $query->where('user', $request->user);
+      if (isset($request->name))
+        $query = $query->where('name', $request->name);
       if (isset($request->password))
         $query = $query->where('password', $request->password);
     })->get();
@@ -70,7 +70,7 @@ class UsersController extends Controller
   {
     $model = Users::select()->where(function ($query) use ($request) {
       if (isset($request->id))
-        $query = $query->where('user', $request->user);
+        $query = $query->where('name', $request->name);
     })->first();
 
     if ($id) $model = Users::where('id', $id)->first();

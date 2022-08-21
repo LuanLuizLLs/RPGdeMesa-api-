@@ -48,8 +48,9 @@ class UsersController extends Controller
 
     if ($id) $model = Users::where('id', $id)->get();
 
-    if (empty($model)) {
+    if (empty($model->all())) {
       return response()->json([
+        'response' => $model,
         'message' => [
           'type' => 'warning',
           'message' => 'Usuário não encontrado',

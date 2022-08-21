@@ -46,8 +46,9 @@ class CampaingsController extends Controller
     
     if ($id) $model = Campaings::where('id', $id)->get();
 
-    if (empty($model)) {
+    if (empty($model->all())) {
       return response()->json([
+        'response' => $model,
         'message' => [
           'type' => 'warning',
           'message' => 'Campanha não encontrada',

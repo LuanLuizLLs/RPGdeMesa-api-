@@ -56,7 +56,7 @@ class FeaturesController extends Controller
         }
       };
     }
-    
+
     $model = new Features();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
@@ -80,13 +80,16 @@ class FeaturesController extends Controller
 
     if ($id) $model = Features::where('id', $id)->get();
 
-    if (empty($model)) {
+    if (empty($model->all())) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Característica não encontrada',
+        'response' => $model,
+        'message' =>  [
+          'status' => 'warning',
+          'message' => 'Característica não encontrada',
+        ]
       ], 202);
     }
-    
+
     return response()->json([
       'response' => $model,
       'message' => [
@@ -95,7 +98,7 @@ class FeaturesController extends Controller
       ],
     ], 200);
   }
-  
+
   public function delete($id)
   {
     $model = Features::where('id', $id)->first();

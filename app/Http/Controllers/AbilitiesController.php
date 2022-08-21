@@ -59,11 +59,14 @@ class AbilitiesController extends Controller
 
     if ($id) $model = Abilities::where('id', $id)->get();
 
-    if (empty($model)) {
+    if (empty($model->all())) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Habilidade não encontrada',
-      ], 202);
+        'response' => $model,
+        'message' => [
+          'status' => 'warning',
+          'message' => 'Habilidade não encontrada',
+        ],
+      ], 200);
     }
     
     return response()->json([

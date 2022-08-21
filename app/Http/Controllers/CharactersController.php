@@ -50,18 +50,21 @@ class CharactersController extends Controller
 
     if ($id) $model = Characters::where('id', $id)->get();
 
-    if (empty($model)) {
+    if (empty($model->all())) {
       return response()->json([
-        'status' => 'warning',
-        'message' => 'Personagem não encontrado',
-      ], 202);
+        'response' => $model,
+        'message' => [
+          'status' => 'warning',
+          'message' => 'Personagem não encontrado',
+        ],
+      ], 200);
     }
     
     return response()->json([
       'response' => $model,
       'message' => [
-        'type' => 'success',
-        'message' => 'Personagem encontrado',
+        'status' => 'warning',
+        'message' => 'Personagem não encontrado',
       ],
     ], 200);
   }

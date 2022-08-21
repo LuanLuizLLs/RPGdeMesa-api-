@@ -16,6 +16,8 @@ class CreateCampaignsTable extends Migration
     Schema::create('campaigns', function (Blueprint $table) {
       $table->id();
       $table->foreignId('id_user')->constrained()->references('id')->on('users');
+      $table->integer('id_adventure')->nullable();
+      $table->integer('id_scenery')->nullable();
       $table->string('name');
       $table->string('description');
       $table->timestamps();

@@ -63,8 +63,8 @@ class CharactersController extends Controller
     return response()->json([
       'response' => $model,
       'message' => [
-        'type' => 'warning',
-        'message' => 'Personagem não encontrado',
+        'type' => 'success',
+        'message' => 'Personagem encontrado',
       ],
     ], 200);
   }

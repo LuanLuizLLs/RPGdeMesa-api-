@@ -54,7 +54,7 @@ class CharactersController extends Controller
       return response()->json([
         'response' => $model,
         'message' => [
-          'status' => 'warning',
+          'type' => 'warning',
           'message' => 'Personagem não encontrado',
         ],
       ], 200);
@@ -63,7 +63,7 @@ class CharactersController extends Controller
     return response()->json([
       'response' => $model,
       'message' => [
-        'status' => 'warning',
+        'type' => 'warning',
         'message' => 'Personagem não encontrado',
       ],
     ], 200);

@@ -63,7 +63,7 @@ class AbilitiesController extends Controller
       return response()->json([
         'response' => $model,
         'message' => [
-          'status' => 'warning',
+          'type' => 'warning',
           'message' => 'Habilidade não encontrada',
         ],
       ], 200);

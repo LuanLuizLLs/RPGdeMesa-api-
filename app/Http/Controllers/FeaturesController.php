@@ -84,7 +84,7 @@ class FeaturesController extends Controller
       return response()->json([
         'response' => $model,
         'message' =>  [
-          'status' => 'warning',
+          'type' => 'warning',
           'message' => 'Característica não encontrada',
         ]
       ], 202);

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Users;
-use App\Models\Campaings;
+use App\Models\Campaigns;
 use Illuminate\Http\Request;
 
-class CampaingsController extends Controller
+class CampaignsController extends Controller
 {
   /**
-   * Controller Campaings
+   * Controller Campaigns
    */
 
   function create(Request $request)
@@ -25,7 +25,7 @@ class CampaingsController extends Controller
       ], 202);
     }
 
-    $model = new Campaings();
+    $model = new Campaigns();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
 
@@ -39,12 +39,12 @@ class CampaingsController extends Controller
 
   public function read(Request $request, $id = null)
   {
-    $model = Campaings::select()->where(function ($query) use ($request) {
+    $model = Campaigns::select()->where(function ($query) use ($request) {
       if (isset($request->id_user))
         $query = $query->where('id_user', $request->id_user);
     })->get();
     
-    if ($id) $model = Campaings::where('id', $id)->get();
+    if ($id) $model = Campaigns::where('id', $id)->get();
 
     if (empty($model->all())) {
       return response()->json([
@@ -67,7 +67,7 @@ class CampaingsController extends Controller
 
   public function update(Request $request, $id)
   {
-    $model = Campaings::where('id', $id)->first();
+    $model = Campaigns::where('id', $id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -79,7 +79,7 @@ class CampaingsController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Campaings::where('id', $id)->update($data);
+    Campaigns::where('id', $id)->update($data);
 
     return response()->json([
       'message' => [
@@ -91,7 +91,7 @@ class CampaingsController extends Controller
 
   public function delete($id)
   {
-    $model = Campaings::where('id', $id)->first();
+    $model = Campaigns::where('id', $id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -102,7 +102,7 @@ class CampaingsController extends Controller
       ], 200);
     }
 
-    Campaings::where('id', $id)->delete();
+    Campaigns::where('id', $id)->delete();
 
     return response()->json([
       'message' => [

@@ -16,7 +16,7 @@ class CreateCharactersTable extends Migration
     Schema::create('characters', function (Blueprint $table) {
       $table->id();
       $table->foreignId('id_user')->constrained()->references('id')->on('users');
-      $table->integer('id_campaing')->nullable();
+      $table->integer('id_campaign')->nullable();
       $table->string('name');
       $table->string('description');
       $table->string('race');

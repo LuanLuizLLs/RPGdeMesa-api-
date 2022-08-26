@@ -2,118 +2,112 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Users;
-use App\Models\Characters;
-use App\Models\Features;
-use App\Models\Abilities;
+use App\Models\Campaigns;
+use App\Models\Adventures;
 use Illuminate\Http\Request;
 
-class CharactersController extends Controller
+class AdventuresController extends Controller
 {
   /**
-   * Controller Characters
+   * Controller Adventures
    */
 
   function create(Request $request)
   {
-    $user = Users::where('id', $request->id_user)->first();
+    $campaign = Campaigns::where('id', $request->id_campaign)->first();
 
-    if (empty($user)) {
+    if (empty($campaign)) {
       return response()->json([
         'message' => [
           'type' => 'warning',
-          'message' => 'Usuário não encontrado',
+          'message' => 'Campanha não encontrada',
         ],
       ], 202);
     }
 
-    $model = new Characters();
+    $model = new Adventures();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
 
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem criado',
+        'message' => 'Aventura criada com sucesso',
       ],
     ], 200);
   }
 
   public function read(Request $request, $id = null)
   {
-    $model = Characters::select()->where(function ($query) use ($request) {
+    $model = Adventures::select()->where(function ($query) use ($request) {
       if (isset($request->id_user))
         $query = $query->where('id_user', $request->id_user);
-      if (isset($request->id_campaign))
-        $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
-
-    if ($id) $model = Characters::where('id', $id)->get();
+    
+    if ($id) $model = Adventures::where('id', $id)->get();
 
     if (empty($model->all())) {
       return response()->json([
         'response' => $model,
         'message' => [
           'type' => 'warning',
-          'message' => 'Personagem não encontrado',
+          'message' => 'Campanha não encontrada',
         ],
-      ], 200);
+      ], 202);
     }
     
     return response()->json([
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem encontrado',
+        'message' => 'Campanha encontrada',
       ],
     ], 200);
   }
 
   public function update(Request $request, $id)
   {
-    $model = Characters::where('id', $id)->first();
+    $model = Adventures::where('id', $id)->first();
 
     if (empty($model)) {
       return response()->json([
         'message' => [
           'type' => 'warning',
-          'message' => 'Personagem não encontrado',
+          'message' => 'Campanha não encontrada',
         ],
-      ], 202);
+      ], 200);
     }
-    
+
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Characters::where('id', $id)->update($data);
+    Adventures::where('id', $id)->update($data);
 
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem atualizado',
+        'message' => 'Campanha atualizada',
       ],
     ], 200);
   }
 
   public function delete($id)
   {
-    $model = Characters::where('id', $id)->first();
+    $model = Adventures::where('id', $id)->first();
 
     if (empty($model)) {
       return response()->json([
         'message' => [
           'type' => 'warning',
-          'message' => 'Personagem não encontrado',
+          'message' => 'Campanha não encontrada',
         ],
-      ], 202);
+      ], 200);
     }
 
-    Characters::where('id', $id)->delete();
-    Features::where('id_character', $id)->delete();
-    Abilities::where('id_character', $id)->delete();
+    Adventures::where('id', $id)->delete();
 
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem deletado',
+        'message' => 'Campanha deletada',
       ],
     ], 200);
   }

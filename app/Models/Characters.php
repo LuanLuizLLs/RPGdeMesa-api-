@@ -10,7 +10,7 @@ class Characters extends Model
 
     public const ID = 'id';
     public const ID_USER = 'id_user';
-    public const ID_CAMPAING = 'id_campaing';
+    public const ID_CAMPAIGN = 'id_campaign';
     public const NAME = 'name';
     public const DESCRIPTION = 'description';
     public const RACE = 'race';
@@ -29,7 +29,7 @@ class Characters extends Model
     protected $fillable = [
         self::ID,
         self::ID_USER,
-        self::ID_CAMPAING,
+        self::ID_CAMPAIGN,
         self::NAME,
         self::DESCRIPTION,
         self::RACE,
@@ -49,7 +49,7 @@ class Characters extends Model
     protected $casts = [
         self::ID => 'integer',
         self::ID_USER => 'integer',
-        self::ID_CAMPAING => 'integer',
+        self::ID_CAMPAIGN => 'integer',
         self::NAME => 'string',
         self::DESCRIPTION => 'string',
         self::RACE => 'string',

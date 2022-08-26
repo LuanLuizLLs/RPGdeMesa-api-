@@ -40,8 +40,8 @@ class AdventuresController extends Controller
   public function read(Request $request, $id = null)
   {
     $model = Adventures::select()->where(function ($query) use ($request) {
-      if (isset($request->id_user))
-        $query = $query->where('id_user', $request->id_user);
+      if (isset($request->id_campaign))
+        $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
     
     if ($id) $model = Adventures::where('id', $id)->get();
@@ -51,7 +51,7 @@ class AdventuresController extends Controller
         'response' => $model,
         'message' => [
           'type' => 'warning',
-          'message' => 'Campanha não encontrada',
+          'message' => 'Aventura não encontrada',
         ],
       ], 202);
     }
@@ -60,7 +60,7 @@ class AdventuresController extends Controller
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Campanha encontrada',
+        'message' => 'Aventura encontrada com sucesso',
       ],
     ], 200);
   }
@@ -73,7 +73,7 @@ class AdventuresController extends Controller
       return response()->json([
         'message' => [
           'type' => 'warning',
-          'message' => 'Campanha não encontrada',
+          'message' => 'Aventura não encontrada',
         ],
       ], 200);
     }
@@ -84,7 +84,7 @@ class AdventuresController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Campanha atualizada',
+        'message' => 'Aventura atualizada com sucesso',
       ],
     ], 200);
   }
@@ -97,7 +97,7 @@ class AdventuresController extends Controller
       return response()->json([
         'message' => [
           'type' => 'warning',
-          'message' => 'Campanha não encontrada',
+          'message' => 'Aventura não encontrada',
         ],
       ], 200);
     }
@@ -107,7 +107,7 @@ class AdventuresController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Campanha deletada',
+        'message' => 'Aventura deletada com sucesso',
       ],
     ], 200);
   }

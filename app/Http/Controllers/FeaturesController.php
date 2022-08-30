@@ -66,7 +66,7 @@ class FeaturesController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Característica criada',
+        'message' => 'Característica criada com sucesso',
       ],
     ], 200);
   }
@@ -94,7 +94,7 @@ class FeaturesController extends Controller
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Característica encontrada',
+        'message' => 'Característica encontrada com sucesso',
       ],
     ], 200);
   }

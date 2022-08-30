@@ -73,7 +73,7 @@ class AbilitiesController extends Controller
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Habilidade encontrada',
+        'message' => 'Habilidade encontrada com sucesso',
       ],
     ], 200);
   }
@@ -120,7 +120,7 @@ class AbilitiesController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Habilidade atualizada',
+        'message' => 'Habilidade atualizada com sucesso',
       ],
     ], 200);
   }
@@ -143,7 +143,7 @@ class AbilitiesController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Habilidade deletada',
+        'message' => 'Habilidade deletada com sucesso',
       ],
     ], 200);
   }

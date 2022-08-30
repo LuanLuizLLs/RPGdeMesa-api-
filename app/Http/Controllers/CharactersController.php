@@ -34,7 +34,7 @@ class CharactersController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem criado',
+        'message' => 'Personagem criado com sucesso',
       ],
     ], 200);
   }
@@ -64,7 +64,7 @@ class CharactersController extends Controller
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem encontrado',
+        'message' => 'Personagem encontrado com sucesso',
       ],
     ], 200);
   }
@@ -88,7 +88,7 @@ class CharactersController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem atualizado',
+        'message' => 'Personagem atualizado com sucesso',
       ],
     ], 200);
   }
@@ -113,7 +113,7 @@ class CharactersController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Personagem deletado',
+        'message' => 'Personagem deletado com sucesso',
       ],
     ], 200);
   }

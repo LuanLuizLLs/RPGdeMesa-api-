@@ -26,7 +26,7 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'campaigns'], function () 
 $router->group(['middleware' => ['auth'], 'prefix' => 'adventures'], function () use ($router) {
   $router->post('/create', 'AdventuresController@create');
   $router->get('/read[/{id}]', 'AdventuresController@read');
-  $router->patch('/update/{id}', 'AdventuresController@update');
+  $router->patch('/update', 'AdventuresController@update');
   $router->delete('/delete/{id}', 'AdventuresController@delete');
 });
 

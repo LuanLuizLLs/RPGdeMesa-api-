@@ -29,6 +29,14 @@ class AdventuresController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
 
+    $adventure_created = Adventures::where('id_campaign', $request->id_campaign)
+      ->orderBy('created_at', 'desc')
+      ->first();
+
+    Campaigns::where('id', $request->id_campaign)->update([
+      'id_adventure' => $adventure_created->id
+    ]);
+
     return response()->json([
       'message' => [
         'type' => 'success',
@@ -43,7 +51,7 @@ class AdventuresController extends Controller
       if (isset($request->id_campaign))
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
-    
+
     if ($id) $model = Adventures::where('id', $id)->get();
 
     if (empty($model->all())) {
@@ -55,7 +63,7 @@ class AdventuresController extends Controller
         ],
       ], 202);
     }
-    
+
     return response()->json([
       'response' => $model,
       'message' => [
@@ -65,9 +73,9 @@ class AdventuresController extends Controller
     ], 200);
   }
 
-  public function update(Request $request, $id)
+  public function update(Request $request)
   {
-    $model = Adventures::where('id', $id)->first();
+    $model = Adventures::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -79,7 +87,7 @@ class AdventuresController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Adventures::where('id', $id)->update($data);
+    Adventures::where('id', $request->id)->update($data);
 
     return response()->json([
       'message' => [
@@ -103,6 +111,10 @@ class AdventuresController extends Controller
     }
 
     Adventures::where('id', $id)->delete();
+
+    Campaigns::where('id_adventure', $id)->update([
+      'id_adventure' => null
+    ]);
 
     return response()->json([
       'message' => [

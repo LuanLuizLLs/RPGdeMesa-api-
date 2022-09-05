@@ -8,12 +8,15 @@ class Abilities extends Model
 {
     protected $table = 'abilities';
 
+    public const MAX_LEVEL_ABILITY = 3;
+
     public const ID = 'id';
     public const ID_CHARACTER = 'id_character';
     public const NAME = 'name';
     public const DESCRIPTION = 'description';
     public const ATTRIBUTE = 'attribute';
     public const LEVEL = 'level';
+    public const CAPACITY = 'capacity';
 
     protected $fillable = [
         self::ID,
@@ -22,6 +25,7 @@ class Abilities extends Model
         self::DESCRIPTION,
         self::ATTRIBUTE,
         self::LEVEL,
+        self::CAPACITY,
     ];
 
     protected $casts = [
@@ -31,5 +35,15 @@ class Abilities extends Model
         self::DESCRIPTION => 'string',
         self::ATTRIBUTE => 'string',
         self::LEVEL => 'integer',
+        self::CAPACITY => 'integer',
     ];
+
+    public function getCapacity() {
+      $character = Characters::where('id', $this->id_character)->first();
+      
+      if (empty($character)) {
+        return ($character->intelligence + $character->wisdom + $character->charisma);
+      }
+      return 0;
+    }
 }

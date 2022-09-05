@@ -22,21 +22,22 @@ class AbilitiesController extends Controller
           'type' => 'warning',
           'message' => 'Personagem não encontrado',
         ],
-      ], 202);
+      ], 400);
     }
 
-    if ($character->actions < 1 && $request->player) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Personagem não possui ações',
-        ],
-      ], 202);
-    } elseif ($request->player) {
-      Characters::where('id', $request->id_character)->update([
-        'actions' => $character->actions - 1,
-      ]);
-    }
+    if ($request->player)
+      if ($character->actions < 1) {
+        return response()->json([
+          'message' => [
+            'type' => 'warning',
+            'message' => 'Personagem não possui ações',
+          ],
+        ], 400);
+      } elseif ($request->player) {
+        Characters::where('id', $request->id_character)->update([
+          'actions' => $character->actions - 1,
+        ]);
+      }
 
     $model = new Abilities();
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -50,25 +51,24 @@ class AbilitiesController extends Controller
     ], 200);
   }
 
-  public function read(Request $request, $id = null)
+  public function read(Request $request)
   {
     $model = Abilities::select()->where(function ($query) use ($request) {
+      if (isset($request->id))
+        $query = $query->where('id', $request->id);
       if (isset($request->id_character))
         $query = $query->where('id_character', $request->id_character);
     })->get();
 
-    if ($id) $model = Abilities::where('id', $id)->get();
-
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
         'message' => [
           'type' => 'warning',
           'message' => 'Habilidade não encontrada',
         ],
-      ], 200);
+      ], 400);
     }
-    
+
     return response()->json([
       'response' => $model,
       'message' => [
@@ -78,9 +78,9 @@ class AbilitiesController extends Controller
     ], 200);
   }
 
-  public function update(Request $request, $id)
+  public function update(Request $request)
   {
-    $model = Abilities::where('id', $id)->first();
+    $model = Abilities::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
 
     if (empty($model)) {
@@ -89,33 +89,34 @@ class AbilitiesController extends Controller
           'type' => 'warning',
           'message' => 'Habilidade não encontrada',
         ],
-      ], 202);
+      ], 400);
     }
 
-    if ($character->actions < 1 && $request->player) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Personagem não possui ações',
-        ],
-      ], 202);
-    } elseif ($request->player) {
-      if ($request->level > env('MAX_LEVEL_ABILITY')) {
+    if ($request->player)
+      if ($character->actions < 1) {
         return response()->json([
           'message' => [
             'type' => 'warning',
-            'message' => 'Habilidade atingiu o nível máximo',
+            'message' => 'Personagem não possui ações',
           ],
-        ], 202);
+        ], 400);
+      } elseif ($request->player) {
+        if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
+          return response()->json([
+            'message' => [
+              'type' => 'warning',
+              'message' => 'Habilidade atingiu o nível máximo',
+            ],
+          ], 400);
+        }
+
+        Characters::where('id', $model->id_character)->update([
+          'actions' => $character->actions - 1,
+        ]);
       }
 
-      Characters::where('id', $model->id_character)->update([
-        'actions' => $character->actions - 1,
-      ]);
-    }
-    
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Abilities::where('id', $id)->update($data);
+    Abilities::where('id', $request->id)->update($data);
 
     return response()->json([
       'message' => [
@@ -124,7 +125,7 @@ class AbilitiesController extends Controller
       ],
     ], 200);
   }
-  
+
   public function delete($id)
   {
     $model = Abilities::where('id', $id)->first();
@@ -135,7 +136,7 @@ class AbilitiesController extends Controller
           'type' => 'warning',
           'message' => 'Habilidade não encontrada',
         ],
-      ], 202);
+      ], 400);
     }
 
     Abilities::where('id', $id)->delete();

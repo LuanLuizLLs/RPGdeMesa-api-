@@ -10,45 +10,47 @@ $router->get('/', function () use ($router) {
 /** Routes users */
 $router->group(['middleware' => ['auth'], 'prefix' => 'users'], function () use ($router) {
     $router->post('/create', 'UsersController@create');
-    $router->get('/read[/{id}]', 'UsersController@read');
-    $router->patch('/update[/{id}]', 'UsersController@update');
+    $router->get('/read', 'UsersController@read');
+    $router->patch('/update', 'UsersController@update');
+    $router->delete('/delete', 'UsersController@delete');
 });
 
 /** Routes campaigns */
 $router->group(['middleware' => ['auth'], 'prefix' => 'campaigns'], function () use ($router) {
     $router->post('/create', 'CampaignsController@create');
-    $router->get('/read[/{id}]', 'CampaignsController@read');
-    $router->patch('/update/{id}', 'CampaignsController@update');
-    $router->delete('/delete/{id}', 'CampaignsController@delete');
+    $router->get('/read', 'CampaignsController@read');
+    $router->patch('/update', 'CampaignsController@update');
+    $router->delete('/delete', 'CampaignsController@delete');
 });
 
 /** Routes adventures */
 $router->group(['middleware' => ['auth'], 'prefix' => 'adventures'], function () use ($router) {
   $router->post('/create', 'AdventuresController@create');
-  $router->get('/read[/{id}]', 'AdventuresController@read');
+  $router->get('/read', 'AdventuresController@read');
   $router->patch('/update', 'AdventuresController@update');
-  $router->delete('/delete/{id}', 'AdventuresController@delete');
+  $router->delete('/delete', 'AdventuresController@delete');
 });
 
 /** Routes characters */
 $router->group(['middleware' => ['auth'], 'prefix' => 'characters'], function () use ($router) {
     $router->post('/create', 'CharactersController@create');
-    $router->get('/read[/{id}]', 'CharactersController@read');
-    $router->patch('/update/{id}', 'CharactersController@update');
-    $router->delete('/delete/{id}', 'CharactersController@delete');
+    $router->get('/read', 'CharactersController@read');
+    $router->patch('/update', 'CharactersController@update');
+    $router->delete('/delete', 'CharactersController@delete');
 });
 
 /** Routes features */
 $router->group(['middleware' => ['auth'], 'prefix' => 'features'], function () use ($router) {
   $router->post('/create', 'FeaturesController@create');
-  $router->get('/read[/{id}]', 'FeaturesController@read');
-  $router->delete('/delete/{id}', 'FeaturesController@delete');
+  $router->get('/read', 'FeaturesController@read');
+  $router->patch('/update', 'FeaturesController@update');
+  $router->delete('/delete', 'FeaturesController@delete');
 });
 
 /** Routes abilities */
 $router->group(['middleware' => ['auth'], 'prefix' => 'abilities'], function () use ($router) {
   $router->post('/create', 'AbilitiesController@create');
-  $router->get('/read[/{id}]', 'AbilitiesController@read');
-  $router->patch('/update/{id}', 'AbilitiesController@update');
-  $router->delete('/delete/{id}', 'AbilitiesController@delete');
+  $router->get('/read', 'AbilitiesController@read');
+  $router->patch('/update', 'AbilitiesController@update');
+  $router->delete('/delete', 'AbilitiesController@delete');
 });

@@ -32,25 +32,22 @@ class UsersController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Usuário criado com sucesso',
+        'message' => 'Criado com sucesso',
       ],
     ], 200);
   }
 
-  public function read(Request $request, $id = null)
+  public function read(Request $request)
   {
     $model = Users::select()->where(function ($query) use ($request) {
+      if (isset($request->id))
+        $query = $query->where('id', $request->id);
       if (isset($request->name))
         $query = $query->where('name', $request->name);
-      if (isset($request->password))
-        $query = $query->where('password', $request->password);
     })->get();
-
-    if ($id) $model = Users::where('id', $id)->get();
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
         'message' => [
           'type' => 'error',
           'message' => 'Usuário não encontrado',
@@ -67,14 +64,12 @@ class UsersController extends Controller
     ], 200);
   }
 
-  public function update(Request $request, $id = null)
+  public function update(Request $request)
   {
     $model = Users::select()->where(function ($query) use ($request) {
-      if (isset($request->id))
+      if (isset($request->name))
         $query = $query->where('name', $request->name);
     })->first();
-
-    if ($id) $model = Users::where('id', $id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -93,6 +88,29 @@ class UsersController extends Controller
         'type' => 'success',
         'message' => 'Usuário atualizado com sucesso',
       ]
+    ], 200);
+  }
+
+  public function delete(Request $request)
+  {
+    $model = Users::where('id', $request->id)->first();
+
+    if (empty($model)) {
+      return response()->json([
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Usuário não encontrada',
+        ],
+      ], 400);
+    }
+
+    Users::where('id', $request->id)->delete();
+
+    return response()->json([
+      'message' => [
+        'type' => 'success',
+        'message' => 'Usuário deletada com sucesso',
+      ],
     ], 200);
   }
 }

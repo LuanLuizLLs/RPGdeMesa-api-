@@ -33,29 +33,30 @@ class FeaturesController extends Controller
       ], 202);
     }
 
-    if ($character->actions < 1 && $request->player) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Personagem não possui ações',
-        ],
-      ], 202);
-    } elseif ($request->player) {
-      Characters::where('id', $request->id_character)->update([
-        'actions' => $character->actions - 1,
-      ]);
+    if ($request->player)
+      if ($character->actions < 1) {
+        return response()->json([
+          'message' => [
+            'type' => 'warning',
+            'message' => 'Personagem não possui ações',
+          ],
+        ], 202);
+      } else {
+        Characters::where('id', $request->id_character)->update([
+          'actions' => $character->actions - 1,
+        ]);
 
-      foreach ($attributes as $attribute) {
-        if ($attribute > env('MAX_LEVEL_ATTRIBUTE')) {
-          return response()->json([
-            'message' => [
-              'type' => 'warning',
-              'message' => 'Atributo atingiu o nível máximo',
-            ],
-          ], 202);
-        }
-      };
-    }
+        foreach ($attributes as $attribute) {
+          if ($attribute > Characters::MAX_LEVEL_ATTRIBUTE) {
+            return response()->json([
+              'message' => [
+                'type' => 'warning',
+                'message' => 'Atributo atingiu o nível máximo',
+              ],
+            ], 202);
+          }
+        };
+      }
 
     $model = new Features();
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -66,19 +67,19 @@ class FeaturesController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Característica criada com sucesso',
+        'message' => 'Característica criada',
       ],
     ], 200);
   }
 
-  public function read(Request $request, $id = null)
+  public function read(Request $request)
   {
     $model = Features::select()->where(function ($query) use ($request) {
+      if (isset($request->id))
+        $query = $query->where('id', $request->id);
       if (isset($request->id_character))
         $query = $query->where('id_character', $request->id_character);
     })->get();
-
-    if ($id) $model = Features::where('id', $id)->get();
 
     if (empty($model->all())) {
       return response()->json([
@@ -94,14 +95,14 @@ class FeaturesController extends Controller
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Característica encontrada com sucesso',
+        'message' => 'Característica encontrada',
       ],
     ], 200);
   }
 
-  public function delete($id)
+  public function delete(Request $request)
   {
-    $model = Features::where('id', $id)->first();
+    $model = Features::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
 
     if (empty($model)) {
@@ -113,7 +114,7 @@ class FeaturesController extends Controller
       ], 202);
     }
 
-    Features::where('id', $id)->delete();
+    Features::where('id', $request->id)->delete();
 
     Characters::where('id', $model->id_character)->update([
       'strength' => $character->strength - $model->strength,

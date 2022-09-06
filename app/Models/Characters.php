@@ -8,6 +8,8 @@ class Characters extends Model
 {
     protected $table = 'characters';
 
+    public const MAX_LEVEL_ATTRIBUTE = 6;
+
     public const ID = 'id';
     public const ID_USER = 'id_user';
     public const ID_CAMPAIGN = 'id_campaign';

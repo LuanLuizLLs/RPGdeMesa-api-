@@ -39,7 +39,7 @@ class CharactersController extends Controller
     ], 200);
   }
 
-  public function read(Request $request, $id = null)
+  public function read(Request $request)
   {
     $model = Characters::select()->where(function ($query) use ($request) {
       if (isset($request->id_user))
@@ -48,11 +48,10 @@ class CharactersController extends Controller
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
 
-    if ($id) $model = Characters::where('id', $id)->get();
+    if ($request->id) $model = Characters::where('id', $request->id)->get();
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
         'message' => [
           'type' => 'warning',
           'message' => 'Personagem não encontrado',
@@ -69,9 +68,9 @@ class CharactersController extends Controller
     ], 200);
   }
 
-  public function update(Request $request, $id)
+  public function update(Request $request)
   {
-    $model = Characters::where('id', $id)->first();
+    $model = Characters::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -83,7 +82,7 @@ class CharactersController extends Controller
     }
     
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Characters::where('id', $id)->update($data);
+    Characters::where('id', $request->id)->update($data);
 
     return response()->json([
       'message' => [
@@ -93,9 +92,9 @@ class CharactersController extends Controller
     ], 200);
   }
 
-  public function delete($id)
+  public function delete(Request $request)
   {
-    $model = Characters::where('id', $id)->first();
+    $model = Characters::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -106,9 +105,9 @@ class CharactersController extends Controller
       ], 202);
     }
 
-    Characters::where('id', $id)->delete();
-    Features::where('id_character', $id)->delete();
-    Abilities::where('id_character', $id)->delete();
+    Characters::where('id', $request->id)->delete();
+    Features::where('id_character', $request->id)->delete();
+    Abilities::where('id_character', $request->id)->delete();
 
     return response()->json([
       'message' => [

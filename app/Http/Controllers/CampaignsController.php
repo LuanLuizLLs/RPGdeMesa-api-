@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adventures;
 use App\Models\Users;
 use App\Models\Campaigns;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class CampaignsController extends Controller
           'type' => 'warning',
           'message' => 'Usuário não encontrado',
         ],
-      ], 202);
+      ], 400);
     }
 
     $model = new Campaigns();
@@ -37,23 +38,22 @@ class CampaignsController extends Controller
     ], 200);
   }
 
-  public function read(Request $request, $id = null)
+  public function read(Request $request)
   {
     $model = Campaigns::select()->where(function ($query) use ($request) {
+      if (isset($request->id))
+        $query = $query->where('id', $request->id);
       if (isset($request->id_user))
         $query = $query->where('id_user', $request->id_user);
     })->get();
     
-    if ($id) $model = Campaigns::where('id', $id)->get();
-
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
         'message' => [
           'type' => 'warning',
           'message' => 'Campanha não encontrada',
         ],
-      ], 202);
+      ], 400);
     }
     
     return response()->json([
@@ -65,9 +65,9 @@ class CampaignsController extends Controller
     ], 200);
   }
 
-  public function update(Request $request, $id)
+  public function update(Request $request)
   {
-    $model = Campaigns::where('id', $id)->first();
+    $model = Campaigns::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -75,11 +75,11 @@ class CampaignsController extends Controller
           'type' => 'warning',
           'message' => 'Campanha não encontrada',
         ],
-      ], 200);
+      ], 400);
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Campaigns::where('id', $id)->update($data);
+    Campaigns::where('id', $request->id)->update($data);
 
     return response()->json([
       'message' => [
@@ -89,9 +89,9 @@ class CampaignsController extends Controller
     ], 200);
   }
 
-  public function delete($id)
+  public function delete(Request $request)
   {
-    $model = Campaigns::where('id', $id)->first();
+    $model = Campaigns::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -99,10 +99,11 @@ class CampaignsController extends Controller
           'type' => 'warning',
           'message' => 'Campanha não encontrada',
         ],
-      ], 200);
+      ], 400);
     }
 
-    Campaigns::where('id', $id)->delete();
+    Campaigns::where('id', $request->id)->delete();
+    Adventures::where('id_campaign', $request->id)->delete();
 
     return response()->json([
       'message' => [

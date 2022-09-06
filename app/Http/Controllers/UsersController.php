@@ -44,6 +44,8 @@ class UsersController extends Controller
         $query = $query->where('id', $request->id);
       if (isset($request->name))
         $query = $query->where('name', $request->name);
+      if (isset($request->password))
+        $query = $query->where('password', $request->password);
     })->get();
 
     if (empty($model->all())) {

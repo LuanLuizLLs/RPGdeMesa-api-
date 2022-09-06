@@ -33,7 +33,7 @@ class CampaignsController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Campanha criada com sucesso',
+        'message' => 'Campanha criada',
       ],
     ], 200);
   }
@@ -60,7 +60,7 @@ class CampaignsController extends Controller
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Campanha encontrada com sucesso',
+        'message' => 'Campanha encontrada',
       ],
     ], 200);
   }
@@ -84,7 +84,7 @@ class CampaignsController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Campanha atualizada com sucesso',
+        'message' => 'Campanha atualizada',
       ],
     ], 200);
   }
@@ -108,7 +108,7 @@ class CampaignsController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Campanha deletada com sucesso',
+        'message' => 'Campanha deletada',
       ],
     ], 200);
   }

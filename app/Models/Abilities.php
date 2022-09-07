@@ -16,7 +16,6 @@ class Abilities extends Model
     public const DESCRIPTION = 'description';
     public const ATTRIBUTE = 'attribute';
     public const LEVEL = 'level';
-    public const CAPACITY = 'capacity';
 
     protected $fillable = [
         self::ID,
@@ -25,7 +24,6 @@ class Abilities extends Model
         self::DESCRIPTION,
         self::ATTRIBUTE,
         self::LEVEL,
-        self::CAPACITY,
     ];
 
     protected $casts = [
@@ -35,6 +33,5 @@ class Abilities extends Model
         self::DESCRIPTION => 'string',
         self::ATTRIBUTE => 'string',
         self::LEVEL => 'integer',
-        self::CAPACITY => 'integer',
     ];
 }

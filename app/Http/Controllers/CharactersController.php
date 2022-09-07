@@ -59,7 +59,20 @@ class CharactersController extends Controller
         ]
       ], 202);
     }
-    
+
+    if ($request->user || $request->campaign) {
+      $character = $model->first();
+      
+      if ($character->id_campaign != $request->campaign && $character->id_user != $request->user) {
+        return response()->json([
+          'message' => [
+            'type' => 'error',
+            'message' => 'Usuário não permitido',
+          ]
+        ], 400);
+      }
+    }
+
     return response()->json([
       'response' => $model,
       'message' => [
@@ -81,7 +94,7 @@ class CharactersController extends Controller
         ],
       ], 400);
     }
-    
+
     $data = array_intersect_key($request->all(), $model->getCasts());
     Characters::where('id', $request->id)->update($data);
 

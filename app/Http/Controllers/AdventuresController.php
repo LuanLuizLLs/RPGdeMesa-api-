@@ -19,7 +19,7 @@ class AdventuresController extends Controller
     if (empty($campaign)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Campanha não encontrada',
         ],
       ], 400);
@@ -54,6 +54,16 @@ class AdventuresController extends Controller
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
 
+    if (empty($model->all())) {
+      return response()->json([
+        'response' => $model,
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Aventura não encontrada',
+        ]
+      ], 202);
+    }
+
     return response()->json([
       'response' => $model,
       'message' => [
@@ -70,7 +80,7 @@ class AdventuresController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Aventura não encontrada',
         ],
       ], 400);
@@ -94,10 +104,10 @@ class AdventuresController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Aventura não encontrada',
         ],
-      ], 200);
+      ], 400);
     }
 
     Adventures::where('id', $request->id)->delete();

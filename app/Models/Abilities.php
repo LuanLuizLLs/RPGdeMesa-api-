@@ -37,13 +37,4 @@ class Abilities extends Model
         self::LEVEL => 'integer',
         self::CAPACITY => 'integer',
     ];
-
-    public function getCapacity() {
-      $character = Characters::where('id', $this->id_character)->first();
-      
-      if (empty($character)) {
-        return ($character->intelligence + $character->wisdom + $character->charisma);
-      }
-      return 0;
-    }
 }

@@ -19,7 +19,7 @@ class UsersController extends Controller
       if ($model->name === $request->name) {
         return response()->json([
           'message' => [
-            'type' => 'warning',
+            'type' => 'error',
             'message' => 'Usuário já existe',
           ],
         ], 400);

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Adventures;
 use App\Models\Users;
 use App\Models\Campaigns;
+use App\Models\Adventures;
 use Illuminate\Http\Request;
 
 class CampaignsController extends Controller

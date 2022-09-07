@@ -19,7 +19,7 @@ class AbilitiesController extends Controller
     if (empty($character)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Personagem não encontrado',
         ],
       ], 400);
@@ -29,7 +29,7 @@ class AbilitiesController extends Controller
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'warning',
+            'type' => 'error',
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
@@ -59,6 +59,16 @@ class AbilitiesController extends Controller
       if (isset($request->id_character))
         $query = $query->where('id_character', $request->id_character);
     })->get();
+
+    if (empty($model->all())) {
+      return response()->json([
+        'response' => $model,
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Habilidade não encontrada',
+        ]
+      ], 202);
+    }
     
     return response()->json([
       'response' => $model,
@@ -77,7 +87,7 @@ class AbilitiesController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Habilidade não encontrada',
         ],
       ], 400);
@@ -87,7 +97,7 @@ class AbilitiesController extends Controller
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'warning',
+            'type' => 'error',
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
@@ -95,7 +105,7 @@ class AbilitiesController extends Controller
         if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
           return response()->json([
             'message' => [
-              'type' => 'warning',
+              'type' => 'error',
               'message' => 'Habilidade atingiu o nível máximo',
             ],
           ], 400);

@@ -21,10 +21,10 @@ class CharactersController extends Controller
     if (empty($user)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Usuário não encontrado',
         ],
-      ], 202);
+      ], 400);
     }
 
     $model = new Characters();
@@ -49,6 +49,16 @@ class CharactersController extends Controller
       if (isset($request->id_campaign))
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
+
+    if (empty($model->all())) {
+      return response()->json([
+        'response' => $model,
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Personagem não encontrado',
+        ]
+      ], 202);
+    }
     
     return response()->json([
       'response' => $model,
@@ -66,10 +76,10 @@ class CharactersController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Personagem não encontrado',
         ],
-      ], 202);
+      ], 400);
     }
     
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -90,10 +100,10 @@ class CharactersController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Personagem não encontrado',
         ],
-      ], 202);
+      ], 400);
     }
 
     Characters::where('id', $request->id)->delete();

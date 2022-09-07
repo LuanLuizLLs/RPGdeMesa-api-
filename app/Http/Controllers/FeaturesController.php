@@ -27,20 +27,20 @@ class FeaturesController extends Controller
     if (empty($character)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Personagem não encontrado',
         ],
-      ], 202);
+      ], 400);
     }
 
     if ($request->player)
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'warning',
+            'type' => 'error',
             'message' => 'Personagem não possui ações',
           ],
-        ], 202);
+        ], 400);
       } else {
         Characters::where('id', $request->id_character)->update([
           'actions' => $character->actions - 1,
@@ -50,10 +50,10 @@ class FeaturesController extends Controller
           if ($attribute > Characters::MAX_LEVEL_ATTRIBUTE) {
             return response()->json([
               'message' => [
-                'type' => 'warning',
+                'type' => 'error',
                 'message' => 'Atributo atingiu o nível máximo',
               ],
-            ], 202);
+            ], 400);
           }
         };
       }
@@ -81,6 +81,16 @@ class FeaturesController extends Controller
         $query = $query->where('id_character', $request->id_character);
     })->get();
 
+    if (empty($model->all())) {
+      return response()->json([
+        'response' => $model,
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Característica não encontrada',
+        ]
+      ], 202);
+    }
+
     return response()->json([
       'response' => $model,
       'message' => [
@@ -97,8 +107,8 @@ class FeaturesController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
-          'message' => 'Aventura não encontrada',
+          'type' => 'error',
+          'message' => 'Característica não encontrada',
         ],
       ], 400);
     }
@@ -122,10 +132,10 @@ class FeaturesController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Característica não encontrada',
         ],
-      ], 202);
+      ], 400);
     }
 
     Features::where('id', $request->id)->delete();

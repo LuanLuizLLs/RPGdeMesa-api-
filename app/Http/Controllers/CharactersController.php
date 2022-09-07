@@ -49,15 +49,6 @@ class CharactersController extends Controller
       if (isset($request->id_campaign))
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
-
-    if (empty($model->all())) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Personagem não encontrado',
-        ],
-      ], 200);
-    }
     
     return response()->json([
       'response' => $model,

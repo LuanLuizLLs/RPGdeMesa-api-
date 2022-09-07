@@ -54,15 +54,6 @@ class AdventuresController extends Controller
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
 
-    if (empty($model->all())) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Aventura não encontrada',
-        ],
-      ], 400);
-    }
-
     return response()->json([
       'response' => $model,
       'message' => [

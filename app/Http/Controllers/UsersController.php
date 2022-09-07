@@ -48,15 +48,6 @@ class UsersController extends Controller
         $query = $query->where('password', $request->password);
     })->get();
 
-    if (empty($model->all())) {
-      return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Usuário não encontrado',
-        ],
-      ], 400);
-    }
-
     return response()->json([
       'response' => $model,
       'message' => [

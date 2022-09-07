@@ -81,16 +81,6 @@ class FeaturesController extends Controller
         $query = $query->where('id_character', $request->id_character);
     })->get();
 
-    if (empty($model->all())) {
-      return response()->json([
-        'response' => $model,
-        'message' =>  [
-          'type' => 'warning',
-          'message' => 'Característica não encontrada',
-        ]
-      ], 202);
-    }
-
     return response()->json([
       'response' => $model,
       'message' => [

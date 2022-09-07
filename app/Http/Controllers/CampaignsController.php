@@ -47,15 +47,6 @@ class CampaignsController extends Controller
         $query = $query->where('id_user', $request->id_user);
     })->get();
     
-    if (empty($model->all())) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Campanha não encontrada',
-        ],
-      ], 400);
-    }
-    
     return response()->json([
       'response' => $model,
       'message' => [

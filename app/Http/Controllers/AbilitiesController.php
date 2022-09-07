@@ -59,16 +59,7 @@ class AbilitiesController extends Controller
       if (isset($request->id_character))
         $query = $query->where('id_character', $request->id_character);
     })->get();
-
-    if (empty($model->all())) {
-      return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Habilidade não encontrada',
-        ],
-      ], 400);
-    }
-
+    
     return response()->json([
       'response' => $model,
       'message' => [

@@ -23,4 +23,8 @@ class Users extends Model
         self::NAME => 'string',
         self::PASSWORD => 'string',
     ];
+
+    protected $hidden = [
+      self::PASSWORD,
+    ];
 }

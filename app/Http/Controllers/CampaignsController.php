@@ -20,7 +20,7 @@ class CampaignsController extends Controller
     if (empty($user)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Usuário não encontrado',
         ],
       ], 400);
@@ -47,6 +47,16 @@ class CampaignsController extends Controller
         $query = $query->where('id_user', $request->id_user);
     })->get();
     
+    if (empty($model->all())) {
+      return response()->json([
+        'response' => $model,
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Campanha não encontrada',
+        ]
+      ], 202);
+    }
+    
     return response()->json([
       'response' => $model,
       'message' => [
@@ -63,7 +73,7 @@ class CampaignsController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Campanha não encontrada',
         ],
       ], 400);
@@ -87,7 +97,7 @@ class CampaignsController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Campanha não encontrada',
         ],
       ], 400);

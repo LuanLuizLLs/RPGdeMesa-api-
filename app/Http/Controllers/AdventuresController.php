@@ -22,7 +22,7 @@ class AdventuresController extends Controller
           'type' => 'warning',
           'message' => 'Campanha não encontrada',
         ],
-      ], 202);
+      ], 400);
     }
 
     $model = new Adventures();
@@ -40,35 +40,34 @@ class AdventuresController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Aventura criada com sucesso',
+        'message' => 'Aventura criada',
       ],
     ], 200);
   }
 
-  public function read(Request $request, $id = null)
+  public function read(Request $request)
   {
     $model = Adventures::select()->where(function ($query) use ($request) {
+      if (isset($request->id))
+        $query = $query->where('id', $request->id);
       if (isset($request->id_campaign))
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
 
-    if ($id) $model = Adventures::where('id', $id)->get();
-
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
         'message' => [
           'type' => 'warning',
           'message' => 'Aventura não encontrada',
         ],
-      ], 202);
+      ], 400);
     }
 
     return response()->json([
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Aventura encontrada com sucesso',
+        'message' => 'Aventura encontrada',
       ],
     ], 200);
   }
@@ -83,7 +82,7 @@ class AdventuresController extends Controller
           'type' => 'warning',
           'message' => 'Aventura não encontrada',
         ],
-      ], 200);
+      ], 400);
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -92,14 +91,14 @@ class AdventuresController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Aventura atualizada com sucesso',
+        'message' => 'Aventura atualizada',
       ],
     ], 200);
   }
 
-  public function delete($id)
+  public function delete(Request $request)
   {
-    $model = Adventures::where('id', $id)->first();
+    $model = Adventures::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -110,16 +109,15 @@ class AdventuresController extends Controller
       ], 200);
     }
 
-    Adventures::where('id', $id)->delete();
-
-    Campaigns::where('id_adventure', $id)->update([
+    Adventures::where('id', $request->id)->delete();
+    Campaigns::where('id_adventure', $request->id)->update([
       'id_adventure' => null
     ]);
 
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Aventura deletada com sucesso',
+        'message' => 'Aventura deletada',
       ],
     ], 200);
   }

@@ -73,7 +73,7 @@ class AbilitiesController extends Controller
       'response' => $model,
       'message' => [
         'type' => 'success',
-        'message' => 'Habilidade encontrada com sucesso',
+        'message' => 'Habilidade encontrada',
       ],
     ], 200);
   }
@@ -121,14 +121,14 @@ class AbilitiesController extends Controller
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Habilidade atualizada com sucesso',
+        'message' => 'Habilidade atualizada',
       ],
     ], 200);
   }
 
-  public function delete($id)
+  public function delete(Request $request)
   {
-    $model = Abilities::where('id', $id)->first();
+    $model = Abilities::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -139,12 +139,12 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    Abilities::where('id', $id)->delete();
+    Abilities::where('id', $request->id)->delete();
 
     return response()->json([
       'message' => [
         'type' => 'success',
-        'message' => 'Habilidade deletada com sucesso',
+        'message' => 'Habilidade deletada',
       ],
     ], 200);
   }

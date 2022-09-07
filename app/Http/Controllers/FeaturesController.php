@@ -100,6 +100,30 @@ class FeaturesController extends Controller
     ], 200);
   }
 
+  public function update(Request $request)
+  {
+    $model = Features::where('id', $request->id)->first();
+
+    if (empty($model)) {
+      return response()->json([
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Aventura não encontrada',
+        ],
+      ], 400);
+    }
+
+    $data = array_intersect_key($request->all(), $model->getCasts());
+    Features::where('id', $request->id)->update($data);
+
+    return response()->json([
+      'message' => [
+        'type' => 'success',
+        'message' => 'Característica atualizada',
+      ],
+    ], 200);
+  }
+
   public function delete(Request $request)
   {
     $model = Features::where('id', $request->id)->first();

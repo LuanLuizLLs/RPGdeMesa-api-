@@ -15,7 +15,8 @@ class AbilitiesController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-
+    $quantity_abilities = Abilities::getQuantityAbilities($request->id_character);
+    
     if (empty($character)) {
       return response()->json([
         'message' => [
@@ -24,12 +25,21 @@ class AbilitiesController extends Controller
         ],
       ], 400);
     }
+    
+    if($quantity_abilities >= $character->getMentalCapacity()) {
+      return response()->json([
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Capacidade de habilidades atingida',
+        ],
+      ], 400);
+    }
 
     if ($request->player)
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'error',
+            'type' => 'warning',
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
@@ -83,6 +93,7 @@ class AbilitiesController extends Controller
   {
     $model = Abilities::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
+    $quantity_abilities = Abilities::getQuantityAbilities($model->id_character);
 
     if (empty($model)) {
       return response()->json([
@@ -93,11 +104,20 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
+    if($quantity_abilities >= $character->getMentalCapacity()) {
+      return response()->json([
+        'message' => [
+          'type' => 'warning',
+          'message' => 'Capacidade de habilidades atingida',
+        ],
+      ], 400);
+    }
+
     if ($request->player)
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'error',
+            'type' => 'warning',
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
@@ -105,7 +125,7 @@ class AbilitiesController extends Controller
         if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
           return response()->json([
             'message' => [
-              'type' => 'error',
+              'type' => 'warning',
               'message' => 'Habilidade atingiu o nível máximo',
             ],
           ], 400);
@@ -134,7 +154,7 @@ class AbilitiesController extends Controller
     if (empty($model)) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Habilidade não encontrada',
         ],
       ], 400);

@@ -67,4 +67,12 @@ class Characters extends Model
         self::WISDOW => 'integer',
         self::CHARISMA => 'integer',
     ];
+    
+    public function getPhysicalCapacity() {
+      return ($this->strength + $this->dexterity + $this->constitution);
+    }
+
+    public function getMentalCapacity() {
+      return ($this->intelligence + $this->wisdom + $this->charisma);
+    }
 }

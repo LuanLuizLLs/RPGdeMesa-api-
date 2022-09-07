@@ -42,13 +42,13 @@ class CharactersController extends Controller
   public function read(Request $request)
   {
     $model = Characters::select()->where(function ($query) use ($request) {
+      if (isset($request->id))
+        $query = $query->where('id', $request->id);
       if (isset($request->id_user))
         $query = $query->where('id_user', $request->id_user);
       if (isset($request->id_campaign))
         $query = $query->where('id_campaign', $request->id_campaign);
     })->get();
-
-    if ($request->id) $model = Characters::where('id', $request->id)->get();
 
     if (empty($model->all())) {
       return response()->json([

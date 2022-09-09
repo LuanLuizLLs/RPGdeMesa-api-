@@ -29,7 +29,7 @@ class AbilitiesController extends Controller
     if($quantity_abilities >= $character->getMentalCapacity()) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Capacidade de habilidades atingida',
         ],
       ], 400);
@@ -39,7 +39,7 @@ class AbilitiesController extends Controller
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'warning',
+            'type' => 'error',
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
@@ -107,7 +107,7 @@ class AbilitiesController extends Controller
     if($quantity_abilities >= $character->getMentalCapacity()) {
       return response()->json([
         'message' => [
-          'type' => 'warning',
+          'type' => 'error',
           'message' => 'Capacidade de habilidades atingida',
         ],
       ], 400);
@@ -117,7 +117,7 @@ class AbilitiesController extends Controller
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'warning',
+            'type' => 'error',
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
@@ -125,7 +125,7 @@ class AbilitiesController extends Controller
         if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
           return response()->json([
             'message' => [
-              'type' => 'warning',
+              'type' => 'error',
               'message' => 'Habilidade atingiu o nível máximo',
             ],
           ], 400);

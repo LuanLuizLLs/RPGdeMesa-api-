@@ -37,7 +37,7 @@ class FeaturesController extends Controller
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
-            'type' => 'warning',
+            'type' => 'error',
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
@@ -50,7 +50,7 @@ class FeaturesController extends Controller
           if ($attribute > Characters::MAX_LEVEL_ATTRIBUTE) {
             return response()->json([
               'message' => [
-                'type' => 'warning',
+                'type' => 'error',
                 'message' => 'Atributo atingiu o nível máximo',
               ],
             ], 400);

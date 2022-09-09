@@ -77,9 +77,9 @@ class Characters extends Model
     
     public function getPhysicalCapacity($character = []) {
       if (empty($character)) {
-        return ($this->strength + $this->dexterity + $this->constitution);
+        return intval(($this->strength + $this->dexterity + $this->constitution) - round($this->coins / 10));
       }
-      return ($character['strength'] + $character['dexterity'] + $character['constitution']);
+      return intval(($character['strength'] + $character['dexterity'] + $character['constitution']) - round($character['coins'] / 10));
     }
 
     public function getMentalCapacity($character = []) {

@@ -17,7 +17,7 @@ class CharactersController extends Controller
   function create(Request $request)
   {
     $user = Users::where('id', $request->id_user)->first();
-
+    
     if (empty($user)) {
       return response()->json([
         'message' => [
@@ -29,8 +29,11 @@ class CharactersController extends Controller
 
     $model = new Characters();
     $data = array_intersect_key($request->all(), $model->getCasts());
+    $data['life'] = $model->getLifeCapacity($data);
+    $data['actions'] = $model->getPhysicalCapacity($data);
+    $data['coins'] = $model->getMentalCapacity($data) * $request->riches;
     $model->create($data);
-
+    
     return response()->json([
       'message' => [
         'type' => 'success',

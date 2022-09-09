@@ -67,12 +67,25 @@ class Characters extends Model
         self::WISDOW => 'integer',
         self::CHARISMA => 'integer',
     ];
+
+    public function getLifeCapacity($character = []) {
+      if (empty($character)) {
+        return ($this->strength + $this->dexterity + $this->constitution + $this->intelligence + $this->wisdom + $this->charisma);
+      }
+      return ($character['strength'] + $character['dexterity'] + $character['constitution'] + $character['intelligence'] + $character['wisdom'] + $character['charisma']);
+    }
     
-    public function getPhysicalCapacity() {
-      return ($this->strength + $this->dexterity + $this->constitution);
+    public function getPhysicalCapacity($character = []) {
+      if (empty($character)) {
+        return ($this->strength + $this->dexterity + $this->constitution);
+      }
+      return ($character['strength'] + $character['dexterity'] + $character['constitution']);
     }
 
-    public function getMentalCapacity() {
-      return ($this->intelligence + $this->wisdom + $this->charisma);
+    public function getMentalCapacity($character = []) {
+      if (empty($character)) {
+        return ($this->intelligence + $this->wisdom + $this->charisma);
+      }
+      return ($character['intelligence'] + $character['wisdom'] + $character['charisma']);
     }
 }

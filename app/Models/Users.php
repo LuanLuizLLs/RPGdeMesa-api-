@@ -6,25 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Users extends Model
 {
-    protected $table = 'users';
+  protected $table = 'users';
 
-    public const ID = 'id';
-    public const NAME = 'name';
-    public const PASSWORD = 'password';
+  public const ID = 'id';
+  public const NAME = 'name';
+  public const PASSWORD = 'password';
 
-    protected $fillable = [
-        self::ID,
-        self::NAME,
-        self::PASSWORD,
-    ];
+  protected $fillable = [
+    self::ID,
+    self::NAME,
+    self::PASSWORD,
+  ];
 
-    protected $casts = [
-        self::ID => 'integer',
-        self::NAME => 'string',
-        self::PASSWORD => 'string',
-    ];
+  protected $casts = [
+    self::ID => 'integer',
+    self::NAME => 'string',
+    self::PASSWORD => 'string',
+  ];
 
-    protected $hidden = [
-      self::PASSWORD,
-    ];
+  protected $hidden = [
+    self::PASSWORD,
+  ];
 }

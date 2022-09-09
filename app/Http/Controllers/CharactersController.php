@@ -98,6 +98,16 @@ class CharactersController extends Controller
       ], 400);
     }
 
+    if ($request->life)
+      if ($request->life > $model->getLifeCapacity()) {
+        return response()->json([
+          'message' => [
+            'type' => 'warning',
+            'message' => 'Vida no limite máximo',
+          ],
+        ], 202);
+      }
+
     $data = array_intersect_key($request->all(), $model->getCasts());
     Characters::where('id', $request->id)->update($data);
 

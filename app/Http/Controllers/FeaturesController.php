@@ -33,7 +33,7 @@ class FeaturesController extends Controller
       ], 400);
     }
 
-    if ($request->player)
+    if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
           'message' => [

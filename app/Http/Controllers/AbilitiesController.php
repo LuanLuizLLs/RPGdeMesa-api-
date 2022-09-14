@@ -35,7 +35,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($request->player)
+    if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
@@ -43,7 +43,7 @@ class AbilitiesController extends Controller
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
-      } elseif ($request->player) {
+      } elseif ($request->user === $character->id_user) {
         Characters::where('id', $request->id_character)->update([
           'actions' => $character->actions - 1,
         ]);
@@ -113,7 +113,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($request->player)
+    if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
           'message' => [
@@ -121,7 +121,7 @@ class AbilitiesController extends Controller
             'message' => 'Personagem não possui ações',
           ],
         ], 400);
-      } elseif ($request->player) {
+      } elseif ($request->user === $character->id_user) {
         if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
           return response()->json([
             'message' => [

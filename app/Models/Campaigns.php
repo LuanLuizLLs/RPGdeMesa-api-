@@ -14,7 +14,15 @@ class Campaigns extends Model
   public const ID_SCENARY = 'id_scenary';
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
-
+  public const PERIOD = 'period';
+  public const SEASON = 'season';
+  public const GROUND = 'ground';
+  public const RESOURCES = 'resources';
+  public const LIGHTING = 'lighting';
+  public const TEMPERATURE = 'temperature';
+  public const WIND = 'wind';
+  public const PRECIPITATION = 'precipitation';
+  
   protected $fillable = [
     self::ID,
     self::ID_USER,
@@ -22,6 +30,14 @@ class Campaigns extends Model
     self::ID_SCENARY,
     self::NAME,
     self::DESCRIPTION,
+    self::PERIOD,
+    self::SEASON,
+    self::GROUND,
+    self::RESOURCES,
+    self::LIGHTING,
+    self::TEMPERATURE,
+    self::WIND,
+    self::PRECIPITATION,
   ];
 
   protected $casts = [
@@ -31,5 +47,13 @@ class Campaigns extends Model
     self::ID_SCENARY => 'integer',
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
+    self::PERIOD => 'string',
+    self::SEASON => 'string',
+    self::GROUND => 'integer',
+    self::RESOURCES => 'integer',
+    self::LIGHTING => 'integer',
+    self::TEMPERATURE => 'integer',
+    self::WIND => 'integer',
+    self::PRECIPITATION => 'integer',
   ];
 }

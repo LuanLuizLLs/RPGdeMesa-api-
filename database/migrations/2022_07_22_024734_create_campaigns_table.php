@@ -17,9 +17,16 @@ class CreateCampaignsTable extends Migration
       $table->id();
       $table->foreignId('id_user')->constrained()->references('id')->on('users');
       $table->integer('id_adventure')->nullable();
-      $table->integer('id_scenery')->nullable();
       $table->string('name');
       $table->string('description');
+      $table->string('period');
+      $table->string('season');
+      $table->integer('ground');
+      $table->integer('resources');
+      $table->integer('lighting');
+      $table->integer('temperature');
+      $table->integer('wind');
+      $table->integer('precipitation');
       $table->timestamps();
     });
   }

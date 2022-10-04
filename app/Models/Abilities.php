@@ -35,14 +35,13 @@ class Abilities extends Model
     self::LEVEL => 'integer',
   ];
 
-  static public function getQuantityAbilities($id_character)
+  static public function getQuantityAbilities($id_character, $quantity = 0)
   {
     $abilities = Abilities::where('id_character', $id_character)->get();
 
-    $quantity_abilities = 0;
     foreach ($abilities->all() as $item) {
-      $quantity_abilities += $item->level;
+      $quantity += $item->level;
     }
-    return $quantity_abilities;
+    return $quantity;
   }
 }

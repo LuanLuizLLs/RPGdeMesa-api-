@@ -62,3 +62,11 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'abilities'], function () 
   $router->patch('/update', 'AbilitiesController@update');
   $router->delete('/delete', 'AbilitiesController@delete');
 });
+
+/** Routes inventory */
+$router->group(['middleware' => ['auth'], 'prefix' => 'inventory'], function () use ($router) {
+  $router->post('/create', 'InventoryController@create');
+  $router->get('/read', 'InventoryController@read');
+  $router->patch('/update', 'InventoryController@update');
+  $router->delete('/delete', 'InventoryController@delete');
+});

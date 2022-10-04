@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAbilitiesTable extends Migration
+class CreateItemsTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,11 +13,12 @@ class CreateAbilitiesTable extends Migration
    */
   public function up()
   {
-    Schema::create('abilities', function (Blueprint $table) {
+    Schema::create('items', function (Blueprint $table) {
       $table->id();
       $table->foreignId('id_character')->constrained()->references('id')->on('characters');
       $table->string('name');
       $table->string('description');
+      $table->boolean('usable');
       $table->string('attribute');
       $table->integer('level');
       $table->timestamps();
@@ -31,6 +32,6 @@ class CreateAbilitiesTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('abilities');
+    Schema::dropIfExists('items');
   }
 }

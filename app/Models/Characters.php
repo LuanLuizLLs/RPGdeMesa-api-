@@ -71,27 +71,24 @@ class Characters extends Model
   public function getLifeCapacity($character = [])
   {
     if (empty($character)) {
-      return ($this->strength + $this->dexterity + $this->constitution + $this->intelligence + $this->wisdom + $this->charisma);
+      return $this->strength + $this->dexterity + $this->constitution + $this->intelligence + $this->wisdom + $this->charisma;
     }
-    return ($character['strength'] + $character['dexterity'] + $character['constitution'] + $character['intelligence'] + $character['wisdom'] + $character['charisma']);
+    return $character['strength'] + $character['dexterity'] + $character['constitution'] + $character['intelligence'] + $character['wisdom'] + $character['charisma'];
   }
 
   public function getPhysicalCapacity($character = [])
   {
     if (empty($character)) {
-      return intval(($this->strength + $this->dexterity + $this->constitution) - round($this->coins / 10));
+      return $this->strength + $this->dexterity + $this->constitution;
     }
-    if (isset($this->coins)) {
-      return intval(($character['strength'] + $character['dexterity'] + $character['constitution']) - round($character['coins'] / 10));
-    }
-    return ($character['strength'] + $character['dexterity'] + $character['constitution']);
+    return $character['strength'] + $character['dexterity'] + $character['constitution'];
   }
 
   public function getMentalCapacity($character = [])
   {
     if (empty($character)) {
-      return ($this->intelligence + $this->wisdom + $this->charisma);
+      return $this->intelligence + $this->wisdom + $this->charisma;
     }
-    return ($character['intelligence'] + $character['wisdom'] + $character['charisma']);
+    return $character['intelligence'] + $character['wisdom'] + $character['charisma'];
   }
 }

@@ -25,6 +25,7 @@ class CreateCampaignsTable extends Migration
       $table->integer('ground');
       $table->integer('resources');
       $table->integer('climate');
+      $table->softDeletes();
       $table->timestamps();
     });
   }

@@ -31,6 +31,7 @@ class CreateCharactersTable extends Migration
       $table->integer('intelligence');
       $table->integer('wisdom');
       $table->integer('charisma');
+      $table->softDeletes();
       $table->timestamps();
     });
   }

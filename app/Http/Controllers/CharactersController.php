@@ -130,6 +130,8 @@ class CharactersController extends Controller
       ], 400);
     }
 
+    Characters::where('id', $request->id)->delete();
+
     return response()->json([
       'message' => [
         'type' => 'success',

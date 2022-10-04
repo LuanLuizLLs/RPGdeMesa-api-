@@ -102,6 +102,8 @@ class CampaignsController extends Controller
       ], 400);
     }
 
+    Campaigns::where('id', $request->id)->delete();
+
     return response()->json([
       'message' => [
         'type' => 'success',

@@ -15,7 +15,7 @@ class AbilitiesController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    $quantity_abilities = Abilities::getQuantityAbilities($request->id_character);
+    $quantity_abilities = Abilities::getQuantityAbilities($request->id_character) + $request->level;
     
     if (empty($character)) {
       return response()->json([
@@ -26,7 +26,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
     
-    if($quantity_abilities >= $character->getMentalCapacity()) {
+    if($quantity_abilities > $character->getMentalCapacity()) {
       return response()->json([
         'message' => [
           'type' => 'error',

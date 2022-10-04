@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Users;
 use App\Models\Campaigns;
-use App\Models\Adventures;
-use App\Models\Scenarios;
 use Illuminate\Http\Request;
 
 class CampaignsController extends Controller
@@ -103,10 +101,6 @@ class CampaignsController extends Controller
         ],
       ], 400);
     }
-
-    Campaigns::where('id', $request->id)->delete();
-    Adventures::where('id_campaign', $request->id)->delete();
-    Scenarios::where('id_campaign', $request->id)->delete();
 
     return response()->json([
       'message' => [

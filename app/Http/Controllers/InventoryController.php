@@ -93,7 +93,7 @@ class InventoryController extends Controller
   {
     $model = Inventory::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
-    $quantity_items = Inventory::getQuantityItems($model->id_character, $request->level);
+    $quantity_items = Inventory::getQuantityItems($model->id_character);
 
     if (empty($model)) {
       return response()->json([
@@ -104,7 +104,7 @@ class InventoryController extends Controller
       ], 400);
     }
 
-    if($quantity_items > $character->getPhysicalCapacity()) {
+    if($quantity_items >= $character->getPhysicalCapacity()) {
       return response()->json([
         'message' => [
           'type' => 'error',

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Campaigns extends Model
 {
+  use SoftDeletes;
+
   protected $table = 'campaigns';
 
   public const ID = 'id';

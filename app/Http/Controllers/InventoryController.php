@@ -44,9 +44,7 @@ class InventoryController extends Controller
           ],
         ], 400);
       } elseif ($request->user === $character->id_user) {
-        Characters::where('id', $request->id_character)->update([
-          'actions' => $character->actions - 1,
-        ]);
+        Characters::getReduceActions($request->id_character);
       }
 
     $model = new Inventory();
@@ -130,10 +128,7 @@ class InventoryController extends Controller
             ],
           ], 400);
         }
-
-        Characters::where('id', $model->id_character)->update([
-          'actions' => $character->actions - 1,
-        ]);
+        Characters::getReduceActions($model->id_character);
       }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -158,6 +153,10 @@ class InventoryController extends Controller
           'message' => 'Item não encontrado',
         ],
       ], 400);
+    }
+
+    if ($request->usage) {
+      Characters::getReduceActions($model->id_character);
     }
 
     Inventory::where('id', $request->id)->delete();

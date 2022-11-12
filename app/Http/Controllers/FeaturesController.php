@@ -42,10 +42,6 @@ class FeaturesController extends Controller
           ],
         ], 400);
       } else {
-        Characters::where('id', $request->id_character)->update([
-          'actions' => $character->actions - 1,
-        ]);
-
         foreach ($attributes as $attribute) {
           if ($attribute > Characters::MAX_LEVEL_ATTRIBUTE) {
             return response()->json([
@@ -56,6 +52,7 @@ class FeaturesController extends Controller
             ], 400);
           }
         };
+        Characters::getReduceActions($request->id_character);
       }
 
     $model = new Features();

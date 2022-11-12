@@ -71,6 +71,13 @@ class Characters extends Model
     self::CHARISMA => 'integer',
   ];
 
+  static function getReduceActions($id_character = null, $actions = 1): void {
+    $character = Characters::where('id', $id_character)->first();
+    Characters::where('id', $id_character)->update([
+      'actions' => $character->actions - $actions,
+    ]);
+  }
+
   public function getLifeCapacity($character = [])
   {
     if (empty($character)) {

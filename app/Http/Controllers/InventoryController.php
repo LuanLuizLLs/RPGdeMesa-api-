@@ -155,10 +155,6 @@ class InventoryController extends Controller
       ], 400);
     }
 
-    if ($request->usage) {
-      Characters::getReduceActions($model->id_character);
-    }
-
     Inventory::where('id', $request->id)->delete();
 
     return response()->json([

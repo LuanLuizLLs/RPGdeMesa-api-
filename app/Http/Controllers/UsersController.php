@@ -18,10 +18,7 @@ class UsersController extends Controller
     if ($model)
       if ($model->name === $request->name) {
         return response()->json([
-          'message' => [
-            'type' => 'error',
-            'message' => 'Usuário já existe',
-          ],
+          'message' => 'Usuário já existe',
         ], 400);
       }
 
@@ -30,10 +27,7 @@ class UsersController extends Controller
     $model->create($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Usuário criado',
-      ],
+      'message' => 'Usuário criado',
     ], 200);
   }
 
@@ -50,20 +44,13 @@ class UsersController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Usuário não encontrado',
-        ]
-      ], 202);
+        'message' => 'Usuário não encontrado',
+      ], 400);
     }
 
     return response()->json([
       'response' => $model,
-      'message' => [
-        'type' => 'success',
-        'message' => 'Usuário encontrado',
-      ],
+      'message' => 'Usuário encontrado',
     ], 200);
   }
 
@@ -76,10 +63,7 @@ class UsersController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Usuário não encontrado',
-        ],
+        'message' => 'Usuário não encontrado',
       ], 400);
     }
 
@@ -87,10 +71,7 @@ class UsersController extends Controller
     Users::where('id', $model->id)->update($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Usuário atualizado',
-      ]
+      'message' => 'Usuário atualizado',
     ], 200);
   }
 
@@ -100,20 +81,14 @@ class UsersController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Usuário não encontrada',
-        ],
+        'message' => 'Usuário não encontrada',
       ], 400);
     }
 
     Users::where('id', $request->id)->delete();
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Usuário deletado',
-      ],
+      'message' => 'Usuário deletado',
     ], 200);
   }
 }

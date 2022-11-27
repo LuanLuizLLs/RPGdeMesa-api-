@@ -26,29 +26,20 @@ class FeaturesController extends Controller
 
     if (empty($character)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Personagem não encontrado',
-        ],
+        'message' => 'Personagem não encontrado',
       ], 400);
     }
 
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
-          'message' => [
-            'type' => 'error',
-            'message' => 'Personagem não possui ações',
-          ],
+          'message' => 'Personagem não possui ações',
         ], 400);
       } else {
         foreach ($attributes as $attribute) {
           if ($attribute > Characters::MAX_LEVEL_ATTRIBUTE) {
             return response()->json([
-              'message' => [
-                'type' => 'error',
-                'message' => 'Atributo atingiu o nível máximo',
-              ],
+              'message' => 'Atributo atingiu o nível máximo',
             ], 400);
           }
         };
@@ -62,10 +53,7 @@ class FeaturesController extends Controller
     Characters::where('id', $request->id_character)->update($attributes);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Característica criada',
-      ],
+      'message' => 'Característica criada',
     ], 200);
   }
 
@@ -80,20 +68,13 @@ class FeaturesController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Característica não encontrada',
-        ]
-      ], 202);
+        'message' => 'Característica não encontrada',
+      ], 400);
     }
 
     return response()->json([
       'response' => $model,
-      'message' => [
-        'type' => 'success',
-        'message' => 'Característica encontrada',
-      ],
+      'message' => 'Característica encontrada',
     ], 200);
   }
 
@@ -103,10 +84,7 @@ class FeaturesController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Característica não encontrada',
-        ],
+        'message' => 'Característica não encontrada',
       ], 400);
     }
 
@@ -114,10 +92,7 @@ class FeaturesController extends Controller
     Features::where('id', $request->id)->update($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Característica atualizada',
-      ],
+      'message' => 'Característica atualizada',
     ], 200);
   }
 
@@ -128,10 +103,7 @@ class FeaturesController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Característica não encontrada',
-        ],
+        'message' => 'Característica não encontrada',
       ], 400);
     }
 
@@ -147,10 +119,7 @@ class FeaturesController extends Controller
     ]);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Característica deletada',
-      ],
+      'message' => 'Característica deletada',
     ], 200);
   }
 }

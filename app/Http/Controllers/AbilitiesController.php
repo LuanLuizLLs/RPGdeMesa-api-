@@ -19,29 +19,20 @@ class AbilitiesController extends Controller
     
     if (empty($character)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Personagem não encontrado',
-        ],
+        'message' => 'Personagem não encontrado',
       ], 400);
     }
     
     if($quantity_abilities > $character->getMentalCapacity()) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Capacidade de habilidades atingida',
-        ],
+        'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
 
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
-          'message' => [
-            'type' => 'error',
-            'message' => 'Personagem não possui ações',
-          ],
+          'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
         Characters::getReduceActions($request->id_character);
@@ -52,10 +43,7 @@ class AbilitiesController extends Controller
     $model->create($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Habilidade criada',
-      ],
+      'message' => 'Habilidade criada',
     ], 200);
   }
 
@@ -70,20 +58,13 @@ class AbilitiesController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Habilidade não encontrada',
-        ]
-      ], 202);
+        'message' => 'Habilidade não encontrada',
+      ], 400);
     }
     
     return response()->json([
       'response' => $model,
-      'message' => [
-        'type' => 'success',
-        'message' => 'Habilidade encontrada',
-      ],
+      'message' => 'Habilidade encontrada',
     ], 200);
   }
 
@@ -95,37 +76,25 @@ class AbilitiesController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Habilidade não encontrada',
-        ],
+        'message' => 'Habilidade não encontrada',
       ], 400);
     }
 
     if($quantity_abilities >= $character->getMentalCapacity()) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Capacidade de habilidades atingida',
-        ],
+        'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
 
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
-          'message' => [
-            'type' => 'error',
-            'message' => 'Personagem não possui ações',
-          ],
+          'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
         if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
           return response()->json([
-            'message' => [
-              'type' => 'error',
-              'message' => 'Habilidade atingiu o nível máximo',
-            ],
+            'message' => 'Habilidade atingiu o nível máximo',
           ], 400);
         }
         Characters::getReduceActions($model->id_character);
@@ -135,10 +104,7 @@ class AbilitiesController extends Controller
     Abilities::where('id', $request->id)->update($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Habilidade atualizada',
-      ],
+      'message' => 'Habilidade atualizada',
     ], 200);
   }
 
@@ -148,20 +114,14 @@ class AbilitiesController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Habilidade não encontrada',
-        ],
+        'message' => 'Habilidade não encontrada',
       ], 400);
     }
 
     Abilities::where('id', $request->id)->delete();
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Habilidade deletada',
-      ],
+      'message' => 'Habilidade deletada',
     ], 200);
   }
 }

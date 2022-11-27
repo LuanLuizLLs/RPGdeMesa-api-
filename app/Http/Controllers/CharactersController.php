@@ -18,10 +18,7 @@ class CharactersController extends Controller
     
     if (empty($user)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Usuário não encontrado',
-        ],
+        'message' => 'Usuário não encontrado',
       ], 400);
     }
 
@@ -33,10 +30,7 @@ class CharactersController extends Controller
     $model->create($data);
     
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Personagem criado',
-      ],
+      'message' => 'Personagem criado',
     ], 200);
   }
 
@@ -53,12 +47,8 @@ class CharactersController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Personagem não encontrado',
-        ]
-      ], 202);
+        'message' => 'Personagem não encontrado'
+      ], 400);
     }
 
     if ($request->user || $request->campaign) {
@@ -66,20 +56,14 @@ class CharactersController extends Controller
       
       if ($character->id_campaign != $request->campaign && $character->id_user != $request->user) {
         return response()->json([
-          'message' => [
-            'type' => 'error',
-            'message' => 'Usuário não permitido',
-          ]
+          'message' => 'Usuário não permitido'
         ], 400);
       }
     }
 
     return response()->json([
       'response' => $model,
-      'message' => [
-        'type' => 'success',
-        'message' => 'Personagem encontrado',
-      ],
+      'message' => 'Personagem encontrado',
     ], 200);
   }
 
@@ -89,31 +73,22 @@ class CharactersController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Personagem não encontrado',
-        ],
+        'message' => 'Personagem não encontrado',
       ], 400);
     }
 
     if ($request->life)
       if ($request->life > $model->getLifeCapacity()) {
         return response()->json([
-          'message' => [
-            'type' => 'warning',
-            'message' => 'Vida no limite máximo',
-          ],
-        ], 202);
+          'message' => 'Vida no limite máximo',
+        ], 400);
       }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
     Characters::where('id', $request->id)->update($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Personagem atualizado',
-      ],
+      'message' => 'Personagem atualizado',
     ], 200);
   }
 
@@ -123,20 +98,14 @@ class CharactersController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Personagem não encontrado',
-        ],
+        'message' => 'Personagem não encontrado',
       ], 400);
     }
 
     Characters::where('id', $request->id)->delete();
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Personagem deletado',
-      ],
+      'message' => 'Personagem deletado',
     ], 200);
   }
 }

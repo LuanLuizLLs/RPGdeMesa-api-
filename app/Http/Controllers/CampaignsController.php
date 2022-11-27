@@ -18,10 +18,7 @@ class CampaignsController extends Controller
 
     if (empty($user)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Usuário não encontrado',
-        ],
+        'message' => 'Usuário não encontrado',
       ], 400);
     }
 
@@ -30,10 +27,7 @@ class CampaignsController extends Controller
     $model->create($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Campanha criada',
-      ],
+      'message' => 'Campanha criada',
     ], 200);
   }
 
@@ -48,20 +42,13 @@ class CampaignsController extends Controller
     
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Campanha não encontrada',
-        ]
-      ], 202);
+        'message' => 'Campanha não encontrada',
+      ], 400);
     }
     
     return response()->json([
       'response' => $model,
-      'message' => [
-        'type' => 'success',
-        'message' => 'Campanha encontrada',
-      ],
+      'message' => 'Campanha encontrada',
     ], 200);
   }
 
@@ -71,10 +58,7 @@ class CampaignsController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Campanha não encontrada',
-        ],
+        'message' => 'Campanha não encontrada',
       ], 400);
     }
 
@@ -82,10 +66,7 @@ class CampaignsController extends Controller
     Campaigns::where('id', $request->id)->update($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Campanha atualizada',
-      ],
+      'message' => 'Campanha atualizada',
     ], 200);
   }
 
@@ -95,20 +76,14 @@ class CampaignsController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Campanha não encontrada',
-        ],
+        'message' => 'Campanha não encontrada',
       ], 400);
     }
 
     Campaigns::where('id', $request->id)->delete();
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Campanha deletada',
-      ],
+      'message' => 'Campanha deletada',
     ], 200);
   }
 }

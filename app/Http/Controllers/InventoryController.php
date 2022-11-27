@@ -19,29 +19,20 @@ class InventoryController extends Controller
     
     if (empty($character)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Personagem não encontrado',
-        ],
+        'message' => 'Personagem não encontrado',
       ], 400);
     }
 
     if($quantity_items > $character->getPhysicalCapacity()) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Capacidade de itens atingida',
-        ],
+        'message' => 'Capacidade de itens atingida',
       ], 400);
     }
 
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
-          'message' => [
-            'type' => 'error',
-            'message' => 'Personagem não possui ações',
-          ],
+          'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
         Characters::getReduceActions($request->id_character);
@@ -52,10 +43,7 @@ class InventoryController extends Controller
     $model->create($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Item criado',
-      ],
+      'message' => 'Item criado',
     ], 200);
   }
 
@@ -70,20 +58,13 @@ class InventoryController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Item não encontrado',
-        ]
-      ], 202);
+        'message' => 'Item não encontrado',
+      ], 400);
     }
     
     return response()->json([
       'response' => $model,
-      'message' => [
-        'type' => 'success',
-        'message' => 'Item encontrado',
-      ],
+      'message' => 'Item encontrado',
     ], 200);
   }
 
@@ -95,37 +76,25 @@ class InventoryController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Item não encontrado',
-        ],
+        'message' => 'Item não encontrado',
       ], 400);
     }
 
     if($quantity_items >= $character->getPhysicalCapacity()) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Capacidade de itens atingida',
-        ],
+        'message' => 'Capacidade de itens atingida',
       ], 400);
     }
 
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
-          'message' => [
-            'type' => 'error',
-            'message' => 'Personagem não possui ações',
-          ],
+          'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
         if ($request->level > Inventory::MAX_LEVEL_ITEMS) {
           return response()->json([
-            'message' => [
-              'type' => 'error',
-              'message' => 'Item atingiu o nível máximo',
-            ],
+            'message' => 'Item atingiu o nível máximo',
           ], 400);
         }
         Characters::getReduceActions($model->id_character);
@@ -135,10 +104,7 @@ class InventoryController extends Controller
     Inventory::where('id', $request->id)->update($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Item atualizado',
-      ],
+      'message' => 'Item atualizado',
     ], 200);
   }
 
@@ -148,20 +114,14 @@ class InventoryController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Item não encontrado',
-        ],
+        'message' => 'Item não encontrado',
       ], 400);
     }
 
     Inventory::where('id', $request->id)->delete();
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Item deletado',
-      ],
+      'message' => 'Item deletado',
     ], 200);
   }
 }

@@ -18,10 +18,7 @@ class AdventuresController extends Controller
 
     if (empty($campaign)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Campanha não encontrada',
-        ],
+        'message' => 'Campanha não encontrada',
       ], 400);
     }
 
@@ -38,10 +35,7 @@ class AdventuresController extends Controller
     ]);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Aventura criada',
-      ],
+      'message' => 'Aventura criada',
     ], 200);
   }
 
@@ -56,20 +50,13 @@ class AdventuresController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'response' => $model,
-        'message' => [
-          'type' => 'warning',
-          'message' => 'Aventura não encontrada',
-        ]
-      ], 202);
+        'message' => 'Aventura não encontrada'
+      ], 400);
     }
 
     return response()->json([
       'response' => $model,
-      'message' => [
-        'type' => 'success',
-        'message' => 'Aventura encontrada',
-      ],
+      'message' => 'Aventura encontrada',
     ], 200);
   }
 
@@ -79,10 +66,7 @@ class AdventuresController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Aventura não encontrada',
-        ],
+        'message' => 'Aventura não encontrada',
       ], 400);
     }
 
@@ -90,10 +74,7 @@ class AdventuresController extends Controller
     Adventures::where('id', $request->id)->update($data);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Aventura atualizada',
-      ],
+      'message' => 'Aventura atualizada',
     ], 200);
   }
 
@@ -103,10 +84,7 @@ class AdventuresController extends Controller
 
     if (empty($model)) {
       return response()->json([
-        'message' => [
-          'type' => 'error',
-          'message' => 'Aventura não encontrada',
-        ],
+        'message' => 'Aventura não encontrada',
       ], 400);
     }
 
@@ -116,10 +94,7 @@ class AdventuresController extends Controller
     ]);
 
     return response()->json([
-      'message' => [
-        'type' => 'success',
-        'message' => 'Aventura deletada',
-      ],
+      'message' => 'Aventura deletada',
     ], 200);
   }
 }

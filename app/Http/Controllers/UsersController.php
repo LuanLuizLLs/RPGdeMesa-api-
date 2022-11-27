@@ -36,6 +36,8 @@ class UsersController extends Controller
     $model = Users::select()->where(function ($query) use ($request) {
       if (isset($request->id))
         $query = $query->where('id', $request->id);
+      if (isset($request->name))
+        $query = $query->where('name', $request->name);
     })->get();
 
     if (empty($model->all())) {

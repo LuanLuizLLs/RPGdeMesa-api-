@@ -36,16 +36,25 @@ class UsersController extends Controller
     $model = Users::select()->where(function ($query) use ($request) {
       if (isset($request->id))
         $query = $query->where('id', $request->id);
-      if (isset($request->name))
-        $query = $query->where('name', $request->name);
-      if (isset($request->password))
-        $query = $query->where('password', $request->password);
     })->get();
 
     if (empty($model->all())) {
       return response()->json([
         'message' => 'Usuário não encontrado',
       ], 400);
+    }
+
+    if ($request->password) {
+      $check_password = Users::select()
+        ->where('name', $request->name)
+        ->where('password', $request->password)
+        ->first();
+
+      if (empty($check_password)) {
+        return response()->json([
+          'message' => 'Dados inválida',
+        ], 400);
+      }
     }
 
     return response()->json([

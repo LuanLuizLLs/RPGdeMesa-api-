@@ -18,6 +18,7 @@ class AdventuresController extends Controller
 
     if (empty($campaign)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Campanha não encontrada',
       ], 400);
     }
@@ -35,6 +36,7 @@ class AdventuresController extends Controller
     ]);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Aventura criada',
     ], 200);
   }
@@ -50,13 +52,16 @@ class AdventuresController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'message' => 'Aventura não encontrada'
-      ], 400);
+        'status' => 'warning',
+        'message' => 'Aventura não encontrada',
+        'response' => $model,
+      ], 202);
     }
 
     return response()->json([
-      'response' => $model,
+      'status' => 'success',
       'message' => 'Aventura encontrada',
+      'response' => $model,
     ], 200);
   }
 
@@ -66,6 +71,7 @@ class AdventuresController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Aventura não encontrada',
       ], 400);
     }
@@ -74,6 +80,7 @@ class AdventuresController extends Controller
     Adventures::where('id', $request->id)->update($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Aventura atualizada',
     ], 200);
   }
@@ -84,6 +91,7 @@ class AdventuresController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Aventura não encontrada',
       ], 400);
     }
@@ -94,6 +102,7 @@ class AdventuresController extends Controller
     ]);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Aventura deletada',
     ], 200);
   }

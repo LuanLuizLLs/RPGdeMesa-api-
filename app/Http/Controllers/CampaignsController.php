@@ -18,6 +18,7 @@ class CampaignsController extends Controller
 
     if (empty($user)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Usuário não encontrado',
       ], 400);
     }
@@ -27,6 +28,7 @@ class CampaignsController extends Controller
     $model->create($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Campanha criada',
     ], 200);
   }
@@ -42,13 +44,16 @@ class CampaignsController extends Controller
     
     if (empty($model->all())) {
       return response()->json([
+        'status' => 'warning',
         'message' => 'Campanha não encontrada',
-      ], 400);
+        'response' => $model,
+      ], 202);
     }
     
     return response()->json([
-      'response' => $model,
+      'status' => 'success',
       'message' => 'Campanha encontrada',
+      'response' => $model,
     ], 200);
   }
 
@@ -58,6 +63,7 @@ class CampaignsController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Campanha não encontrada',
       ], 400);
     }
@@ -66,6 +72,7 @@ class CampaignsController extends Controller
     Campaigns::where('id', $request->id)->update($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Campanha atualizada',
     ], 200);
   }
@@ -76,6 +83,7 @@ class CampaignsController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Campanha não encontrada',
       ], 400);
     }
@@ -83,6 +91,7 @@ class CampaignsController extends Controller
     Campaigns::where('id', $request->id)->delete();
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Campanha deletada',
     ], 200);
   }

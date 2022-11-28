@@ -18,6 +18,7 @@ class CharactersController extends Controller
     
     if (empty($user)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Usuário não encontrado',
       ], 400);
     }
@@ -30,6 +31,7 @@ class CharactersController extends Controller
     $model->create($data);
     
     return response()->json([
+      'status' => 'success',
       'message' => 'Personagem criado',
     ], 200);
   }
@@ -47,8 +49,10 @@ class CharactersController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'message' => 'Personagem não encontrado'
-      ], 400);
+        'status' => 'warning',
+        'message' => 'Personagem não encontrado',
+        'response' => $model,
+      ], 202);
     }
 
     if ($request->user || $request->campaign) {
@@ -56,14 +60,16 @@ class CharactersController extends Controller
       
       if ($character->id_campaign != $request->campaign && $character->id_user != $request->user) {
         return response()->json([
-          'message' => 'Usuário não permitido'
+          'status' => 'error',
+          'message' => 'Usuário não permitido',
         ], 400);
       }
     }
 
     return response()->json([
-      'response' => $model,
+      'status' => 'success',
       'message' => 'Personagem encontrado',
+      'response' => $model,
     ], 200);
   }
 
@@ -73,6 +79,7 @@ class CharactersController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Personagem não encontrado',
       ], 400);
     }
@@ -80,6 +87,7 @@ class CharactersController extends Controller
     if ($request->life)
       if ($request->life > $model->getLifeCapacity()) {
         return response()->json([
+          'status' => 'error',
           'message' => 'Vida no limite máximo',
         ], 400);
       }
@@ -88,6 +96,7 @@ class CharactersController extends Controller
     Characters::where('id', $request->id)->update($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Personagem atualizado',
     ], 200);
   }
@@ -98,6 +107,7 @@ class CharactersController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Personagem não encontrado',
       ], 400);
     }
@@ -105,6 +115,7 @@ class CharactersController extends Controller
     Characters::where('id', $request->id)->delete();
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Personagem deletado',
     ], 200);
   }

@@ -19,12 +19,14 @@ class InventoryController extends Controller
     
     if (empty($character)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Personagem não encontrado',
       ], 400);
     }
 
     if($quantity_items > $character->getPhysicalCapacity()) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Capacidade de itens atingida',
       ], 400);
     }
@@ -32,6 +34,7 @@ class InventoryController extends Controller
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
+          'status' => 'error',
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
@@ -43,6 +46,7 @@ class InventoryController extends Controller
     $model->create($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Item criado',
     ], 200);
   }
@@ -58,13 +62,16 @@ class InventoryController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
+        'status' => 'warning',
         'message' => 'Item não encontrado',
-      ], 400);
+        'response' => $model,
+      ], 202);
     }
     
     return response()->json([
-      'response' => $model,
+      'status' => 'error',
       'message' => 'Item encontrado',
+      'response' => $model,
     ], 200);
   }
 
@@ -76,12 +83,14 @@ class InventoryController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Item não encontrado',
       ], 400);
     }
 
     if($quantity_items >= $character->getPhysicalCapacity()) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Capacidade de itens atingida',
       ], 400);
     }
@@ -89,11 +98,13 @@ class InventoryController extends Controller
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
+          'status' => 'error',
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
         if ($request->level > Inventory::MAX_LEVEL_ITEMS) {
           return response()->json([
+            'status' => 'error',
             'message' => 'Item atingiu o nível máximo',
           ], 400);
         }
@@ -104,6 +115,7 @@ class InventoryController extends Controller
     Inventory::where('id', $request->id)->update($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Item atualizado',
     ], 200);
   }
@@ -114,6 +126,7 @@ class InventoryController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Item não encontrado',
       ], 400);
     }
@@ -121,6 +134,7 @@ class InventoryController extends Controller
     Inventory::where('id', $request->id)->delete();
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Item deletado',
     ], 200);
   }

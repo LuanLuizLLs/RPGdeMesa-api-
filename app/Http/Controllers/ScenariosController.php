@@ -18,6 +18,7 @@ class ScenariosController extends Controller
 
     if (empty($campaign)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Campanha não encontrada',
       ], 400);
     }
@@ -35,6 +36,7 @@ class ScenariosController extends Controller
     ]);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Cenário criado',
     ], 200);
   }
@@ -50,13 +52,16 @@ class ScenariosController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
+        'status' => 'warning',
         'message' => 'Cenário não encontrado',
+        'response' => $model,
       ], 400);
     }
 
     return response()->json([
-      'response' => $model,
+      'status' => 'success',
       'message' => 'Cenário encontrado',
+      'response' => $model,
     ], 200);
   }
 
@@ -66,6 +71,7 @@ class ScenariosController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Cenário não encontrado',
       ], 400);
     }
@@ -74,6 +80,7 @@ class ScenariosController extends Controller
     Scenarios::where('id', $request->id)->update($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Cenário atualizado',
     ], 200);
   }
@@ -84,6 +91,7 @@ class ScenariosController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Cenário não encontrado',
       ], 400);
     }
@@ -94,6 +102,7 @@ class ScenariosController extends Controller
     ]);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Cenário deletado',
     ], 200);
   }

@@ -19,12 +19,14 @@ class AbilitiesController extends Controller
     
     if (empty($character)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Personagem não encontrado',
       ], 400);
     }
     
     if($quantity_abilities > $character->getMentalCapacity()) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
@@ -32,6 +34,7 @@ class AbilitiesController extends Controller
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
+          'status' => 'error',
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
@@ -43,6 +46,7 @@ class AbilitiesController extends Controller
     $model->create($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Habilidade criada',
     ], 200);
   }
@@ -58,13 +62,16 @@ class AbilitiesController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
+        'status' => 'warning',
         'message' => 'Habilidade não encontrada',
-      ], 400);
+        'response' => $model,
+      ], 202);
     }
     
     return response()->json([
-      'response' => $model,
+      'status' => 'success',
       'message' => 'Habilidade encontrada',
+      'response' => $model,
     ], 200);
   }
 
@@ -76,12 +83,14 @@ class AbilitiesController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Habilidade não encontrada',
       ], 400);
     }
 
     if($quantity_abilities >= $character->getMentalCapacity()) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
@@ -89,11 +98,13 @@ class AbilitiesController extends Controller
     if ($request->user === $character->id_user)
       if ($character->actions < 1) {
         return response()->json([
+          'status' => 'error',
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
         if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
           return response()->json([
+            'status' => 'error',
             'message' => 'Habilidade atingiu o nível máximo',
           ], 400);
         }
@@ -104,6 +115,7 @@ class AbilitiesController extends Controller
     Abilities::where('id', $request->id)->update($data);
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Habilidade atualizada',
     ], 200);
   }
@@ -114,6 +126,7 @@ class AbilitiesController extends Controller
 
     if (empty($model)) {
       return response()->json([
+        'status' => 'error',
         'message' => 'Habilidade não encontrada',
       ], 400);
     }
@@ -121,6 +134,7 @@ class AbilitiesController extends Controller
     Abilities::where('id', $request->id)->delete();
 
     return response()->json([
+      'status' => 'success',
       'message' => 'Habilidade deletada',
     ], 200);
   }

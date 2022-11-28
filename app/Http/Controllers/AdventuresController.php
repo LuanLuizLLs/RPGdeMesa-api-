@@ -43,12 +43,14 @@ class AdventuresController extends Controller
 
   public function read(Request $request)
   {
-    $model = Adventures::select()->where(function ($query) use ($request) {
-      if (isset($request->id))
-        $query = $query->where('id', $request->id);
-      if (isset($request->id_campaign))
-        $query = $query->where('id_campaign', $request->id_campaign);
-    })->get();
+    $model = Adventures::select()
+      ->where(function ($query) use ($request) {
+        if (isset($request->id))
+          $query = $query->where('id', $request->id);
+        if (isset($request->id_campaign))
+          $query = $query->where('id_campaign', $request->id_campaign);
+      })
+      ->get();
 
     if (empty($model->all())) {
       return response()->json([

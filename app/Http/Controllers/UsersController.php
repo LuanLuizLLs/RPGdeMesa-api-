@@ -35,12 +35,15 @@ class UsersController extends Controller
 
   public function read(Request $request)
   {
-    $model = Users::select()->where(function ($query) use ($request) {
-      if (isset($request->id))
-        $query = $query->where('id', $request->id);
-      if (isset($request->name))
-        $query = $query->where('name', $request->name);
-    })->get();
+    $model = Users::select()
+      ->where(
+        function ($query) use ($request) {
+          if (isset($request->id))
+            $query = $query->where('id', $request->id);
+          if (isset($request->name))
+            $query = $query->where('name', $request->name);
+        }
+      )->get();
 
     if (empty($model->all())) {
       return response()->json([
@@ -73,10 +76,12 @@ class UsersController extends Controller
 
   public function update(Request $request)
   {
-    $model = Users::select()->where(function ($query) use ($request) {
-      if (isset($request->name))
-        $query = $query->where('name', $request->name);
-    })->first();
+    $model = Users::select()
+      ->where(function ($query) use ($request) {
+        if (isset($request->name))
+          $query = $query->where('name', $request->name);
+      })
+      ->first();
 
     if (empty($model)) {
       return response()->json([

@@ -15,7 +15,7 @@ class CharactersController extends Controller
   function create(Request $request)
   {
     $user = Users::where('id', $request->id_user)->first();
-    
+
     if (empty($user)) {
       return response()->json([
         'status' => 'error',
@@ -29,7 +29,7 @@ class CharactersController extends Controller
     $data['actions'] = $model->getPhysicalCapacity($data);
     $data['coins'] = $model->getMentalCapacity($data) * $request->riches;
     $model->create($data);
-    
+
     return response()->json([
       'status' => 'success',
       'message' => 'Personagem criado',
@@ -38,14 +38,16 @@ class CharactersController extends Controller
 
   public function read(Request $request)
   {
-    $model = Characters::select()->where(function ($query) use ($request) {
-      if (isset($request->id))
-        $query = $query->where('id', $request->id);
-      if (isset($request->id_user))
-        $query = $query->where('id_user', $request->id_user);
-      if (isset($request->id_campaign))
-        $query = $query->where('id_campaign', $request->id_campaign);
-    })->get();
+    $model = Characters::select()
+      ->where(function ($query) use ($request) {
+        if (isset($request->id))
+          $query = $query->where('id', $request->id);
+        if (isset($request->id_user))
+          $query = $query->where('id_user', $request->id_user);
+        if (isset($request->id_campaign))
+          $query = $query->where('id_campaign', $request->id_campaign);
+      })
+      ->get();
 
     if (empty($model->all())) {
       return response()->json([
@@ -57,7 +59,7 @@ class CharactersController extends Controller
 
     if ($request->user || $request->campaign) {
       $character = $model->first();
-      
+
       if ($character->id_campaign != $request->campaign && $character->id_user != $request->user) {
         return response()->json([
           'status' => 'error',

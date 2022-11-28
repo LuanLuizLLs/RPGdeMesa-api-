@@ -16,15 +16,15 @@ class AbilitiesController extends Controller
   {
     $character = Characters::where('id', $request->id_character)->first();
     $quantity_abilities = Abilities::getQuantityAbilities($request->id_character, $request->level);
-    
+
     if (empty($character)) {
       return response()->json([
         'status' => 'error',
         'message' => 'Personagem não encontrado',
       ], 400);
     }
-    
-    if($quantity_abilities > $character->getMentalCapacity()) {
+
+    if ($quantity_abilities > $character->getMentalCapacity()) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
@@ -53,12 +53,14 @@ class AbilitiesController extends Controller
 
   public function read(Request $request)
   {
-    $model = Abilities::select()->where(function ($query) use ($request) {
-      if (isset($request->id))
-        $query = $query->where('id', $request->id);
-      if (isset($request->id_character))
-        $query = $query->where('id_character', $request->id_character);
-    })->get();
+    $model = Abilities::select()
+      ->where(function ($query) use ($request) {
+        if (isset($request->id))
+          $query = $query->where('id', $request->id);
+        if (isset($request->id_character))
+          $query = $query->where('id_character', $request->id_character);
+      })
+      ->get();
 
     if (empty($model->all())) {
       return response()->json([
@@ -67,7 +69,7 @@ class AbilitiesController extends Controller
         'response' => $model,
       ], 202);
     }
-    
+
     return response()->json([
       'status' => 'success',
       'message' => 'Habilidade encontrada',
@@ -88,7 +90,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if($quantity_abilities >= $character->getMentalCapacity()) {
+    if ($quantity_abilities >= $character->getMentalCapacity()) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',

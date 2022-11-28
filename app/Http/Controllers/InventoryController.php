@@ -16,7 +16,7 @@ class InventoryController extends Controller
   {
     $character = Characters::where('id', $request->id_character)->first();
     $quantity_items = Inventory::getQuantityItems($request->id_character, $request->level);
-    
+
     if (empty($character)) {
       return response()->json([
         'status' => 'error',
@@ -24,7 +24,7 @@ class InventoryController extends Controller
       ], 400);
     }
 
-    if($quantity_items > $character->getPhysicalCapacity()) {
+    if ($quantity_items > $character->getPhysicalCapacity()) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de itens atingida',
@@ -53,12 +53,14 @@ class InventoryController extends Controller
 
   public function read(Request $request)
   {
-    $model = Inventory::select()->where(function ($query) use ($request) {
-      if (isset($request->id))
-        $query = $query->where('id', $request->id);
-      if (isset($request->id_character))
-        $query = $query->where('id_character', $request->id_character);
-    })->get();
+    $model = Inventory::select()
+      ->where(function ($query) use ($request) {
+        if (isset($request->id))
+          $query = $query->where('id', $request->id);
+        if (isset($request->id_character))
+          $query = $query->where('id_character', $request->id_character);
+      })
+      ->get();
 
     if (empty($model->all())) {
       return response()->json([
@@ -67,7 +69,7 @@ class InventoryController extends Controller
         'response' => $model,
       ], 202);
     }
-    
+
     return response()->json([
       'status' => 'error',
       'message' => 'Item encontrado',
@@ -88,7 +90,7 @@ class InventoryController extends Controller
       ], 400);
     }
 
-    if($quantity_items >= $character->getPhysicalCapacity()) {
+    if ($quantity_items >= $character->getPhysicalCapacity()) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de itens atingida',

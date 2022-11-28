@@ -35,13 +35,15 @@ class CampaignsController extends Controller
 
   public function read(Request $request)
   {
-    $model = Campaigns::select()->where(function ($query) use ($request) {
-      if (isset($request->id))
-        $query = $query->where('id', $request->id);
-      if (isset($request->id_user))
-        $query = $query->where('id_user', $request->id_user);
-    })->get();
-    
+    $model = Campaigns::select()
+      ->where(function ($query) use ($request) {
+        if (isset($request->id))
+          $query = $query->where('id', $request->id);
+        if (isset($request->id_user))
+          $query = $query->where('id_user', $request->id_user);
+      })
+      ->get();
+
     if (empty($model->all())) {
       return response()->json([
         'status' => 'warning',
@@ -49,7 +51,7 @@ class CampaignsController extends Controller
         'response' => $model,
       ], 202);
     }
-    
+
     return response()->json([
       'status' => 'success',
       'message' => 'Campanha encontrada',

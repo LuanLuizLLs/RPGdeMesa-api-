@@ -57,7 +57,7 @@ class ScenariosController extends Controller
         'status' => 'warning',
         'message' => 'Cenário não encontrado',
         'response' => $model,
-      ], 400);
+      ], 202);
     }
 
     return response()->json([

@@ -27,7 +27,7 @@ class CharactersController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     $data['life'] = $model->getLifeCapacity($data);
     $data['actions'] = $model->getPhysicalCapacity($data);
-    $data['coins'] = $model->getMentalCapacity($data) * $request->riches;
+    $data['coins'] = $model->getMentalCapacity($data);
     $model->create($data);
 
     return response()->json([

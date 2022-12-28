@@ -18,10 +18,9 @@ class Campaigns extends Model
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
   public const PERIOD = 'period';
-  public const SEASON = 'season';
+  public const CLIMATE = 'climate';
   public const GROUND = 'ground';
   public const RESOURCES = 'resources';
-  public const CLIMATE = 'climate';
   
   protected $fillable = [
     self::ID,
@@ -31,10 +30,9 @@ class Campaigns extends Model
     self::NAME,
     self::DESCRIPTION,
     self::PERIOD,
-    self::SEASON,
+    self::CLIMATE,
     self::GROUND,
     self::RESOURCES,
-    self::CLIMATE,
   ];
 
   protected $casts = [
@@ -45,9 +43,8 @@ class Campaigns extends Model
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
     self::PERIOD => 'string',
-    self::SEASON => 'string',
+    self::CLIMATE => 'string',
     self::GROUND => 'integer',
     self::RESOURCES => 'integer',
-    self::CLIMATE => 'integer',
   ];
 }

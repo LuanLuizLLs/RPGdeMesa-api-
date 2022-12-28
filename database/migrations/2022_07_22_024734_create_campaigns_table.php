@@ -21,10 +21,9 @@ class CreateCampaignsTable extends Migration
       $table->string('name');
       $table->string('description');
       $table->string('period');
-      $table->string('season');
+      $table->string('climate');
       $table->integer('ground');
       $table->integer('resources');
-      $table->integer('climate');
       $table->softDeletes();
       $table->timestamps();
     });

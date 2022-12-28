@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
-  protected $table = 'items';
+  protected $table = 'inventory';
 
   public const MAX_LEVEL_ITEMS = 3;
 

@@ -6,29 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateAdventuresTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('adventures', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
-            $table->string('name');
-            $table->string('description');
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    Schema::create('adventures', function (Blueprint $table) {
+      $table->id();
+      $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
+      $table->string('name');
+      $table->string('description');
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('adventures');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('adventures');
+  }
 }

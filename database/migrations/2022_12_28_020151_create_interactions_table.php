@@ -16,16 +16,16 @@ class CreateInteractionsTable extends Migration
     Schema::create('interactions', function (Blueprint $table) {
       $table->id();
       $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
-      $table->string('name')->nullable();
-      $table->string('description')->nullable();
-      $table->integer('life')->nullable();
-      $table->integer('damage')->nullable();
-      $table->integer('strength')->nullable();
-      $table->integer('dexterity')->nullable();
-      $table->integer('constitution')->nullable();
-      $table->integer('intelligence')->nullable();
-      $table->integer('wisdom')->nullable();
-      $table->integer('charisma')->nullable();
+      $table->string('name');
+      $table->string('description');
+      $table->integer('life');
+      $table->integer('damage');
+      $table->integer('strength');
+      $table->integer('dexterity');
+      $table->integer('constitution');
+      $table->integer('intelligence');
+      $table->integer('wisdom');
+      $table->integer('charisma');
       $table->timestamps();
     });
   }

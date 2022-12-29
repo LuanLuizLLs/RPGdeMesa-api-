@@ -16,11 +16,11 @@ class CreateItemsTable extends Migration
     Schema::create('items', function (Blueprint $table) {
       $table->id();
       $table->foreignId('id_character')->constrained()->references('id')->on('characters');
-      $table->string('name')->nullable();
-      $table->string('description')->nullable();
-      $table->boolean('usable')->nullable();
-      $table->string('attribute')->nullable();
-      $table->integer('level')->nullable();
+      $table->string('name');
+      $table->string('description');
+      $table->boolean('usable');
+      $table->string('attribute');
+      $table->integer('level');
       $table->timestamps();
     });
   }

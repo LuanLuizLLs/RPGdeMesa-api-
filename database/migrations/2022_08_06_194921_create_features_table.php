@@ -16,13 +16,13 @@ class CreateFeaturesTable extends Migration
     Schema::create('features', function (Blueprint $table) {
       $table->id();
       $table->foreignId('id_character')->constrained()->references('id')->on('characters');
-      $table->string('name');
-      $table->integer('strength');
-      $table->integer('dexterity');
-      $table->integer('constitution');
-      $table->integer('intelligence');
-      $table->integer('wisdom');
-      $table->integer('charisma');
+      $table->string('name')->nullable();
+      $table->integer('strength')->nullable();
+      $table->integer('dexterity')->nullable();
+      $table->integer('constitution')->nullable();
+      $table->integer('intelligence')->nullable();
+      $table->integer('wisdom')->nullable();
+      $table->integer('charisma')->nullable();
       $table->timestamps();
     });
   }

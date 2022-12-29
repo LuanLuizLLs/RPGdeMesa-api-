@@ -16,8 +16,8 @@ class CreateScenariosTable extends Migration
     Schema::create('scenarios', function (Blueprint $table) {
       $table->id();
       $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
-      $table->string('name');
-      $table->string('description');
+      $table->string('name')->nullable();
+      $table->string('description')->nullable();
       $table->timestamps();
     });
   }

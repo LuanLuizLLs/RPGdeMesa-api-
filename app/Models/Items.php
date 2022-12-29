@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory extends Model
+class Items extends Model
 {
-  protected $table = 'inventory';
+  protected $table = 'items';
 
   public const MAX_LEVEL_ITEMS = 3;
 
@@ -40,7 +40,7 @@ class Inventory extends Model
 
   static public function getQuantityItems($id_character, $quantity = 0)
   {
-    $items = Inventory::where('id_character', $id_character)->get();
+    $items = Items::where('id_character', $id_character)->get();
     
     foreach ($items->all() as $item) {
       $quantity += $item->level;

@@ -41,10 +41,10 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'scenarios'], function () 
 
 /** Routes interaction */
 $router->group(['middleware' => ['auth'], 'prefix' => 'interactions'], function () use ($router) {
-  $router->post('/create', 'InventoryController@create');
-  $router->get('/read', 'InventoryController@read');
-  $router->patch('/update', 'InventoryController@update');
-  $router->delete('/delete', 'InventoryController@delete');
+  $router->post('/create', 'ItemsController@create');
+  $router->get('/read', 'ItemsController@read');
+  $router->patch('/update', 'ItemsController@update');
+  $router->delete('/delete', 'ItemsController@delete');
 });
 
 /** Routes characters */
@@ -71,10 +71,10 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'abilities'], function () 
   $router->delete('/delete', 'AbilitiesController@delete');
 });
 
-/** Routes inventory */
-$router->group(['middleware' => ['auth'], 'prefix' => 'inventory'], function () use ($router) {
-  $router->post('/create', 'InventoryController@create');
-  $router->get('/read', 'InventoryController@read');
-  $router->patch('/update', 'InventoryController@update');
-  $router->delete('/delete', 'InventoryController@delete');
+/** Routes items */
+$router->group(['middleware' => ['auth'], 'prefix' => 'items'], function () use ($router) {
+  $router->post('/create', 'ItemsController@create');
+  $router->get('/read', 'ItemsController@read');
+  $router->patch('/update', 'ItemsController@update');
+  $router->delete('/delete', 'ItemsController@delete');
 });

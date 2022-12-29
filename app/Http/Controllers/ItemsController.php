@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventory;
+use App\Models\Items;
 use App\Models\Characters;
 use Illuminate\Http\Request;
 
-class InventoryController extends Controller
+class ItemsController extends Controller
 {
   /**
-   * Controller Inventory
+   * Controller Items
    */
 
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    $quantity_items = Inventory::getQuantityItems($request->id_character, $request->level);
+    $quantity_items = Items::getQuantityItems($request->id_character, $request->level);
 
     if (empty($character)) {
       return response()->json([
@@ -41,7 +41,7 @@ class InventoryController extends Controller
         Characters::getReduceActions($request->id_character);
       }
 
-    $model = new Inventory();
+    $model = new Items();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
 
@@ -53,7 +53,7 @@ class InventoryController extends Controller
 
   public function read(Request $request)
   {
-    $model = Inventory::select()
+    $model = Items::select()
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('id', $request->id);
@@ -79,9 +79,9 @@ class InventoryController extends Controller
 
   public function update(Request $request)
   {
-    $model = Inventory::where('id', $request->id)->first();
+    $model = Items::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
-    $quantity_items = Inventory::getQuantityItems($model->id_character);
+    $quantity_items = Items::getQuantityItems($model->id_character);
 
     if (empty($model)) {
       return response()->json([
@@ -104,7 +104,7 @@ class InventoryController extends Controller
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
-        if ($request->level > Inventory::MAX_LEVEL_ITEMS) {
+        if ($request->level > Items::MAX_LEVEL_ITEMS) {
           return response()->json([
             'status' => 'error',
             'message' => 'Item atingiu o nível máximo',
@@ -114,7 +114,7 @@ class InventoryController extends Controller
       }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Inventory::where('id', $request->id)->update($data);
+    Items::where('id', $request->id)->update($data);
 
     return response()->json([
       'status' => 'success',
@@ -124,7 +124,7 @@ class InventoryController extends Controller
 
   public function delete(Request $request)
   {
-    $model = Inventory::where('id', $request->id)->first();
+    $model = Items::where('id', $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -133,7 +133,7 @@ class InventoryController extends Controller
       ], 400);
     }
 
-    Inventory::where('id', $request->id)->delete();
+    Items::where('id', $request->id)->delete();
 
     return response()->json([
       'status' => 'success',

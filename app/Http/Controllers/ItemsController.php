@@ -38,7 +38,7 @@ class ItemsController extends Controller
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
-        Characters::getReduceActions($request->id_character);
+        Characters::getReduceCoins($request->id_character, $request->level);
       }
 
     $model = new Items();
@@ -110,7 +110,7 @@ class ItemsController extends Controller
             'message' => 'Item atingiu o nível máximo',
           ], 400);
         }
-        Characters::getReduceActions($model->id_character);
+        Characters::getReduceCoins($model->id_character);
       }
 
     $data = array_intersect_key($request->all(), $model->getCasts());

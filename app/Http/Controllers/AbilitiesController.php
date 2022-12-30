@@ -38,7 +38,7 @@ class AbilitiesController extends Controller
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
-        Characters::getReduceActions($request->id_character);
+        Characters::getReduceActions($request->id_character, $request->level);
       }
 
     $model = new Abilities();

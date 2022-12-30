@@ -31,24 +31,6 @@ class FeaturesController extends Controller
       ], 400);
     }
 
-    if ($request->user === $character->id_user)
-      if ($character->actions < 1) {
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Personagem não possui ações',
-        ], 400);
-      } else {
-        foreach ($attributes as $attribute) {
-          if ($attribute > Characters::MAX_LEVEL_ATTRIBUTE) {
-            return response()->json([
-              'status' => 'error',
-              'message' => 'Atributo atingiu o nível máximo',
-            ], 400);
-          }
-        };
-        Characters::getReduceActions($request->id_character);
-      }
-
     $model = new Features();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);

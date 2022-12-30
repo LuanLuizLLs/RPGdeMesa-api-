@@ -71,10 +71,17 @@ class Characters extends Model
     self::CHARISMA => 'integer',
   ];
 
-  static function getReduceActions($id_character = 0, $actions = 1): void {
+  static function getReduceActions($id_character = 0, $reduce = 1): void {
     $character = Characters::where('id', $id_character)->first();
     Characters::where('id', $id_character)->update([
-      'actions' => $character->actions - $actions,
+      'actions' => $character->actions - $reduce,
+    ]);
+  }
+
+  static function getReduceCoins($id_character = 0, $reduce = 1): void {
+    $character = Characters::where('id', $id_character)->first();
+    Characters::where('id', $id_character)->update([
+      'coins' => $character->coins - $reduce,
     ]);
   }
 

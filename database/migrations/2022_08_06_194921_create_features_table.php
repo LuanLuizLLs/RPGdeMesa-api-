@@ -17,6 +17,7 @@ class CreateFeaturesTable extends Migration
       $table->id();
       $table->foreignId('id_character')->constrained()->references('id')->on('characters');
       $table->string('name');
+      $table->string('description');
       $table->integer('strength');
       $table->integer('dexterity');
       $table->integer('constitution');

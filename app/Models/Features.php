@@ -11,6 +11,7 @@ class Features extends Model
   public const ID = 'id';
   public const ID_CHARACTER = 'id_character';
   public const NAME = 'name';
+  public const DESCRIPTION = 'description';
   public const STRENGTH = 'strength';
   public const DEXTERITY = 'dexterity';
   public const CONSTITUTION = 'constitution';
@@ -22,6 +23,7 @@ class Features extends Model
     self::ID,
     self::ID_CHARACTER,
     self::NAME,
+    self::DESCRIPTION,
     self::STRENGTH,
     self::DEXTERITY,
     self::CONSTITUTION,
@@ -34,6 +36,7 @@ class Features extends Model
     self::ID => 'integer',
     self::ID_CHARACTER => 'integer',
     self::NAME => 'string',
+    self::DESCRIPTION => 'string',
     self::STRENGTH => 'integer',
     self::DEXTERITY => 'integer',
     self::CONSTITUTION => 'integer',

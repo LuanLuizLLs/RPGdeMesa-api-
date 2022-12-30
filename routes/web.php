@@ -39,12 +39,12 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'scenarios'], function () 
   $router->delete('/delete', 'ScenariosController@delete');
 });
 
-/** Routes interaction */
+/** Routes interactions */
 $router->group(['middleware' => ['auth'], 'prefix' => 'interactions'], function () use ($router) {
-  $router->post('/create', 'ItemsController@create');
-  $router->get('/read', 'ItemsController@read');
-  $router->patch('/update', 'ItemsController@update');
-  $router->delete('/delete', 'ItemsController@delete');
+  $router->post('/create', 'InteractionsController@create');
+  $router->get('/read', 'InteractionsController@read');
+  $router->patch('/update', 'InteractionsController@update');
+  $router->delete('/delete', 'InteractionsController@delete');
 });
 
 /** Routes characters */

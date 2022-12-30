@@ -8,7 +8,7 @@ class Abilities extends Model
 {
   protected $table = 'abilities';
 
-  public const MAX_LEVEL_ABILITY = 3;
+  public const MAX_LEVEL_ABILITY = 6;
 
   public const ID = 'id';
   public const ID_CHARACTER = 'id_character';

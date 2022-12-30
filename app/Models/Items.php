@@ -8,7 +8,7 @@ class Items extends Model
 {
   protected $table = 'items';
 
-  public const MAX_LEVEL_ITEMS = 3;
+  public const MAX_LEVEL_ITEMS = 6;
 
   public const ID = 'id';
   public const ID_CHARACTER = 'id_character';

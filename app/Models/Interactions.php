@@ -9,11 +9,11 @@ class Interactions extends Model
   protected $table = 'interactions';
 
   public const ID = 'id';
-  public const ID_CAMPAIGN = 'id_campaign';
+  public const ID_ADVENTURE = 'id_adventure';
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
   public const LIFE = 'life';
-  public const DAMAGE = 'strength';
+  public const DAMAGE = 'damage';
   public const STRENGTH = 'strength';
   public const DEXTERITY = 'dexterity';
   public const CONSTITUTION = 'constitution';
@@ -23,7 +23,7 @@ class Interactions extends Model
 
   protected $fillable = [
     self::ID,
-    self::ID_CAMPAIGN,
+    self::ID_ADVENTURE,
     self::NAME,
     self::DESCRIPTION,
     self::LIFE,
@@ -38,7 +38,7 @@ class Interactions extends Model
 
   protected $casts = [
     self::ID => 'integer',
-    self::ID_CAMPAIGN => 'integer',
+    self::ID_ADVENTURE => 'integer',
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
     self::LIFE => 'integer',

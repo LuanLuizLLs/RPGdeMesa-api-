@@ -38,7 +38,7 @@ class Items extends Model
     self::LEVEL => 'integer',
   ];
 
-  static public function getQuantityItems($id_character, $quantity = 0)
+  static public function quantityItems($id_character, $quantity = 0)
   {
     $items = Items::where('id_character', $id_character)->get();
     

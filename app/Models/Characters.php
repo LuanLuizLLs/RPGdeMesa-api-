@@ -71,41 +71,55 @@ class Characters extends Model
     self::CHARISMA => 'integer',
   ];
 
-  static function getReduceActions($id_character = 0, $reduce = 1): void {
+  protected $appends = [
+    'life_capacity',
+    'physical_capacity',
+    'mental_capacity',
+  ];
+
+  public function getLifeCapacityAttribute()
+  {
+    return $this->strength + $this->dexterity + $this->constitution + $this->intelligence + $this->wisdom + $this->charisma;
+  }
+
+  public function getPhysicalCapacityAttribute()
+  {
+    return $this->strength + $this->dexterity + $this->constitution;
+  }
+
+  public function getMentalCapacityAttribute()
+  {
+    return $this->intelligence + $this->wisdom + $this->charisma;
+  }
+
+  public function lifeCapacity($character = [])
+  {
+    return $character['strength'] + $character['dexterity'] + $character['constitution'] + $character['intelligence'] + $character['wisdom'] + $character['charisma'];
+  }
+
+  public function physicalCapacity($character = [])
+  {
+    return $character['strength'] + $character['dexterity'] + $character['constitution'];
+  }
+
+  public function mentalCapacity($character = [])
+  {
+    return $character['intelligence'] + $character['wisdom'] + $character['charisma'];
+  }
+
+  static function reduceActions($id_character = 0, $reduce = 1): void
+  {
     $character = Characters::where('id', $id_character)->first();
     Characters::where('id', $id_character)->update([
       'actions' => $character->actions - $reduce,
     ]);
   }
 
-  static function getReduceCoins($id_character = 0, $reduce = 1): void {
+  static function reduceCoins($id_character = 0, $reduce = 1): void
+  {
     $character = Characters::where('id', $id_character)->first();
     Characters::where('id', $id_character)->update([
       'coins' => $character->coins - $reduce,
     ]);
-  }
-
-  public function getLifeCapacity($character = [])
-  {
-    if (empty($character)) {
-      return $this->strength + $this->dexterity + $this->constitution + $this->intelligence + $this->wisdom + $this->charisma;
-    }
-    return $character['strength'] + $character['dexterity'] + $character['constitution'] + $character['intelligence'] + $character['wisdom'] + $character['charisma'];
-  }
-
-  public function getPhysicalCapacity($character = [])
-  {
-    if (empty($character)) {
-      return $this->strength + $this->dexterity + $this->constitution;
-    }
-    return $character['strength'] + $character['dexterity'] + $character['constitution'];
-  }
-
-  public function getMentalCapacity($character = [])
-  {
-    if (empty($character)) {
-      return $this->intelligence + $this->wisdom + $this->charisma;
-    }
-    return $character['intelligence'] + $character['wisdom'] + $character['charisma'];
   }
 }

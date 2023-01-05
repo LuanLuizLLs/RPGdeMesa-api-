@@ -15,7 +15,7 @@ class AbilitiesController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    $quantity_abilities = Abilities::getQuantityAbilities($request->id_character, $request->level);
+    $quantity_abilities = Abilities::quantityAbilities($request->id_character, $request->level);
 
     if (empty($character)) {
       return response()->json([
@@ -24,7 +24,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($quantity_abilities > $character->getMentalCapacity()) {
+    if ($quantity_abilities > $character->mental_capacity) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
@@ -38,7 +38,7 @@ class AbilitiesController extends Controller
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
-        Characters::getReduceActions($request->id_character, $request->level);
+        Characters::reduceActions($request->id_character, $request->level);
       }
 
     $model = new Abilities();
@@ -81,7 +81,7 @@ class AbilitiesController extends Controller
   {
     $model = Abilities::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
-    $quantity_abilities = Abilities::getQuantityAbilities($model->id_character);
+    $quantity_abilities = Abilities::quantityAbilities($model->id_character);
 
     if (empty($model)) {
       return response()->json([
@@ -90,7 +90,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($quantity_abilities >= $character->getMentalCapacity()) {
+    if ($quantity_abilities >= $character->mental_capacity) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
@@ -110,7 +110,7 @@ class AbilitiesController extends Controller
             'message' => 'Habilidade atingiu o nível máximo',
           ], 400);
         }
-        Characters::getReduceActions($model->id_character);
+        Characters::reduceActions($model->id_character);
       }
 
     $data = array_intersect_key($request->all(), $model->getCasts());

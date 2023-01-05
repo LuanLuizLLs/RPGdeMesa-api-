@@ -25,9 +25,9 @@ class CharactersController extends Controller
 
     $model = new Characters();
     $data = array_intersect_key($request->all(), $model->getCasts());
-    $data['life'] = $model->getLifeCapacity($data);
-    $data['actions'] = $model->getPhysicalCapacity($data);
-    $data['coins'] = $model->getMentalCapacity($data);
+    $data['life'] = $model->lifeCapacity($data);
+    $data['actions'] = $model->physicalCapacity($data);
+    $data['coins'] = $model->mentalCapacity($data);
     $model->create($data);
 
     return response()->json([
@@ -87,7 +87,7 @@ class CharactersController extends Controller
     }
 
     if ($request->life)
-      if ($request->life > $model->getLifeCapacity()) {
+      if ($request->life > $model->life_capacity) {
         return response()->json([
           'status' => 'error',
           'message' => 'Vida no limite máximo',

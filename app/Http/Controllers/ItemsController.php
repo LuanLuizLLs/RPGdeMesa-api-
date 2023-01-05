@@ -15,7 +15,7 @@ class ItemsController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    $quantity_items = Items::getQuantityItems($request->id_character, $request->level);
+    $quantity_items = Items::quantityItems($request->id_character, $request->level);
 
     if (empty($character)) {
       return response()->json([
@@ -24,7 +24,7 @@ class ItemsController extends Controller
       ], 400);
     }
 
-    if ($quantity_items > $character->getPhysicalCapacity()) {
+    if ($quantity_items > $character->physical_capacity) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de itens atingida',
@@ -38,7 +38,7 @@ class ItemsController extends Controller
           'message' => 'Personagem não possui ações',
         ], 400);
       } elseif ($request->user === $character->id_user) {
-        Characters::getReduceCoins($request->id_character, $request->level);
+        Characters::reduceCoins($request->id_character, $request->level);
       }
 
     $model = new Items();
@@ -81,7 +81,7 @@ class ItemsController extends Controller
   {
     $model = Items::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
-    $quantity_items = Items::getQuantityItems($model->id_character);
+    $quantity_items = Items::quantityItems($model->id_character);
 
     if (empty($model)) {
       return response()->json([
@@ -90,7 +90,7 @@ class ItemsController extends Controller
       ], 400);
     }
 
-    if ($quantity_items >= $character->getPhysicalCapacity()) {
+    if ($quantity_items >= $character->physical_capacity) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de itens atingida',
@@ -110,7 +110,7 @@ class ItemsController extends Controller
             'message' => 'Item atingiu o nível máximo',
           ], 400);
         }
-        Characters::getReduceCoins($model->id_character);
+        Characters::reduceCoins($model->id_character);
       }
 
     $data = array_intersect_key($request->all(), $model->getCasts());

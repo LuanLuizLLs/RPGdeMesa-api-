@@ -9,7 +9,7 @@ class Interactions extends Model
   protected $table = 'interactions';
 
   public const ID = 'id';
-  public const ID_ADVENTURE = 'id_adventure';
+  public const ID_CAMPAIGN = 'id_campaign';
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
   public const LIFE = 'life';
@@ -23,7 +23,7 @@ class Interactions extends Model
 
   protected $fillable = [
     self::ID,
-    self::ID_ADVENTURE,
+    self::ID_CAMPAIGN,
     self::NAME,
     self::DESCRIPTION,
     self::LIFE,
@@ -38,7 +38,7 @@ class Interactions extends Model
 
   protected $casts = [
     self::ID => 'integer',
-    self::ID_ADVENTURE => 'integer',
+    self::ID_CAMPAIGN => 'integer',
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
     self::LIFE => 'integer',
@@ -50,4 +50,15 @@ class Interactions extends Model
     self::WISDOW => 'integer',
     self::CHARISMA => 'integer',
   ];
+
+  protected $appends = [
+    'level',
+  ];
+
+  public function getLevelAttribute()
+  {
+    $level = ($this->life * 0.1) + $this->damage;
+    $level += $this->strength + $this->dexterity + $this->constitution + $this->intelligence + $this->wisdom + $this->charisma;
+    return ceil($level / 6);
+  }
 }

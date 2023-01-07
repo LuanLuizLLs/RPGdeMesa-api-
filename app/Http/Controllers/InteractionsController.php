@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Adventures;
+use App\Models\Campaigns;
 use App\Models\Interactions;
 use Illuminate\Http\Request;
 
@@ -14,12 +14,12 @@ class InteractionsController extends Controller
 
   function create(Request $request)
   {
-    $adventure = Adventures::where('id', $request->id_adventure)->first();
+    $campaign = Campaigns::where('id', $request->id_campaign)->first();
 
-    if (empty($adventure)) {
+    if (empty($campaign)) {
       return response()->json([
         'status' => 'error',
-        'message' => 'Aventura não encontrada',
+        'message' => 'Campanha não encontrada',
       ], 400);
     }
 
@@ -39,8 +39,8 @@ class InteractionsController extends Controller
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('id', $request->id);
-        if (isset($request->id_adventure))
-          $query = $query->where('id_adventure', $request->id_adventure);
+        if (isset($request->id_campaign))
+          $query = $query->where('id_campaign', $request->id_campaign);
       })
       ->get();
 

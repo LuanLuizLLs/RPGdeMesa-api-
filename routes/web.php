@@ -47,6 +47,14 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'interactions'], function 
   $router->delete('/delete', 'InteractionsController@delete');
 });
 
+/** Routes interactions board */
+$router->group(['middleware' => ['auth'], 'prefix' => 'interactions-board'], function () use ($router) {
+  $router->post('/create', 'InteractionsBoardController@create');
+  $router->get('/read', 'InteractionsBoardController@read');
+  $router->patch('/update', 'InteractionsBoardController@update');
+  $router->delete('/delete', 'InteractionsBoardController@delete');
+});
+
 /** Routes characters */
 $router->group(['middleware' => ['auth'], 'prefix' => 'characters'], function () use ($router) {
     $router->post('/create', 'CharactersController@create');

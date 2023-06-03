@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 
 class InteractionsController extends Controller
 {
-  /**
-   * Controller Interactions
-   */
-
   function create(Request $request)
   {
     $campaign = Campaigns::where('id', $request->id_campaign)->first();

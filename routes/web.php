@@ -2,12 +2,10 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-/** Route default */
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-/** Routes users */
 $router->group(['middleware' => ['auth'], 'prefix' => 'users'], function () use ($router) {
     $router->post('/create', 'UsersController@create');
     $router->get('/read', 'UsersController@read');
@@ -15,7 +13,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'users'], function () use 
     $router->delete('/delete', 'UsersController@delete');
 });
 
-/** Routes campaigns */
 $router->group(['middleware' => ['auth'], 'prefix' => 'campaigns'], function () use ($router) {
     $router->post('/create', 'CampaignsController@create');
     $router->get('/read', 'CampaignsController@read');
@@ -23,7 +20,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'campaigns'], function () 
     $router->delete('/delete', 'CampaignsController@delete');
 });
 
-/** Routes adventures */
 $router->group(['middleware' => ['auth'], 'prefix' => 'adventures'], function () use ($router) {
   $router->post('/create', 'AdventuresController@create');
   $router->get('/read', 'AdventuresController@read');
@@ -31,7 +27,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'adventures'], function ()
   $router->delete('/delete', 'AdventuresController@delete');
 });
 
-/** Routes scenarios */
 $router->group(['middleware' => ['auth'], 'prefix' => 'scenarios'], function () use ($router) {
   $router->post('/create', 'ScenariosController@create');
   $router->get('/read', 'ScenariosController@read');
@@ -39,7 +34,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'scenarios'], function () 
   $router->delete('/delete', 'ScenariosController@delete');
 });
 
-/** Routes interactions */
 $router->group(['middleware' => ['auth'], 'prefix' => 'interactions'], function () use ($router) {
   $router->post('/create', 'InteractionsController@create');
   $router->get('/read', 'InteractionsController@read');
@@ -47,7 +41,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'interactions'], function 
   $router->delete('/delete', 'InteractionsController@delete');
 });
 
-/** Routes interactions board */
 $router->group(['middleware' => ['auth'], 'prefix' => 'interactions-board'], function () use ($router) {
   $router->post('/create', 'InteractionsBoardController@create');
   $router->get('/read', 'InteractionsBoardController@read');
@@ -55,7 +48,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'interactions-board'], fun
   $router->delete('/delete', 'InteractionsBoardController@delete');
 });
 
-/** Routes characters */
 $router->group(['middleware' => ['auth'], 'prefix' => 'characters'], function () use ($router) {
     $router->post('/create', 'CharactersController@create');
     $router->get('/read', 'CharactersController@read');
@@ -63,7 +55,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'characters'], function ()
     $router->delete('/delete', 'CharactersController@delete');
 });
 
-/** Routes features */
 $router->group(['middleware' => ['auth'], 'prefix' => 'features'], function () use ($router) {
   $router->post('/create', 'FeaturesController@create');
   $router->get('/read', 'FeaturesController@read');
@@ -71,7 +62,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'features'], function () u
   $router->delete('/delete', 'FeaturesController@delete');
 });
 
-/** Routes abilities */
 $router->group(['middleware' => ['auth'], 'prefix' => 'abilities'], function () use ($router) {
   $router->post('/create', 'AbilitiesController@create');
   $router->get('/read', 'AbilitiesController@read');
@@ -79,7 +69,6 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'abilities'], function () 
   $router->delete('/delete', 'AbilitiesController@delete');
 });
 
-/** Routes items */
 $router->group(['middleware' => ['auth'], 'prefix' => 'items'], function () use ($router) {
   $router->post('/create', 'ItemsController@create');
   $router->get('/read', 'ItemsController@read');

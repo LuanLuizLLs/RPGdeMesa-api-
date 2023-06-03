@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-  /**
-   * Controller Users
-   */
-
   function create(Request $request)
   {
     $model = Users::where('name', $request->name)->first();

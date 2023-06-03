@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 
 class InteractionsBoardController extends Controller
 {
-  /**
-   * Controller InteractionsBoard
-   */
-
   function create(Request $request)
   {
     $interaction = Interactions::where('id', $request->id_interaction)->first();

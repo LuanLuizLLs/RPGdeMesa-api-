@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 
 class CharactersController extends Controller
 {
-  /**
-   * Controller Characters
-   */
-
   function create(Request $request)
   {
     $user = Users::where('id', $request->id_user)->first();

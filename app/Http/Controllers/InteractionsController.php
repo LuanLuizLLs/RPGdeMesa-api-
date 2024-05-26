@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campaigns;
 use App\Models\Interactions;
+use App\Models\InteractionsBoard;
 use Illuminate\Http\Request;
 
 class InteractionsController extends Controller
@@ -83,6 +84,15 @@ class InteractionsController extends Controller
       return response()->json([
         'status' => 'error',
         'message' => 'Interação não encontrada',
+      ], 400);
+    }
+
+    $interactions_board = InteractionsBoard::where('id_interaction', $request->id)->first();
+
+    if ($interactions_board) {
+      return response()->json([
+        'status' => 'warning',
+        'message' => 'Interação em uso',
       ], 400);
     }
 

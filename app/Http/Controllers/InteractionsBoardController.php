@@ -31,12 +31,15 @@ class InteractionsBoardController extends Controller
 
   public function read(Request $request)
   {
-    $model = InteractionsBoard::select('*')
+    $model = InteractionsBoard::select(['interactions.*', 'interactions_board.*'])
+      ->join('interactions', 'interactions_board.id_interaction', 'interactions.id')
       ->where(function ($query) use ($request) {
         if (isset($request->id))
-          $query = $query->where('id', $request->id);
+          $query = $query->where('interactions.id', $request->id);
         if (isset($request->id_interaction))
-          $query = $query->where('id_interaction', $request->id_interaction);
+          $query = $query->where('interactions.id_interaction', $request->id_interaction);
+        if (isset($request->id_campaign))
+          $query = $query->where('id_campaign', $request->id_campaign);
       })
       ->get()
       ->load(['shape']);

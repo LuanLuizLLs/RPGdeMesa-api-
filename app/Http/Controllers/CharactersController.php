@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SseEvent;
 use App\Models\Users;
 use App\Models\Characters;
 use Illuminate\Http\Request;
@@ -92,6 +93,8 @@ class CharactersController extends Controller
 
     $data = array_intersect_key($request->all(), $model->getCasts());
     Characters::where('id', $request->id)->update($data);
+
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

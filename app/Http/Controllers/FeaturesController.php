@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SseEvent;
 use App\Models\Features;
 use App\Models\Characters;
 use Illuminate\Http\Request;
@@ -32,6 +33,8 @@ class FeaturesController extends Controller
     $model->create($data);
 
     Characters::where('id', $request->id_character)->update($attributes);
+    
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -79,6 +82,8 @@ class FeaturesController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Features::where('id', $request->id)->update($data);
 
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
+
     return response()->json([
       'status' => 'success',
       'message' => 'Característica atualizada',
@@ -107,6 +112,8 @@ class FeaturesController extends Controller
       'wisdom' => $character->wisdom - $model->wisdom,
       'charisma' => $character->charisma - $model->charisma,
     ]);
+
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

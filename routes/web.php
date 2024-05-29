@@ -6,6 +6,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->group(['middleware' => ['auth'], 'prefix' => 'services'], function () use ($router) {
+  $router->get('/sse', 'SseController@index');
+});
+
 $router->group(['middleware' => ['auth'], 'prefix' => 'users'], function () use ($router) {
     $router->post('/create', 'UsersController@create');
     $router->get('/read', 'UsersController@read');

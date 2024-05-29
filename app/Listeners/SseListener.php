@@ -2,11 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\ExampleEvent;
+use App\Models\Sse;
+use App\Events\SseEvent;
+use App\Http\Controllers\SseController;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
-class ExampleListener
+class SseListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -21,11 +22,12 @@ class ExampleListener
     /**
      * Handle the event.
      *
-     * @param  \App\Events\ExampleEvent  $event
+     * @param  \App\Events\SseEvent  $event
      * @return void
      */
-    public function handle(ExampleEvent $event)
+    public function handle(SseEvent $event)
     {
-        //
+      $sse = new SseController();
+      $sse->event($event);
     }
 }

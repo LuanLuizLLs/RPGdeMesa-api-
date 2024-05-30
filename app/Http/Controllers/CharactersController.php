@@ -61,9 +61,10 @@ class CharactersController extends Controller
 
       if ($character->id_campaign != $request->campaign && $character->id_user != $request->user) {
         return response()->json([
-          'status' => 'error',
+          'blocked' => true,
+          'status' => 'warning',
           'message' => 'Usuário não permitido',
-        ], 400);
+        ], 200);
       }
     }
 

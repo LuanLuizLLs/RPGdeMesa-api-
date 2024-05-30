@@ -51,6 +51,18 @@ class CampaignsController extends Controller
       ], 202);
     }
 
+    if ($request->user) {
+      $character = $model->first();
+
+      if ($character->id_user != $request->user) {
+        return response()->json([
+          'blocked' => true,
+          'status' => 'warning',
+          'message' => 'Usuário não permitido',
+        ], 200);
+      }
+    }
+
     return response()->json([
       'status' => 'success',
       'message' => 'Campanha encontrada',

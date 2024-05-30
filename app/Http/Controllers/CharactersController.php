@@ -60,8 +60,8 @@ class CharactersController extends Controller
     if ($request->user) {
       $character = $model->first();
       $campaing = Campaigns::where('id', $character->id_campaign)->first();
-      
-      if (!in_array($request->user, [$character->id_user, $campaing->id_user])) {
+
+      if (!in_array($request->user, [$character['id_user'], $campaing['id_user']])) {
         return response()->json([
           'blocked' => true,
           'status' => 'warning',

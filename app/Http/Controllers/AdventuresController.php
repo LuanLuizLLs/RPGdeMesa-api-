@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SseEvent;
 use App\Models\Campaigns;
 use App\Models\Adventures;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class AdventuresController extends Controller
     Campaigns::where('id', $request->id_campaign)->update([
       'id_adventure' => $adventure_created->id
     ]);
+
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -77,6 +80,8 @@ class AdventuresController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Adventures::where('id', $request->id)->update($data);
 
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
+
     return response()->json([
       'status' => 'success',
       'message' => 'Aventura atualizada',
@@ -98,6 +103,8 @@ class AdventuresController extends Controller
     Campaigns::where('id_adventure', $request->id)->update([
       'id_adventure' => null
     ]);
+
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

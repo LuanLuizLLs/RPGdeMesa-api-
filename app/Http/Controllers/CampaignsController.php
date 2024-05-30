@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SseEvent;
 use App\Models\Users;
 use App\Models\Campaigns;
 use Illuminate\Http\Request;
@@ -22,6 +23,8 @@ class CampaignsController extends Controller
     $model = new Campaigns();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
+
+    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -69,6 +72,8 @@ class CampaignsController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Campaigns::where('id', $request->id)->update($data);
 
+    event(new SseEvent('master', date('Y-m-d H:i:s')));
+
     return response()->json([
       'status' => 'success',
       'message' => 'Campanha atualizada',
@@ -87,6 +92,8 @@ class CampaignsController extends Controller
     }
 
     Campaigns::where('id', $request->id)->delete();
+
+    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

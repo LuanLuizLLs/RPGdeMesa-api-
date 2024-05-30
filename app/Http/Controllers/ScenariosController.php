@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SseEvent;
 use App\Models\Campaigns;
 use App\Models\Scenarios;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class ScenariosController extends Controller
     Campaigns::where('id', $request->id_campaign)->update([
       'id_scenery' => $scenery_created->id
     ]);
+
+    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -77,6 +80,8 @@ class ScenariosController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Scenarios::where('id', $request->id)->update($data);
 
+    event(new SseEvent('master', date('Y-m-d H:i:s')));
+
     return response()->json([
       'status' => 'success',
       'message' => 'Cenário atualizado',
@@ -98,6 +103,8 @@ class ScenariosController extends Controller
     Campaigns::where('id_adventure', $request->id)->update([
       'id_adventure' => null
     ]);
+
+    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

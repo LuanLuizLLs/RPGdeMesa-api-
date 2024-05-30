@@ -27,6 +27,8 @@ class CharactersController extends Controller
     $data['coins'] = $model->mentalCapacity($data);
     $model->create($data);
 
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
+
     return response()->json([
       'status' => 'success',
       'message' => 'Personagem criado',
@@ -114,6 +116,8 @@ class CharactersController extends Controller
     }
 
     Characters::where('id', $request->id)->delete();
+
+    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

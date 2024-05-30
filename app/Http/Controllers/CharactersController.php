@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\SseEvent;
 use App\Models\Users;
 use App\Models\Characters;
+use App\Models\Campaigns;
 use Illuminate\Http\Request;
 
 class CharactersController extends Controller
@@ -56,10 +57,11 @@ class CharactersController extends Controller
       ], 202);
     }
 
-    if ($request->user || $request->campaign) {
+    if ($request->user) {
       $character = $model->first();
-
-      if ($character->id_campaign != $request->campaign && $character->id_user != $request->user) {
+      $campaing = Campaigns::where('id', $character->id_campaign)->first();
+      
+      if (!in_array($request->user, [$character->id_user, $campaing->id_user])) {
         return response()->json([
           'blocked' => true,
           'status' => 'warning',

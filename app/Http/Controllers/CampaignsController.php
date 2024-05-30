@@ -45,6 +45,7 @@ class CampaignsController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
+        'blocked' => true,
         'status' => 'warning',
         'message' => 'Campanha não encontrada',
         'response' => $model,
@@ -59,7 +60,7 @@ class CampaignsController extends Controller
           'blocked' => true,
           'status' => 'warning',
           'message' => 'Usuário não permitido',
-        ], 200);
+        ], 202);
       }
     }
 

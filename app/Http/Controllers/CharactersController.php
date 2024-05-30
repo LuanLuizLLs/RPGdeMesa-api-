@@ -51,6 +51,7 @@ class CharactersController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
+        'blocked' => true,
         'status' => 'warning',
         'message' => 'Personagem não encontrado',
         'response' => $model,
@@ -66,7 +67,7 @@ class CharactersController extends Controller
           'blocked' => true,
           'status' => 'warning',
           'message' => 'Usuário não permitido',
-        ], 200);
+        ], 202);
       }
     }
 

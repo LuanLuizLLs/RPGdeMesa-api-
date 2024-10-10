@@ -52,6 +52,20 @@ $router->group(['middleware' => ['auth'], 'prefix' => 'interactions-board'], fun
   $router->delete('/delete', 'InteractionsBoardController@delete');
 });
 
+$router->group(['middleware' => ['auth'], 'prefix' => 'explorations'], function () use ($router) {
+  $router->post('/create', 'ExplorationsController@create');
+  $router->get('/read', 'ExplorationsController@read');
+  $router->patch('/update', 'ExplorationsController@update');
+  $router->delete('/delete', 'ExplorationsController@delete');
+});
+
+$router->group(['middleware' => ['auth'], 'prefix' => 'explorations-board'], function () use ($router) {
+  $router->post('/create', 'ExplorationsBoardController@create');
+  $router->get('/read', 'ExplorationsBoardController@read');
+  $router->patch('/update', 'ExplorationsBoardController@update');
+  $router->delete('/delete', 'ExplorationsBoardController@delete');
+});
+
 $router->group(['middleware' => ['auth'], 'prefix' => 'characters'], function () use ($router) {
     $router->post('/create', 'CharactersController@create');
     $router->get('/read', 'CharactersController@read');

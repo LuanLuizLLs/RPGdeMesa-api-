@@ -15,7 +15,7 @@ class CreateInteractionsTable extends Migration
   {
     Schema::create('interactions', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
+      $table->foreignId('id_adventure')->constrained()->references('id')->on('adventures');
       $table->string('name');
       $table->string('description');
       $table->integer('life');

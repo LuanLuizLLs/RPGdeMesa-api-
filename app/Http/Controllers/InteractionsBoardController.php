@@ -39,8 +39,8 @@ class InteractionsBoardController extends Controller
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('interactions.id', $request->id);
-        if (isset($request->id_campaign))
-          $query = $query->where('interactions.id_campaign', $request->id_campaign);
+        if (isset($request->id_adventure))
+          $query = $query->where('interactions.id_adventure', $request->id_adventure);
         if (isset($request->id_interaction))
           $query = $query->where('interactions.id_interaction', $request->id_interaction);
       })

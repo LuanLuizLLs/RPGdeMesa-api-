@@ -12,7 +12,7 @@ class Explorations extends Model
   protected $table = 'explorations';
 
   public const ID = 'id';
-  public const ID_CAMPAIGN = 'id_campaign';
+  public const ID_SCENERY = 'id_scenery';
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
   public const HORIZONTAL = 'horizontal';
@@ -20,7 +20,7 @@ class Explorations extends Model
 
   protected $fillable = [
     self::ID,
-    self::ID_CAMPAIGN,
+    self::ID_SCENERY,
     self::NAME,
     self::DESCRIPTION,
     self::HORIZONTAL,
@@ -29,7 +29,7 @@ class Explorations extends Model
 
   protected $casts = [
     self::ID => 'integer',
-    self::ID_CAMPAIGN => 'integer',
+    self::ID_SCENERY => 'integer',
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
     self::HORIZONTAL => 'integer',

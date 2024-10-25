@@ -18,6 +18,9 @@ class CreateScenariosTable extends Migration
       $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
       $table->string('name');
       $table->string('description');
+      $table->string('region');
+      $table->string('culture');
+      $table->softDeletes();
       $table->timestamps();
     });
   }

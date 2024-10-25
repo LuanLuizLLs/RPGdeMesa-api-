@@ -15,7 +15,7 @@ class CreateExplorationsTable extends Migration
     {
         Schema::create('explorations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
+            $table->foreignId('id_scenery')->constrained()->references('id')->on('scenarios');
             $table->string('name');
             $table->string('description');
             $table->integer('horizontal');

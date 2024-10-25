@@ -64,8 +64,8 @@ class ExplorationsBoardController extends Controller
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('explorations.id', $request->id);
-        if (isset($request->id_campaign))
-          $query = $query->where('explorations.id_campaign', $request->id_campaign);
+        if (isset($request->id_scenery))
+          $query = $query->where('explorations.id_scenery', $request->id_scenery);
         if (isset($request->active))
           $query = $query->where('explorations_board.active', $request->active);
         

@@ -18,6 +18,9 @@ class CreateAdventuresTable extends Migration
       $table->foreignId('id_campaign')->constrained()->references('id')->on('campaigns');
       $table->string('name');
       $table->string('description');
+      $table->string('goal');
+      $table->string('reward');
+      $table->softDeletes();
       $table->timestamps();
     });
   }

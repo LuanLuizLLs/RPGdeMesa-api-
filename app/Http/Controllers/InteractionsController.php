@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\SseEvent;
-use App\Models\Campaigns;
+use App\Models\Adventures;
 use App\Models\Interactions;
 use App\Models\InteractionsBoard;
 use Illuminate\Http\Request;
@@ -12,12 +12,12 @@ class InteractionsController extends Controller
 {
   function create(Request $request)
   {
-    $campaign = Campaigns::where('id', $request->id_campaign)->first();
+    $adventure = Adventures::where('id', $request->id_adventure)->first();
 
-    if (empty($campaign)) {
+    if (empty($adventure)) {
       return response()->json([
         'status' => 'error',
-        'message' => 'Campanha não encontrada',
+        'message' => 'Aventura não encontrada',
       ], 400);
     }
 
@@ -39,8 +39,8 @@ class InteractionsController extends Controller
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('id', $request->id);
-        if (isset($request->id_campaign))
-          $query = $query->where('id_campaign', $request->id_campaign);
+        if (isset($request->id_adventure))
+          $query = $query->where('id_adventure', $request->id_adventure);
       })
       ->get();
 

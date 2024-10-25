@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\SseEvent;
-use App\Models\Campaigns;
+use App\Models\Scenarios;
 use App\Models\Explorations;
 use App\Models\ExplorationsBoard;
 use Illuminate\Http\Request;
@@ -12,12 +12,12 @@ class ExplorationsController extends Controller
 {
   function create(Request $request)
   {
-    $campaign = Campaigns::where('id', $request->id_campaign)->first();
+    $scenary = Scenarios::where('id', $request->id_scenery)->first();
 
-    if (empty($campaign)) {
+    if (empty($scenary)) {
       return response()->json([
         'status' => 'error',
-        'message' => 'Campanha não encontrada',
+        'message' => 'Cenário não encontrado',
       ], 400);
     }
 
@@ -39,8 +39,8 @@ class ExplorationsController extends Controller
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('id', $request->id);
-        if (isset($request->id_campaign))
-          $query = $query->where('id_campaign', $request->id_campaign);
+        if (isset($request->id_scenery))
+          $query = $query->where('id_scenery', $request->id_scenery);
         if (isset($request->active))
           $query = $query->where('active', $request->active);
       })

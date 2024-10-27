@@ -107,7 +107,7 @@ class Characters extends Model
     return $character['intelligence'] + $character['wisdom'] + $character['charisma'];
   }
 
-  static function reduceActions($id_character = 0, $reduce = 1): void
+  static function reduceActions($id_character = 0, $reduce = 0): void
   {
     $character = Characters::where('id', $id_character)->first();
     Characters::where('id', $id_character)->update([
@@ -115,7 +115,7 @@ class Characters extends Model
     ]);
   }
 
-  static function reduceCoins($id_character = 0, $reduce = 1): void
+  static function reduceCoins($id_character = 0, $reduce = 0): void
   {
     $character = Characters::where('id', $id_character)->first();
     Characters::where('id', $id_character)->update([

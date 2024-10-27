@@ -27,16 +27,15 @@ class AbilitiesController extends Controller
         'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
+    
+    if ($request->level > $character->actions) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Quantidade de ações insuficiente',
+      ], 400);
+    }
 
-    if ($request->user === $character->id_user)
-      if ($character->actions < 1) {
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Personagem não possui ações',
-        ], 400);
-      } elseif ($request->user === $character->id_user) {
-        Characters::reduceActions($request->id_character, $request->level);
-      }
+    Characters::reduceActions($request->id_character, $request->level);
 
     $model = new Abilities();
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -78,9 +77,10 @@ class AbilitiesController extends Controller
 
   public function update(Request $request)
   {
+    $modifier = 1;
     $model = Abilities::where('id', $request->id)->first();
     $character = Characters::where('id', $model->id_character)->first();
-    $quantity_abilities = Abilities::quantityAbilities($model->id_character);
+    $quantity_abilities = Abilities::quantityAbilities($model->id_character, $modifier);
 
     if (empty($model)) {
       return response()->json([
@@ -89,28 +89,28 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($quantity_abilities >= $character->mental_capacity) {
+    if ($quantity_abilities > $character->mental_capacity) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
+    
+    if ($character->actions < $modifier) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Quantidade de ações insuficiente',
+      ], 400);
+    }
 
-    if ($request->user === $character->id_user)
-      if ($character->actions < 1) {
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Personagem não possui ações',
-        ], 400);
-      } elseif ($request->user === $character->id_user) {
-        if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
-          return response()->json([
-            'status' => 'error',
-            'message' => 'Habilidade atingiu o nível máximo',
-          ], 400);
-        }
-        Characters::reduceActions($model->id_character);
-      }
+    if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Habilidade atingiu o nível máximo',
+      ], 400);
+    }
+
+    Characters::reduceActions($model->id_character, $modifier);
 
     $data = array_intersect_key($request->all(), $model->getCasts());
     Abilities::where('id', $request->id)->update($data);

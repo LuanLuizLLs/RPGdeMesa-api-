@@ -67,7 +67,7 @@ class CharactersController extends Controller
           'blocked' => true,
           'status' => 'warning',
           'message' => 'Usuário não permitido',
-        ], 202);
+        ], 401);
       }
     }
 

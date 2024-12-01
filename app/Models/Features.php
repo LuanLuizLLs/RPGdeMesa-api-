@@ -44,4 +44,19 @@ class Features extends Model
     self::WISDOW => 'integer',
     self::CHARISMA => 'integer',
   ];
+
+  protected $appends = [
+    'modifier',
+  ];
+
+  public function getModifierAttribute() {
+    return array_sum([
+      $this->strength,
+      $this->dexterity,
+      $this->constitution,
+      $this->intelligence,
+      $this->wisdom,
+      $this->charisma,
+    ]);
+  }
 }

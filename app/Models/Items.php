@@ -38,13 +38,10 @@ class Items extends Model
     self::LEVEL => 'integer',
   ];
 
-  static public function quantityItems($id_character, $quantity = 0)
+  static public function quantityItems($id_character, $quantity = 0): int
   {
-    $items = Items::where('id_character', $id_character)->get();
+    $quantity = Items::where('id_character', $id_character)->sum('level');
     
-    foreach ($items->all() as $item) {
-      $quantity += $item->level;
-    }
-    return $quantity;
+    return (int) $quantity;
   }
 }

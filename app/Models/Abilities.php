@@ -37,11 +37,8 @@ class Abilities extends Model
 
   static public function quantityAbilities($id_character, $quantity = 0)
   {
-    $abilities = Abilities::where('id_character', $id_character)->get();
-
-    foreach ($abilities->all() as $item) {
-      $quantity += $item->level;
-    }
-    return $quantity;
+    $quantity = Abilities::where('id_character', $id_character)->sum('level');
+    
+    return (integer) $quantity;
   }
 }

@@ -72,39 +72,46 @@ class Characters extends Model
   ];
 
   protected $appends = [
-    'life_capacity',
-    'physical_capacity',
-    'mental_capacity',
+    'capacity',
   ];
 
-  public function getLifeCapacityAttribute()
+  public function getCapacityAttribute()
   {
-    return $this->strength + $this->dexterity + $this->constitution + $this->intelligence + $this->wisdom + $this->charisma;
+    return [
+      'life' => $this->lifeCapacity($this),
+      'physical' => $this->physicalCapacity($this),
+      'mental' => $this->mentalCapacity($this),
+    ];
   }
 
-  public function getPhysicalCapacityAttribute()
+  public function lifeCapacity($character = []): int
   {
-    return $this->strength + $this->dexterity + $this->constitution;
+    return array_sum([
+      $character['strength'],
+      $character['dexterity'],
+      $character['constitution'],
+      $character['intelligence'],
+      $character['wisdom'],
+      $character['charisma'],
+    ]);
   }
 
-  public function getMentalCapacityAttribute()
+  public function physicalCapacity($character = []): int
   {
-    return $this->intelligence + $this->wisdom + $this->charisma;
+    return array_sum([
+      $character['strength'],
+      $character['dexterity'],
+      $character['constitution'],
+    ]);
   }
 
-  public function lifeCapacity($character = [])
+  public function mentalCapacity($character = []): int
   {
-    return $character['strength'] + $character['dexterity'] + $character['constitution'] + $character['intelligence'] + $character['wisdom'] + $character['charisma'];
-  }
-
-  public function physicalCapacity($character = [])
-  {
-    return $character['strength'] + $character['dexterity'] + $character['constitution'];
-  }
-
-  public function mentalCapacity($character = [])
-  {
-    return $character['intelligence'] + $character['wisdom'] + $character['charisma'];
+    return array_sum([
+      $character['intelligence'],
+      $character['wisdom'],
+      $character['charisma'],
+    ]);
   }
 
   static function reduceActions($id_character = 0, $reduce = 0): void

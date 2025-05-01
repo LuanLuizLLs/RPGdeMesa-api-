@@ -89,13 +89,12 @@ class CharactersController extends Controller
       ], 400);
     }
 
-    if ($request->life)
-      if ($request->life > $model->life_capacity) {
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Vida no limite máximo',
-        ], 400);
-      }
+    if ($request->life > $model->capacity['life']) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Vida no limite máximo',
+      ], 400);
+    }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
     Characters::where('id', $request->id)->update($data);

@@ -21,7 +21,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($quantity_abilities > $character->mental_capacity) {
+    if ($quantity_abilities > $character->capacity['mental']) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
@@ -89,7 +89,7 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($quantity_abilities > $character->mental_capacity) {
+    if ($quantity_abilities > $character->capacity['mental']) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',

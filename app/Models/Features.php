@@ -49,7 +49,7 @@ class Features extends Model
     'modifier',
   ];
 
-  public function getModifierAttribute() {
+  public function getModifierAttribute(): int {
     return array_sum([
       $this->strength,
       $this->dexterity,
@@ -58,5 +58,18 @@ class Features extends Model
       $this->wisdom,
       $this->charisma,
     ]);
+  }
+
+  public function sumAttributes($id): object {
+    return Features::where('id_character', $id)
+      ->selectRaw('
+        SUM(strength) as strength_total,
+        SUM(dexterity) as dexterity_total,
+        SUM(constitution) as constitution_total,
+        SUM(intelligence) as intelligence_total,
+        SUM(wisdom) as wisdom_total,
+        SUM(charisma) as charisma_total
+      ')
+      ->first();
   }
 }

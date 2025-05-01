@@ -12,15 +12,7 @@ class FeaturesController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    $attributes = [
-      'strength' => $character->strength + $request->strength,
-      'dexterity' => $character->dexterity + $request->dexterity,
-      'constitution' => $character->constitution + $request->constitution,
-      'intelligence' => $character->intelligence + $request->intelligence,
-      'wisdom' => $character->wisdom + $request->wisdom,
-      'charisma' => $character->charisma + $request->charisma,
-    ];
-
+    
     if (empty($character)) {
       return response()->json([
         'status' => 'error',
@@ -31,8 +23,6 @@ class FeaturesController extends Controller
     $model = new Features();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
-
-    Characters::where('id', $request->id_character)->update($attributes);
     
     event(new SseEvent('player', date('Y-m-d H:i:s')));
 
@@ -93,7 +83,6 @@ class FeaturesController extends Controller
   public function delete(Request $request)
   {
     $model = Features::where('id', $request->id)->first();
-    $character = Characters::where('id', $model->id_character)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -103,15 +92,6 @@ class FeaturesController extends Controller
     }
 
     Features::where('id', $request->id)->delete();
-
-    Characters::where('id', $model->id_character)->update([
-      'strength' => $character->strength - $model->strength,
-      'dexterity' => $character->dexterity - $model->dexterity,
-      'constitution' => $character->constitution - $model->constitution,
-      'intelligence' => $character->intelligence - $model->intelligence,
-      'wisdom' => $character->wisdom - $model->wisdom,
-      'charisma' => $character->charisma - $model->charisma,
-    ]);
 
     event(new SseEvent('player', date('Y-m-d H:i:s')));
 

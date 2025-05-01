@@ -21,7 +21,7 @@ class ItemsController extends Controller
       ], 400);
     }
 
-    if ($quantity_items > $character->physical_capacity) {
+    if ($quantity_items > $character->capacity['physical']) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de itens atingida',
@@ -89,7 +89,7 @@ class ItemsController extends Controller
       ], 400);
     }
 
-    if ($quantity_items > $character->physical_capacity) {
+    if ($quantity_items > $character->capacity['physical']) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de itens atingida',

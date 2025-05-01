@@ -73,18 +73,33 @@ class Characters extends Model
 
   protected $appends = [
     'capacity',
+    'modified',
   ];
 
-  public function getCapacityAttribute()
-  {
+  public function getCapacityAttribute(): array {
+    $attributes = $this->getModifiedAttribute();
+
     return [
-      'life' => $this->lifeCapacity($this),
-      'physical' => $this->physicalCapacity($this),
-      'mental' => $this->mentalCapacity($this),
+      'life' => $this->lifeCapacity($attributes),
+      'physical' => $this->physicalCapacity($attributes),
+      'mental' => $this->mentalCapacity($attributes),
     ];
   }
 
-  public function lifeCapacity($character = []): int
+  public function getModifiedAttribute(): array {
+    $features = Features::sumAttributes($this->id);
+
+    return [
+      'strength' => (int) $features->strength_total + $this->strength,
+      'dexterity' => (int) $features->dexterity_total + $this->dexterity,
+      'constitution' => (int) $features->constitution_total + $this->constitution,
+      'intelligence' => (int) $features->intelligence_total + $this->intelligence,
+      'wisdom' => (int) $features->wisdom_total + $this->wisdom,
+      'charisma' => (int) $features->charisma_total + $this->charisma,
+    ];
+  }
+
+  public function lifeCapacity(array $character): int
   {
     return array_sum([
       $character['strength'],
@@ -96,7 +111,7 @@ class Characters extends Model
     ]);
   }
 
-  public function physicalCapacity($character = []): int
+  public function physicalCapacity(array $character): int
   {
     return array_sum([
       $character['strength'],
@@ -105,7 +120,7 @@ class Characters extends Model
     ]);
   }
 
-  public function mentalCapacity($character = []): int
+  public function mentalCapacity(array $character): int
   {
     return array_sum([
       $character['intelligence'],
@@ -114,7 +129,7 @@ class Characters extends Model
     ]);
   }
 
-  static function reduceActions($id_character = 0, $reduce = 0): void
+  static function reduceActions(int $id_character = 0, int $reduce = 0): void
   {
     $character = Characters::where('id', $id_character)->first();
     Characters::where('id', $id_character)->update([
@@ -122,7 +137,7 @@ class Characters extends Model
     ]);
   }
 
-  static function reduceCoins($id_character = 0, $reduce = 0): void
+  static function reduceCoins(int $id_character = 0, int $reduce = 0): void
   {
     $character = Characters::where('id', $id_character)->first();
     Characters::where('id', $id_character)->update([

@@ -27,6 +27,13 @@ class AbilitiesController extends Controller
         'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
+
+    if ($request->level > Abilities::MAX_LEVEL_ABILITY) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Habilidade atingiu o nível máximo',
+      ], 400);
+    }
     
     $model = new Abilities();
     $data = array_intersect_key($request->all(), $model->getCasts());

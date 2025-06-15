@@ -12,7 +12,7 @@ class ItemsController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    $quantity_items = Items::quantityItems($request->id_character, $request->level);
+    $quantity_items = Items::quantityItems($request->id_character);
 
     if (empty($character)) {
       return response()->json([
@@ -21,22 +21,20 @@ class ItemsController extends Controller
       ], 400);
     }
 
-    if ($quantity_items > $character->capacity['physical']) {
+    if ($quantity_items >= $character->capacity['physical']) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de itens atingida',
       ], 400);
     }
 
-    if ($request->level > $character->coins) {
+    if ($request->level > Items::MAX_LEVEL_ITEMS) {
       return response()->json([
         'status' => 'error',
-        'message' => 'Quantidade de moedas insuficiente',
+        'message' => 'Item atingiu o nível máximo',
       ], 400);
     }
 
-    Characters::reduceCoins($request->id_character, $request->level);
-    
     $model = new Items();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
@@ -77,29 +75,12 @@ class ItemsController extends Controller
 
   public function update(Request $request)
   {
-    $modifier = 1;
     $model = Items::where('id', $request->id)->first();
-    $character = Characters::where('id', $model->id_character)->first();
-    $quantity_items = Items::quantityItems($model->id_character, $modifier);
 
     if (empty($model)) {
       return response()->json([
         'status' => 'error',
         'message' => 'Item não encontrado',
-      ], 400);
-    }
-
-    if ($quantity_items > $character->capacity['physical']) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Capacidade de itens atingida',
-      ], 400);
-    }
-
-    if ($character->coins < $modifier) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Quantidade de moedas insuficiente',
       ], 400);
     }
 
@@ -110,8 +91,6 @@ class ItemsController extends Controller
       ], 400);
     }
     
-    Characters::reduceCoins($model->id_character, $modifier);
-
     $data = array_intersect_key($request->all(), $model->getCasts());
     Items::where('id', $request->id)->update($data);
 

@@ -38,9 +38,9 @@ class Items extends Model
     self::LEVEL => 'integer',
   ];
 
-  static public function quantityItems($id_character, $quantity = 0): int
+  static public function quantityItems($id_character): int
   {
-    $quantity = Items::where('id_character', $id_character)->sum('level');
+    $quantity = Items::where('id_character', $id_character)->count();
     
     return (int) $quantity;
   }

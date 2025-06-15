@@ -117,7 +117,7 @@ class Characters extends Model
       $character['strength'],
       $character['dexterity'],
       $character['constitution'],
-    ]) / 3;
+    ]);
   }
 
   public function mentalCapacity(array $character): int
@@ -126,7 +126,7 @@ class Characters extends Model
       $character['intelligence'],
       $character['wisdom'],
       $character['charisma'],
-    ]) / 3;
+    ]);
   }
 
   static function reduceActions(int $id_character = 0, int $reduce = 0): void

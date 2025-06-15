@@ -12,7 +12,7 @@ class AbilitiesController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    $quantity_abilities = Abilities::quantityAbilities($request->id_character, $request->level);
+    $quantity_abilities = Abilities::quantityAbilities($request->id_character);
 
     if (empty($character)) {
       return response()->json([
@@ -21,22 +21,13 @@ class AbilitiesController extends Controller
       ], 400);
     }
 
-    if ($quantity_abilities > $character->capacity['mental']) {
+    if ($quantity_abilities >= $character->capacity['mental']) {
       return response()->json([
         'status' => 'error',
         'message' => 'Capacidade de habilidades atingida',
       ], 400);
     }
     
-    if ($request->level > $character->actions) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Quantidade de ações insuficiente',
-      ], 400);
-    }
-
-    Characters::reduceActions($request->id_character, $request->level);
-
     $model = new Abilities();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
@@ -77,29 +68,12 @@ class AbilitiesController extends Controller
 
   public function update(Request $request)
   {
-    $modifier = 1;
     $model = Abilities::where('id', $request->id)->first();
-    $character = Characters::where('id', $model->id_character)->first();
-    $quantity_abilities = Abilities::quantityAbilities($model->id_character, $modifier);
 
     if (empty($model)) {
       return response()->json([
         'status' => 'error',
         'message' => 'Habilidade não encontrada',
-      ], 400);
-    }
-
-    if ($quantity_abilities > $character->capacity['mental']) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Capacidade de habilidades atingida',
-      ], 400);
-    }
-    
-    if ($character->actions < $modifier) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Quantidade de ações insuficiente',
       ], 400);
     }
 
@@ -109,8 +83,6 @@ class AbilitiesController extends Controller
         'message' => 'Habilidade atingiu o nível máximo',
       ], 400);
     }
-
-    Characters::reduceActions($model->id_character, $modifier);
 
     $data = array_intersect_key($request->all(), $model->getCasts());
     Abilities::where('id', $request->id)->update($data);

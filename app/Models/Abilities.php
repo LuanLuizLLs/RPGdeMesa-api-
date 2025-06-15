@@ -35,9 +35,9 @@ class Abilities extends Model
     self::LEVEL => 'integer',
   ];
 
-  static public function quantityAbilities($id_character, $quantity = 0): int
+  static public function quantityAbilities($id_character): int
   {
-    $quantity = Abilities::where('id_character', $id_character)->sum('level');
+    $quantity = Abilities::where('id_character', $id_character)->count();
 
     return (int) $quantity;
   }

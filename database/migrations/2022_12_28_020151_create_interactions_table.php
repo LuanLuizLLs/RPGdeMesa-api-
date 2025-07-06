@@ -19,7 +19,7 @@ class CreateInteractionsTable extends Migration
       $table->string('name');
       $table->string('description');
       $table->integer('life');
-      $table->integer('damage');
+      $table->integer('modifier');
       $table->integer('strength');
       $table->integer('dexterity');
       $table->integer('constitution');

@@ -17,7 +17,7 @@ class CreateInteractionsBoardTable extends Migration
       $table->id();
       $table->foreignId('id_interaction')->constrained()->references('id')->on('interactions');
       $table->integer('life');
-      $table->integer('damage');
+      $table->integer('modifier');
       $table->integer('strength');
       $table->integer('dexterity');
       $table->integer('constitution');

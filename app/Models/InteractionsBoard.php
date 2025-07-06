@@ -11,7 +11,7 @@ class InteractionsBoard extends Model
   public const ID = 'id';
   public const ID_INTERACTION = 'id_interaction';
   public const LIFE = 'life';
-  public const DAMAGE = 'damage';
+  public const MODIFIER = 'modifier';
   public const STRENGTH = 'strength';
   public const DEXTERITY = 'dexterity';
   public const CONSTITUTION = 'constitution';
@@ -23,7 +23,7 @@ class InteractionsBoard extends Model
     self::ID,
     self::ID_INTERACTION,
     self::LIFE,
-    self::DAMAGE,
+    self::MODIFIER,
     self::STRENGTH,
     self::DEXTERITY,
     self::CONSTITUTION,
@@ -36,7 +36,7 @@ class InteractionsBoard extends Model
     self::ID => 'integer',
     self::ID_INTERACTION => 'integer',
     self::LIFE => 'integer',
-    self::DAMAGE => 'integer',
+    self::MODIFIER => 'integer',
     self::STRENGTH => 'integer',
     self::DEXTERITY => 'integer',
     self::CONSTITUTION => 'integer',

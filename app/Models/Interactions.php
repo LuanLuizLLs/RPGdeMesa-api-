@@ -16,7 +16,7 @@ class Interactions extends Model
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
   public const LIFE = 'life';
-  public const DAMAGE = 'damage';
+  public const MODIFIER = 'modifier';
   public const STRENGTH = 'strength';
   public const DEXTERITY = 'dexterity';
   public const CONSTITUTION = 'constitution';
@@ -30,7 +30,7 @@ class Interactions extends Model
     self::NAME,
     self::DESCRIPTION,
     self::LIFE,
-    self::DAMAGE,
+    self::MODIFIER,
     self::STRENGTH,
     self::DEXTERITY,
     self::CONSTITUTION,
@@ -45,7 +45,7 @@ class Interactions extends Model
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
     self::LIFE => 'integer',
-    self::DAMAGE => 'integer',
+    self::MODIFIER => 'integer',
     self::STRENGTH => 'integer',
     self::DEXTERITY => 'integer',
     self::CONSTITUTION => 'integer',

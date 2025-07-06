@@ -14,6 +14,7 @@ class Abilities extends Model
   public const ID_CHARACTER = 'id_character';
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
+  public const ACTIVE = 'active';
   public const ATTRIBUTE = 'attribute';
   public const LEVEL = 'level';
 
@@ -22,6 +23,7 @@ class Abilities extends Model
     self::ID_CHARACTER,
     self::NAME,
     self::DESCRIPTION,
+    self::ACTIVE,
     self::ATTRIBUTE,
     self::LEVEL,
   ];
@@ -31,6 +33,7 @@ class Abilities extends Model
     self::ID_CHARACTER => 'integer',
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
+    self::ACTIVE => 'boolean',
     self::ATTRIBUTE => 'string',
     self::LEVEL => 'integer',
   ];

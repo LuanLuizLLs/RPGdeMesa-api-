@@ -18,6 +18,7 @@ class CreateAbilitiesTable extends Migration
       $table->foreignId('id_character')->constrained()->references('id')->on('characters');
       $table->string('name');
       $table->string('description');
+      $table->boolean('active');
       $table->string('attribute');
       $table->integer('level');
       $table->timestamps();

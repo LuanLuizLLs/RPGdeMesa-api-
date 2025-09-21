@@ -105,6 +105,8 @@ $app->register(App\Providers\AuthServiceProvider::class);
 
 $app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

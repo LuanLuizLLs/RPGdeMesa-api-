@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Users;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
   function create(Request $request)
   {
-    $model = Users::where('name', $request->name)->first();
+    $model = Users::where('username', $request->username)->first();
 
-    if ($model)
-      if ($model->name === $request->name) {
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Usuário já existe',
-        ], 400);
-      }
+    if ($model) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Usuário já existe',
+      ], 400);
+    }
 
     $model = new Users();
     $data = array_intersect_key($request->all(), $model->getCasts());
@@ -36,8 +36,8 @@ class UsersController extends Controller
         function ($query) use ($request) {
           if (isset($request->id))
             $query = $query->where('id', $request->id);
-          if (isset($request->name))
-            $query = $query->where('name', $request->name);
+          if (isset($request->username))
+            $query = $query->where('username', $request->username);
         }
       )->get();
 
@@ -47,20 +47,6 @@ class UsersController extends Controller
         'message' => 'Usuário não encontrado',
         'response' => $model,
       ], 202);
-    }
-
-    if ($request->password) {
-      $check_password = Users::select()
-        ->where('name', $request->name)
-        ->where('password', $request->password)
-        ->first();
-
-      if (empty($check_password)) {
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Dados inválida',
-        ], 400);
-      }
     }
 
     return response()->json([
@@ -74,8 +60,8 @@ class UsersController extends Controller
   {
     $model = Users::select()
       ->where(function ($query) use ($request) {
-        if (isset($request->name))
-          $query = $query->where('name', $request->name);
+        if (isset($request->username))
+          $query = $query->where('username', $request->username);
       })
       ->first();
 

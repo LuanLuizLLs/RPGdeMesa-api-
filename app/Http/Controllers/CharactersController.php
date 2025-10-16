@@ -3,29 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Events\SseEvent;
-use App\Models\Users;
 use App\Models\Characters;
-use App\Models\Campaigns;
 use Illuminate\Http\Request;
 
 class CharactersController extends Controller
 {
   function create(Request $request)
   {
-    $user = Users::where('id', $request->id_user)->first();
-
-    if (empty($user)) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Usuário não encontrado',
-      ], 400);
-    }
-
     $model = new Characters();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $data['life'] = $model->lifeCapacity($data);
-    $data['actions'] = $model->physicalCapacity($data);
     $data['coins'] = $model->mentalCapacity($data);
+    $data['actions'] = $model->physicalCapacity($data);
+    $data['id_user'] = auth()->user()->id;
     $model->create($data);
 
     event(new SseEvent('player', date('Y-m-d H:i:s')));
@@ -39,11 +29,10 @@ class CharactersController extends Controller
   public function read(Request $request)
   {
     $model = Characters::select()
+      ->where('id_user', auth()->user()->id)
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('id', $request->id);
-        if (isset($request->id_user))
-          $query = $query->where('id_user', $request->id_user);
         if (isset($request->id_campaign))
           $query = $query->where('id_campaign', $request->id_campaign);
       })
@@ -51,24 +40,10 @@ class CharactersController extends Controller
 
     if (empty($model->all())) {
       return response()->json([
-        'blocked' => true,
         'status' => 'warning',
         'message' => 'Personagem não encontrado',
         'response' => $model,
       ], 202);
-    }
-
-    if ($request->user) {
-      $character = $model->first();
-      $campaing = Campaigns::where('id', $character->id_campaign)->first();
-
-      if (!in_array($request->user, [$character['id_user'], $campaing['id_user']])) {
-        return response()->json([
-          'blocked' => true,
-          'status' => 'warning',
-          'message' => 'Usuário não permitido',
-        ], 401);
-      }
     }
 
     return response()->json([
@@ -86,13 +61,6 @@ class CharactersController extends Controller
       return response()->json([
         'status' => 'error',
         'message' => 'Personagem não encontrado',
-      ], 400);
-    }
-
-    if ($request->life > $model->capacity['life']) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Vida no limite máximo',
       ], 400);
     }
 

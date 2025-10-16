@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\SseEvent;
-use App\Models\Users;
 use App\Models\Campaigns;
 use Illuminate\Http\Request;
 
@@ -11,17 +10,9 @@ class CampaignsController extends Controller
 {
   function create(Request $request)
   {
-    $user = Users::where('id', $request->id_user)->first();
-
-    if (empty($user)) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Usuário não encontrado',
-      ], 400);
-    }
-
     $model = new Campaigns();
     $data = array_intersect_key($request->all(), $model->getCasts());
+    $data['id_user'] = auth()->user()->id;
     $model->create($data);
 
     event(new SseEvent('master', date('Y-m-d H:i:s')));
@@ -35,33 +26,19 @@ class CampaignsController extends Controller
   public function read(Request $request)
   {
     $model = Campaigns::select()
+      ->where('id_user', auth()->user()->id)
       ->where(function ($query) use ($request) {
         if (isset($request->id))
           $query = $query->where('id', $request->id);
-        if (isset($request->id_user))
-          $query = $query->where('id_user', $request->id_user);
       })
       ->get();
 
     if (empty($model->all())) {
       return response()->json([
-        'blocked' => true,
         'status' => 'warning',
         'message' => 'Campanha não encontrada',
         'response' => $model,
       ], 202);
-    }
-
-    if ($request->user) {
-      $character = $model->first();
-
-      if ($character->id_user != $request->user) {
-        return response()->json([
-          'blocked' => true,
-          'status' => 'warning',
-          'message' => 'Usuário não permitido',
-        ], 401);
-      }
     }
 
     return response()->json([

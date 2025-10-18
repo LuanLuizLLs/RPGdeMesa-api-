@@ -18,6 +18,13 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
   $router->patch('/recover', 'AuthController@recover');
 });
 
+$router->group(['middleware' => ['auth', 'jwt'], 'prefix' => 'notifications'], function () use ($router) {
+  $router->post('/create', 'NotificationsController@create');
+  $router->get('/read', 'NotificationsController@read');
+  $router->patch('/update', 'NotificationsController@update');
+  $router->delete('/delete', 'NotificationsController@delete');
+});
+
 $router->group(['middleware' => ['auth', 'jwt'], 'prefix' => 'users'], function () use ($router) {
   $router->post('/create', 'UsersController@create');
   $router->get('/read', 'UsersController@read');

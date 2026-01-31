@@ -13,7 +13,6 @@ class NotificationsController extends Controller
 {
   function create(Request $request)
   {
-
     switch ($request->type) {
       case NotificationTypesEnum::INVITE_CAMPAIGN:
         $character = Characters::where('id', $request->id)->first();

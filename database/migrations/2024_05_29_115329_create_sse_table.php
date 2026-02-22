@@ -15,8 +15,9 @@ class CreateSseTable extends Migration
     {
         Schema::create('sse', function (Blueprint $table) {
             $table->id();
+            $table->string('id_user')->constrained()->references('id')->on('users');
             $table->string('event');
-            $table->json('data')->nullable();
+            $table->dateTime('triggered_at');
             $table->timestamps();
         });
     }

@@ -49,6 +49,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        $response = [
+            'status' => 'error',
+            'message' => 'Ocorreu um erro no servidor',
+        ];
+
+        if (env('APP_DEBUG', false)) {
+            $response['error'] = [
+                'detail' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+            ];
+        }
+
+        return response()->json($response, 500);
     }
 }

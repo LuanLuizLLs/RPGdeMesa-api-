@@ -16,9 +16,9 @@ class CharactersController extends Controller
     $data['coins'] = $model->mentalCapacity($data);
     $data['actions'] = $model->physicalCapacity($data);
     $data['id_user'] = auth()->user()->id;
-    $model->create($data);
+    $created = $model->create($data);
 
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::PLAYER, $created->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -28,13 +28,19 @@ class CharactersController extends Controller
 
   public function read(Request $request)
   {
-    $model = Characters::select()
-      ->where('id_user', auth()->user()->id)
+    $model = Characters::select('characters.*')
+      ->selectRaw('COALESCE(campaigns.id_user, characters.id_user) as id_user')
+      ->leftJoin('campaigns', 'characters.id_campaign', '=', 'campaigns.id')
       ->where(function ($query) use ($request) {
         if (isset($request->id))
-          $query = $query->where('id', $request->id);
-        if (isset($request->id_campaign))
-          $query = $query->where('id_campaign', $request->id_campaign);
+          $query = $query->where('characters.id', $request->id);
+        if (isset($request->id_campaign)) {
+          $query = $query
+            ->where('campaigns.id_user', auth()->user()->id)
+            ->where('characters.id_campaign', $request->id_campaign);
+        } else {
+          $query = $query->where('characters.id_user', auth()->user()->id);
+        }
       })
       ->get();
 
@@ -65,9 +71,9 @@ class CharactersController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Characters::where('id', $request->id)->update($data);
+    $updated = tap($model)->update($data);
 
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::PLAYER, $updated->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -86,9 +92,9 @@ class CharactersController extends Controller
       ], 400);
     }
 
-    Characters::where('id', $request->id)->delete();
+    $deleted = tap($model)->delete();
 
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::PLAYER, $deleted->id_user));
 
     return response()->json([
       'status' => 'success',

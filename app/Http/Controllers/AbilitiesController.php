@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SseEvent;
 use App\Models\Abilities;
 use App\Models\Characters;
 use Illuminate\Http\Request;
@@ -34,12 +33,10 @@ class AbilitiesController extends Controller
         'message' => 'Habilidade atingiu o nível máximo',
       ], 400);
     }
-    
+
     $model = new Abilities();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
-
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -94,8 +91,6 @@ class AbilitiesController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Abilities::where('id', $request->id)->update($data);
 
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
-
     return response()->json([
       'status' => 'success',
       'message' => 'Habilidade atualizada',
@@ -114,8 +109,6 @@ class AbilitiesController extends Controller
     }
 
     Abilities::where('id', $request->id)->delete();
-
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

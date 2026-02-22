@@ -12,7 +12,7 @@ class FeaturesController extends Controller
   function create(Request $request)
   {
     $character = Characters::where('id', $request->id_character)->first();
-    
+
     if (empty($character)) {
       return response()->json([
         'status' => 'error',
@@ -23,8 +23,8 @@ class FeaturesController extends Controller
     $model = new Features();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
-    
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
+
+    event(new SseEvent(SseEvent::PLAYER, $character->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -72,7 +72,7 @@ class FeaturesController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Features::where('id', $request->id)->update($data);
 
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::PLAYER, $model->getUserId()));
 
     return response()->json([
       'status' => 'success',
@@ -93,7 +93,7 @@ class FeaturesController extends Controller
 
     Features::where('id', $request->id)->delete();
 
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::PLAYER, $model->getUserId()));
 
     return response()->json([
       'status' => 'success',

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SseEvent;
 use App\Models\Adventures;
 use App\Models\Interactions;
 use App\Models\InteractionsBoard;
@@ -24,8 +23,6 @@ class InteractionsController extends Controller
     $model = new Interactions();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
-
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -73,8 +70,6 @@ class InteractionsController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Interactions::where('id', $request->id)->update($data);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
-
     return response()->json([
       'status' => 'success',
       'message' => 'Interação atualizada',
@@ -102,8 +97,6 @@ class InteractionsController extends Controller
     }
 
     Interactions::where('id', $request->id)->delete();
-
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

@@ -7,24 +7,25 @@ use App\Events\SseEvent;
 
 class SseController extends Controller
 {
-  public function index()
+  public function index($id)
   {
-    $sse = Sse::select()->get();
-    return response(view('services/sse', ['sse' => $sse]), 200, ['Content-Type' => 'text/event-stream']);
+    $sse = Sse::where('id_user', $id)->get();
+    return response(view('services/sse', ['sse' => $sse]), 200, [
+      'Content-Type' => 'text/event-stream',
+      'Cache-Control' => 'no-cache',
+      'Connection' => 'keep-alive',
+    ]);
   }
 
   public function event(SseEvent $sse)
   {
-    $model = Sse::where('event', $sse->event);
-    $data = [
+    Sse::updateOrCreate([
+      ['event', $sse->event],
+      ['id_user', $sse->id_user]
+    ], [
       'event' => $sse->event,
-      'data' => $sse->data,
-    ];
-
-    if (empty($model->first())) {
-      Sse::create($data);
-    } else {
-      $model->update($data);
-    }
+      'id_user' => $sse->id_user,
+      'triggered_at' => date('Y-m-d H:i:s'),
+    ]);
   }
 }

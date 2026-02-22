@@ -32,7 +32,7 @@ class AdventuresController extends Controller
       'id_adventure' => $adventure_created->id
     ]);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::MASTER, $campaign->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -80,8 +80,6 @@ class AdventuresController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Adventures::where('id', $request->id)->update($data);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
-
     return response()->json([
       'status' => 'success',
       'message' => 'Aventura atualizada',
@@ -100,11 +98,11 @@ class AdventuresController extends Controller
     }
 
     Adventures::where('id', $request->id)->delete();
-    Campaigns::where('id_adventure', $request->id)->update([
+    $campaign = Campaigns::where('id_adventure', $request->id)->update([
       'id_adventure' => null
     ]);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::MASTER, $campaign->id_user));
 
     return response()->json([
       'status' => 'success',

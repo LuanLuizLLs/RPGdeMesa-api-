@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SseEvent;
 use App\Models\Explorations;
 use App\Models\ExplorationsBoard;
 use Illuminate\Http\Request;
@@ -11,9 +10,9 @@ class ExplorationsBoardController extends Controller
 {
   function create(Request $request)
   {
-    $interaction = Explorations::where('id', $request->id_exploration)->first();
+    $exploration = Explorations::where('id', $request->id_exploration)->first();
 
-    if (empty($interaction)) {
+    if (empty($exploration)) {
       return response()->json([
         'status' => 'error',
         'message' => 'Exploração não encontrada',
@@ -24,7 +23,7 @@ class ExplorationsBoardController extends Controller
       'active' => false
     ]);
 
-    $exploration_board = ExplorationsBoard::where('id_exploration', $request->id_exploration)->first();
+    $exploration_board = ExplorationsBoard::where('id_exploration', $exploration->id)->first();
 
     if (empty($exploration_board)) {
       $board = array_pad([], $request->horizontal, null);
@@ -32,12 +31,10 @@ class ExplorationsBoardController extends Controller
 
       $model = new ExplorationsBoard();
       $model->create([
-        'id_exploration' => $request->id_exploration,
+        'id_exploration' => $exploration->id,
         'active' => true,
         'board' => $board,
       ]);
-
-      event(new SseEvent('master', date('Y-m-d H:i:s')));
 
       return response()->json([
         'status' => 'success',
@@ -48,8 +45,6 @@ class ExplorationsBoardController extends Controller
     ExplorationsBoard::where('id_exploration', $request->id_exploration)->update([
       'active' => true,
     ]);
-
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -68,7 +63,6 @@ class ExplorationsBoardController extends Controller
           $query = $query->where('explorations.id_scenery', $request->id_scenery);
         if (isset($request->active))
           $query = $query->where('explorations_board.active', $request->active);
-        
       })
       ->get();
 
@@ -101,8 +95,6 @@ class ExplorationsBoardController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     ExplorationsBoard::where('id', $request->id)->update($data);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
-
     return response()->json([
       'status' => 'success',
       'message' => 'Exloração atualizada',
@@ -121,8 +113,6 @@ class ExplorationsBoardController extends Controller
     }
 
     ExplorationsBoard::where('id', $request->id)->delete();
-
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SseEvent;
 use App\Models\Scenarios;
 use App\Models\Explorations;
 use App\Models\ExplorationsBoard;
@@ -24,8 +23,6 @@ class ExplorationsController extends Controller
     $model = new Explorations();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
-
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -75,8 +72,6 @@ class ExplorationsController extends Controller
     $data = array_intersect_key($request->all(), $model->getCasts());
     Explorations::where('id', $request->id)->update($data);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
-
     return response()->json([
       'status' => 'success',
       'message' => 'Exploração atualizada',
@@ -107,8 +102,6 @@ class ExplorationsController extends Controller
     }
 
     Explorations::where('id', $request->id)->delete();
-
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

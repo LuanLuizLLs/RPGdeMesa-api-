@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\NotificationTypesEnum;
-use App\Enums\SseKeysEnum;
 use App\Events\SseEvent;
 use App\Models\Characters;
 use App\Models\Notifications;
@@ -28,6 +27,8 @@ class NotificationsController extends Controller
             'name_campaign' => $request->name_campaign,
           ],
         ]);
+
+        event(new SseEvent(SseEvent::NOTIFY, $character->id_user));
         break;
 
       default:
@@ -36,8 +37,6 @@ class NotificationsController extends Controller
           'message' => 'Notificação inválida',
         ], 400);
     }
-
-    event(new SseEvent(SseKeysEnum::NOTIFICATION, date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -82,9 +81,9 @@ class NotificationsController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Notifications::where('id', $request->id)->update($data);
+    $updated = tap($model)->update($data);
 
-    event(new SseEvent(SseKeysEnum::NOTIFICATION, date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::NOTIFY, $updated->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -103,9 +102,9 @@ class NotificationsController extends Controller
       ], 400);
     }
 
-    Notifications::where('id', $request->id)->delete();
+    $deleted = tap($model)->delete();
 
-    event(new SseEvent(SseKeysEnum::NOTIFICATION, date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::NOTIFY, $deleted->id_user));
 
     return response()->json([
       'status' => 'success',

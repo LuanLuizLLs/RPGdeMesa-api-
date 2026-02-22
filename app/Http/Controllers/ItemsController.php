@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SseEvent;
 use App\Models\Items;
 use App\Models\Characters;
 use Illuminate\Http\Request;
@@ -38,8 +37,6 @@ class ItemsController extends Controller
     $model = new Items();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
-
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -90,11 +87,9 @@ class ItemsController extends Controller
         'message' => 'Item atingiu o nível máximo',
       ], 400);
     }
-    
+
     $data = array_intersect_key($request->all(), $model->getCasts());
     Items::where('id', $request->id)->update($data);
-
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',
@@ -114,8 +109,6 @@ class ItemsController extends Controller
     }
 
     Items::where('id', $request->id)->delete();
-
-    event(new SseEvent('player', date('Y-m-d H:i:s')));
 
     return response()->json([
       'status' => 'success',

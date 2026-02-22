@@ -9,18 +9,21 @@ class Sse extends Model
   protected $table = 'sse';
 
   public const ID = 'id';
+  public const ID_USER = 'id_user';
   public const EVENT = 'event';
-  public const DATA = 'data';
+  public const TRIGGERED_AT = 'triggered_at';
 
   protected $fillable = [
     self::ID,
+    self::ID_USER,
     self::EVENT,
-    self::DATA,
+    self::TRIGGERED_AT,
   ];
 
   protected $casts = [
     self::ID => 'integer',
+    self::ID_USER => 'integer',
     self::EVENT => 'string',
-    self::DATA => 'string',
+    self::TRIGGERED_AT => 'datetime',
   ];
 }

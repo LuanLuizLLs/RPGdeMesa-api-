@@ -13,9 +13,9 @@ class CampaignsController extends Controller
     $model = new Campaigns();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $data['id_user'] = auth()->user()->id;
-    $model->create($data);
+    $created = $model->create($data);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::MASTER, $created->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -60,9 +60,9 @@ class CampaignsController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Campaigns::where('id', $request->id)->update($data);
+    $updated = tap($model)->update($data);
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::MASTER, $updated->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -81,9 +81,9 @@ class CampaignsController extends Controller
       ], 400);
     }
 
-    Campaigns::where('id', $request->id)->delete();
+    $deleted = tap($model)->delete();
 
-    event(new SseEvent('master', date('Y-m-d H:i:s')));
+    event(new SseEvent(SseEvent::MASTER, $deleted->id_user));
 
     return response()->json([
       'status' => 'success',

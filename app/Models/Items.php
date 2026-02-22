@@ -41,7 +41,7 @@ class Items extends Model
   static public function quantityItems($id_character): int
   {
     $quantity = Items::where('id_character', $id_character)->count();
-    
+
     return (int) $quantity;
   }
 }

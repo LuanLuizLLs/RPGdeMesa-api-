@@ -7,7 +7,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'services'], function () use ($router) {
-  $router->get('/sse', 'SseController@index');
+  $router->get('/sse/{id}', 'SseController@index');
 });
 
 $router->group(['prefix' => 'auth'], function () use ($router) {

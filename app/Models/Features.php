@@ -49,7 +49,8 @@ class Features extends Model
     'modifier',
   ];
 
-  public function getModifierAttribute(): int {
+  public function getModifierAttribute(): int
+  {
     return array_sum([
       $this->strength,
       $this->dexterity,
@@ -60,7 +61,8 @@ class Features extends Model
     ]);
   }
 
-  public function sumAttributes($id): object {
+  public function sumAttributes($id): object
+  {
     return Features::where('id_character', $id)
       ->selectRaw('
         SUM(strength) as strength_total,
@@ -71,5 +73,13 @@ class Features extends Model
         SUM(charisma) as charisma_total
       ')
       ->first();
+  }
+
+  public function getUserId()
+  {
+    return $this
+      ->select([$this->table . ".*", 'characters.id_user as id_user'])
+      ->leftJoin('characters', $this->table . '.' . $this::ID_CHARACTER, '=', 'characters.id')
+      ->value('id_user');
   }
 }

@@ -5,16 +5,20 @@ namespace App\Events;
 class SseEvent extends Event
 {
     public $event;
-    public $data;
-    
+    public $id_user;
+
+    const MASTER = 'master';
+    const PLAYER = 'player';
+    const NOTIFY = 'notify';
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($event, $data)
+    public function __construct($event, $id_user)
     {
         $this->event = $event;
-        $this->data = json_encode($data);
+        $this->id_user = $id_user;
     }
 }

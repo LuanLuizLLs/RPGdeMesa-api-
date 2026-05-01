@@ -31,14 +31,16 @@ class CharactersController extends Controller
     $model = Characters::select('characters.*')
       ->selectRaw('COALESCE(campaigns.id_user, characters.id_user) as auth_user')
       ->leftJoin('campaigns', 'characters.id_campaign', '=', 'campaigns.id')
-      ->having('auth_user', auth()->user()->id)
+      ->when(empty($request->only(['id', 'id_campaign'])), function ($query) {
+        return $query->where('characters.id_user', auth()->user()->id);
+      }, function ($query) {
+        return $query->having('auth_user', auth()->user()->id);
+      })
       ->when($request->id, function ($query, $id) {
         return $query->where('characters.id', $id);
       })
       ->when($request->id_campaign, function ($query, $id_campaign) {
-        return $query
-          ->where('campaigns.id_user', auth()->user()->id)
-          ->where('characters.id_campaign',  $id_campaign);
+        return $query->where('characters.id_campaign',  $id_campaign);
       })
       ->get();
 

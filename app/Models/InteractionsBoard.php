@@ -49,4 +49,12 @@ class InteractionsBoard extends Model
   {
     return $this->belongsTo(Interactions::class, 'id_interaction', 'id');
   }
+
+  public function getIdAdventure()
+  {
+    return $this
+      ->select('interactions.id_adventure')
+      ->leftJoin('interactions', 'interactions.id', '=', 'interactions_board.id_interaction')
+      ->value('id_adventure');
+  }
 }

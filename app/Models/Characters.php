@@ -76,7 +76,8 @@ class Characters extends Model
     'modified',
   ];
 
-  public function getCapacityAttribute(): array {
+  public function getCapacityAttribute(): array
+  {
     $attributes = $this->getModifiedAttribute();
 
     return [
@@ -86,7 +87,8 @@ class Characters extends Model
     ];
   }
 
-  public function getModifiedAttribute(): array {
+  public function getModifiedAttribute(): array
+  {
     $features = Features::sumAttributes($this->id);
 
     return [

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SseEvent;
 use App\Models\Characters;
 use Illuminate\Http\Request;
 
@@ -16,9 +15,7 @@ class CharactersController extends Controller
     $data['coins'] = $model->mentalCapacity($data);
     $data['actions'] = $model->physicalCapacity($data);
     $data['id_user'] = auth()->user()->id;
-    $created = $model->create($data);
-
-    event(new SseEvent(SseEvent::PLAYER, $created->id_user));
+    $model->create($data);
 
     return response()->json([
       'status' => 'success',
@@ -71,9 +68,7 @@ class CharactersController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    $updated = tap($model)->update($data);
-
-    event(new SseEvent(SseEvent::PLAYER, $updated->id_user));
+    $model->update($data);
 
     return response()->json([
       'status' => 'success',
@@ -92,9 +87,7 @@ class CharactersController extends Controller
       ], 400);
     }
 
-    $deleted = tap($model)->delete();
-
-    event(new SseEvent(SseEvent::PLAYER, $deleted->id_user));
+    $model->delete();
 
     return response()->json([
       'status' => 'success',

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SseEvent;
 use App\Models\Features;
 use App\Models\Characters;
 use Illuminate\Http\Request;
@@ -23,8 +22,6 @@ class FeaturesController extends Controller
     $model = new Features();
     $data = array_intersect_key($request->all(), $model->getCasts());
     $model->create($data);
-
-    event(new SseEvent(SseEvent::PLAYER, $character->id_user));
 
     return response()->json([
       'status' => 'success',
@@ -70,9 +67,7 @@ class FeaturesController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Features::where('id', $request->id)->update($data);
-
-    event(new SseEvent(SseEvent::PLAYER, $model->getUserId()));
+    $model->update($data);
 
     return response()->json([
       'status' => 'success',
@@ -91,9 +86,7 @@ class FeaturesController extends Controller
       ], 400);
     }
 
-    Features::where('id', $request->id)->delete();
-
-    event(new SseEvent(SseEvent::PLAYER, $model->getUserId()));
+    $model->delete();
 
     return response()->json([
       'status' => 'success',

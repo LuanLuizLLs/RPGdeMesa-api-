@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \BeyondCode\LaravelWebSockets\Console\StartWebSocketServer::class,
+        \BeyondCode\LaravelWebSockets\Console\CleanStatistics::class,
     ];
 
     /**

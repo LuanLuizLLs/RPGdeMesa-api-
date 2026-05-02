@@ -61,7 +61,7 @@ class Features extends Model
     ]);
   }
 
-  public function sumAttributes($id): object
+  public function sumAttributes(int $id): object
   {
     return Features::where('id_character', $id)
       ->selectRaw('
@@ -75,11 +75,11 @@ class Features extends Model
       ->first();
   }
 
-  public function getUserId()
+  public function getIdCampaign(): ?int
   {
     return $this
-      ->select([$this->table . ".*", 'characters.id_user as id_user'])
-      ->leftJoin('characters', $this->table . '.' . $this::ID_CHARACTER, '=', 'characters.id')
-      ->value('id_user');
+      ->select('characters.id_campaign')
+      ->leftJoin('characters', 'features.id_character', '=', 'characters.id')
+      ->value('id_campaign');
   }
 }

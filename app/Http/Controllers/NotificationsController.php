@@ -16,6 +16,13 @@ class NotificationsController extends Controller
       case NotificationTypesEnum::INVITE_CAMPAIGN:
         $character = Characters::where('id', $request->id)->first();
 
+        if (is_null($character)) {
+          return response()->json([
+            'status' => 'warning',
+            'message' => 'Personagem não encontrado',
+          ], 404);
+        }
+
         Notifications::create([
           'type' => $request->type,
           'id_user' => $character->id_user,

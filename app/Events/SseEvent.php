@@ -7,8 +7,6 @@ class SseEvent extends Event
     public $event;
     public $id_user;
 
-    const MASTER = 'master';
-    const PLAYER = 'player';
     const NOTIFY = 'notify';
 
     /**
@@ -16,7 +14,7 @@ class SseEvent extends Event
      *
      * @return void
      */
-    public function __construct($event, $id_user)
+    public function __construct(string $event, int $id_user)
     {
         $this->event = $event;
         $this->id_user = $id_user;

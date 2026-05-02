@@ -93,7 +93,7 @@ class ExplorationsBoardController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    ExplorationsBoard::where('id', $request->id)->update($data);
+    $model->update($data);
 
     return response()->json([
       'status' => 'success',
@@ -112,7 +112,7 @@ class ExplorationsBoardController extends Controller
       ], 400);
     }
 
-    ExplorationsBoard::where('id', $request->id)->delete();
+    $model->delete();
 
     return response()->json([
       'status' => 'success',

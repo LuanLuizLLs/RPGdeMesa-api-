@@ -26,4 +26,12 @@ class ExplorationsBoard extends Model
     self::ACTIVE => 'boolean',
     self::BOARD => 'json',
   ];
+
+  public function getIdScenery()
+  {
+    return $this
+      ->select('explorations.id_scenery')
+      ->leftJoin('explorations', 'explorations.id', '=', 'explorations_board.id_exploration')
+      ->value('id_scenery');
+  }
 }

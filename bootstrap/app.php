@@ -65,6 +65,10 @@ $app->configure('cors');
 
 $app->configure('jwt');
 
+$app->configure('websockets');
+
+$app->configure('broadcasting');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -100,11 +104,15 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 
 $app->register(App\Providers\EventServiceProvider::class);
 
-$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\ObserverServiceProvider::class);
+
+$app->register(App\Providers\BroadcastServiceProvider::class);
+
+$app->register(App\Providers\LumenWebSocketsServiceProvider::class);
 
 $app->register(Fruitcake\Cors\CorsServiceProvider::class);
 

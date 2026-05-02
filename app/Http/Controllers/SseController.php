@@ -7,7 +7,7 @@ use App\Events\SseEvent;
 
 class SseController extends Controller
 {
-  public function index($id)
+  public function index(int $id)
   {
     $sse = Sse::where('id_user', $id)->get();
     return response(view('services/sse', ['sse' => $sse]), 200, [

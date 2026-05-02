@@ -68,7 +68,7 @@ class InteractionsController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Interactions::where('id', $request->id)->update($data);
+    $model->update($data);
 
     return response()->json([
       'status' => 'success',
@@ -96,7 +96,7 @@ class InteractionsController extends Controller
       ], 400);
     }
 
-    Interactions::where('id', $request->id)->delete();
+    $model->delete();
 
     return response()->json([
       'status' => 'success',

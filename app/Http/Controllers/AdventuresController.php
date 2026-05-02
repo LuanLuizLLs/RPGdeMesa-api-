@@ -32,8 +32,6 @@ class AdventuresController extends Controller
       'id_adventure' => $adventure_created->id
     ]);
 
-    event(new SseEvent(SseEvent::MASTER, $campaign->id_user));
-
     return response()->json([
       'status' => 'success',
       'message' => 'Aventura criada',
@@ -78,7 +76,7 @@ class AdventuresController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    Adventures::where('id', $request->id)->update($data);
+    $model->update($data);
 
     return response()->json([
       'status' => 'success',
@@ -97,12 +95,11 @@ class AdventuresController extends Controller
       ], 400);
     }
 
-    Adventures::where('id', $request->id)->delete();
-    $campaign = Campaigns::where('id_adventure', $request->id)->update([
+    Campaigns::where('id', $request->id_campaign)->update([
       'id_adventure' => null
     ]);
 
-    event(new SseEvent(SseEvent::MASTER, $campaign->id_user));
+    $model->delete();
 
     return response()->json([
       'status' => 'success',

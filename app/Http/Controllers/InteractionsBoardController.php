@@ -71,7 +71,7 @@ class InteractionsBoardController extends Controller
     }
 
     $data = array_intersect_key($request->all(), $model->getCasts());
-    InteractionsBoard::where('id', $request->id)->update($data);
+    $model->update($data);
 
     return response()->json([
       'status' => 'success',
@@ -90,7 +90,7 @@ class InteractionsBoardController extends Controller
       ], 400);
     }
 
-    InteractionsBoard::where('id', $request->id)->delete();
+    $model->delete();
 
     return response()->json([
       'status' => 'success',

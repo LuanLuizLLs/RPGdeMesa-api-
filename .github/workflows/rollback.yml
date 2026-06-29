@@ -1,0 +1,28 @@
+name: Rollback
+run-name: Rollback para ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag de rollback (v#.#.#)'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rollback via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            cd /var/www/rpg-prod/RPGdeMesa-api-
+            git fetch --tags origin
+            git checkout ${{ inputs.tag }}
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            supervisorctl restart rpg-prod-websocket

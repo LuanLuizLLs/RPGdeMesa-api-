@@ -7,8 +7,8 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'tests'], function () use ($router) {
-  $router->get('views/{path}/{view}', 'ViewsController@index');
-  $router->post('mails/{content}', 'MailsController@index');
+  $router->get('views/{path}/{view}', 'TestsController@views');
+  $router->post('mails/{content}', 'TestsController@mails');
 });
 
 $router->group(['prefix' => 'services'], function () use ($router) {

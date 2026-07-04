@@ -7,9 +7,9 @@ use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class MailsController extends Controller
+class TestsController extends Controller
 {
-  public function index(Request $request, string $content)
+  public function mails(Request $request, string $content)
   {
     $faker = Factory::create();
 
@@ -21,5 +21,19 @@ class MailsController extends Controller
     ];
 
     Mail::to($request->email)->send($mail[$content]);
+  }
+
+  public function views(string $path, string $view)
+  {
+    $faker = Factory::create();
+
+    $data = [
+      'recover-password' => [
+        'user' => $faker->name(),
+        'code' => $faker->numberBetween(100000, 999999),
+      ]
+    ];
+
+    return view($path . '.' . $view, $data[$view]);
   }
 }

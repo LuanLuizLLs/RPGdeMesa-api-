@@ -63,6 +63,10 @@ $app->configure('app');
 
 $app->configure('cors');
 
+$app->configure('mail');
+
+$app->configure('view');
+
 $app->configure('jwt');
 
 $app->configure('websockets');
@@ -105,6 +109,10 @@ $app->routeMiddleware([
 */
 
 $app->register(App\Providers\AuthServiceProvider::class);
+
+$app->register(Illuminate\View\ViewServiceProvider::class);
+
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 $app->register(App\Providers\EventServiceProvider::class);
 

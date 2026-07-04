@@ -6,6 +6,11 @@ $router->get('/', function () use ($router) {
   return $router->app->version();
 });
 
+$router->group(['prefix' => 'tests'], function () use ($router) {
+  $router->get('views/{path}/{view}', 'ViewsController@index');
+  $router->post('mails/{content}', 'MailsController@index');
+});
+
 $router->group(['prefix' => 'services'], function () use ($router) {
   $router->get('/sse/{id}', 'SseController@index');
 });

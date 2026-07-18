@@ -26,7 +26,9 @@ class AuthController extends Controller
 
   public function register(Request $request)
   {
-    $model = Users::where('username', $request->username)->first();
+    $model = Users::where('username', $request->username)
+      ->orWhere('email', $request->email)
+      ->first();
 
     if ($model) {
       return response()->json([
@@ -36,6 +38,7 @@ class AuthController extends Controller
     }
 
     Users::create([
+      'email' => $request->email,
       'username' => $request->username,
       'password' => Hash::make($request->password),
     ]);
@@ -48,7 +51,9 @@ class AuthController extends Controller
 
   public function recover(Request $request)
   {
-    $model = Users::where('username', $request->username)->first();
+    $model = Users::where('username', $request->username)
+      ->orWhere('email', $request->email)
+      ->first();
 
     if (!$model) {
       return response()->json([
@@ -76,7 +81,7 @@ class AuthController extends Controller
 
   public function login()
   {
-    $credentials = request(['username', 'password']);
+    $credentials = request(['email', 'username', 'password']);
 
     if (!$token = auth()->attempt($credentials)) {
       return response()->json([

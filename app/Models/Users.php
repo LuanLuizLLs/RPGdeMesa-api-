@@ -18,17 +18,20 @@ class Users extends Model implements AuthorizableContract, AuthenticatableContra
   protected $table = 'users';
 
   public const ID = 'id';
+  public const EMAIL = 'email';
   public const USERNAME = 'username';
   public const PASSWORD = 'password';
 
   protected $fillable = [
     self::ID,
+    self::EMAIL,
     self::USERNAME,
     self::PASSWORD,
   ];
 
   protected $casts = [
     self::ID => 'integer',
+    self::EMAIL => 'string',
     self::USERNAME => 'string',
     self::PASSWORD => 'string',
   ];

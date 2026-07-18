@@ -9,12 +9,14 @@ class UsersController extends Controller
 {
   function create(Request $request)
   {
-    $model = Users::where('username', $request->username)->first();
+    $model = Users::where('username', $request->username)
+      ->orWhere('email', $request->email)
+      ->first();
 
     if ($model) {
       return response()->json([
         'status' => 'error',
-        'message' => 'Usuário já existe',
+        'message' => 'Usuário ou e-mail já existe',
       ], 400);
     }
 

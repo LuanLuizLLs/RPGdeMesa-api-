@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Mails\RecoverPasswordMail;
-use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -11,12 +10,10 @@ class TestsController extends Controller
 {
   public function mails(Request $request, string $content)
   {
-    $faker = Factory::create();
-
     $mail = [
       'recover-password' => new RecoverPasswordMail(
-        $faker->name(),
-        $faker->numberBetween(100000, 999999)
+        'LLs',
+        '123ABC'
       )
     ];
 
@@ -25,12 +22,10 @@ class TestsController extends Controller
 
   public function views(string $path, string $view)
   {
-    $faker = Factory::create();
-
     $data = [
       'recover-password' => [
-        'user' => $faker->name(),
-        'code' => $faker->numberBetween(100000, 999999),
+        'user' => 'LLs',
+        'code' => '123ABC',
       ]
     ];
 

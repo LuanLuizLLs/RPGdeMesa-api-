@@ -20,6 +20,8 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
   $router->post('/login', 'AuthController@login');
   $router->post('/logout', 'AuthController@logout');
   $router->post('/register', 'AuthController@register');
+  $router->post('/send-code', 'AuthController@sendCode');
+  $router->post('/confirm-code', 'AuthController@confirmCode');
   $router->patch('/recover', 'AuthController@recover');
 });
 

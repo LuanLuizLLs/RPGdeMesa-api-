@@ -12,7 +12,7 @@ class RecoverPasswordMail extends Mailable
   public $user = '';
   public $code = '';
 
-  public function __construct(string $user, int $code)
+  public function __construct(string $user, string $code)
   {
     $this->user = $user;
     $this->code = $code;

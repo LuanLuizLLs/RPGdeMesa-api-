@@ -5,12 +5,13 @@ namespace App\Services;
 use App\Mails\RecoverPasswordMail;
 use App\Models\Users;
 use App\Models\UsersAuthenticator;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 trait RecoverPasswordService
 {
+  private $code = '';
+
   private static $CODE_LENGHT = 6;
   private static $CODE_MAX_LENGHT = 33;
   private static $CHARACTERS = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -28,23 +29,21 @@ trait RecoverPasswordService
 
   public function sendCodeInEmail(Users $user): bool
   {
-    $code = '';
-
     do {
-      $code = $this->generateCode();
-      $codeExists = UsersAuthenticator::where('code', $code)->exists();
+      $this->code = $this->generateCode();
+      $codeExists = UsersAuthenticator::where(UsersAuthenticator::CODE, $this->code)->exists();
     } while ($codeExists);
 
     try {
       $created = UsersAuthenticator::create([
         UsersAuthenticator::ID_USER => $user->id,
-        UsersAuthenticator::CODE => $code,
+        UsersAuthenticator::CODE => $this->code,
       ]);
 
       if ($created) {
         $content = new RecoverPasswordMail(
           $user->username,
-          $code,
+          $this->code,
         );
 
         Mail::to($user->email)->send($content);
@@ -53,7 +52,7 @@ trait RecoverPasswordService
       }
 
       return false;
-    } catch (\Exception $e) {
+    } catch (\Exception $_) {
       return false;
     }
   }

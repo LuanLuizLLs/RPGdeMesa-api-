@@ -16,7 +16,7 @@ class AuthController extends Controller
   {
     if (!$user = auth()->user()) {
       return response()->json([
-        'status' => 'error',
+        'status' => 'warning',
         'message' => 'Não autorizado',
       ], 401);
     }
@@ -30,21 +30,21 @@ class AuthController extends Controller
 
   public function register(Request $request)
   {
-    $model = Users::where('username', $request->username)
-      ->orWhere('email', $request->email)
+    $model = Users::where(Users::USERNAME, $request->username)
+      ->orWhere(Users::EMAIL, $request->email)
       ->first();
 
     if ($model) {
       return response()->json([
-        'status' => 'error',
+        'status' => 'warning',
         'message' => 'Não autorizado',
       ], 401);
     }
 
     Users::create([
-      'email' => $request->email,
-      'username' => $request->username,
-      'password' => Hash::make($request->password),
+      Users::EMAIL => $request->email,
+      Users::USERNAME => $request->username,
+      Users::PASSWORD => Hash::make($request->password),
     ]);
 
     return response()->json([
@@ -55,11 +55,11 @@ class AuthController extends Controller
 
   public function sendCode(Request $request)
   {
-    $model = Users::where('email', $request->email)->first();
+    $model = Users::where(Users::EMAIL, $request->email)->first();
 
     if (is_null($model)) {
       return response()->json([
-        'status' => 'error',
+        'status' => 'warning',
         'message' => 'Usuário não encontrado',
       ], 401);
     }
@@ -85,7 +85,7 @@ class AuthController extends Controller
 
     if (is_null($model)) {
       return response()->json([
-        'status' => 'error',
+        'status' => 'warning',
         'message' => 'Não autorizado',
       ], 401);
     }
@@ -128,27 +128,30 @@ class AuthController extends Controller
       ], 400);
     }
 
-    UsersAuthenticator::where('id_user', $user->id)->delete();
+    UsersAuthenticator::where(UsersAuthenticator::ID_USER, $user->id)->delete();
 
     $user->update([
-      'password' => Hash::make($request->password),
+      Users::PASSWORD => Hash::make($request->password),
     ]);
 
     auth()->logout();
 
     return response()->json([
       'status' => 'success',
-      'message' => 'Senha alterada',
+      'message' => 'Senha alterada com sucesso',
     ], 200);
   }
 
   public function login()
   {
-    $credentials = request(['username', 'password']);
+    $credentials = request([
+      Users::USERNAME,
+      Users::PASSWORD
+    ]);
 
     if (!$token = auth()->attempt($credentials)) {
       return response()->json([
-        'status' => 'error',
+        'status' => 'warning',
         'message' => 'Não autorizado',
       ], 401);
     }

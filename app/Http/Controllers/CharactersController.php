@@ -11,10 +11,16 @@ class CharactersController extends Controller
   {
     $model = new Characters();
     $data = array_intersect_key($request->all(), $model->getCasts());
-    $data['life'] = $model->lifeCapacity($data);
-    $data['coins'] = $model->mentalCapacity($data);
-    $data['actions'] = $model->physicalCapacity($data);
-    $data['id_user'] = auth()->user()->id;
+    $data[Characters::ID_USER] = auth()->user()->id;
+    $data[Characters::LIFE] = Characters::INITIAL_LIFE;
+    $data[Characters::COINS] = Characters::INITIAL_COINS;
+    $data[Characters::ACTIONS] = Characters::INITIAL_ACTIONS;
+    $data[Characters::STRENGTH] = Characters::INITIAL_STRENGTH;
+    $data[Characters::DEXTERITY] = Characters::INITIAL_DEXTERITY;
+    $data[Characters::CONSTITUTION] = Characters::INITIAL_CONSTITUTION;
+    $data[Characters::INTELLIGENCE] = Characters::INITIAL_INTELLIGENCE;
+    $data[Characters::WISDOW] = Characters::INITIAL_WISDOW;
+    $data[Characters::CHARISMA] = Characters::INITIAL_CHARISMA;
     $model->create($data);
 
     return response()->json([
@@ -25,19 +31,12 @@ class CharactersController extends Controller
 
   public function read(Request $request)
   {
-    $model = Characters::select('characters.*')
-      ->selectRaw('COALESCE(campaigns.id_user, characters.id_user) as auth_user')
-      ->leftJoin('campaigns', 'characters.id_campaign', '=', 'campaigns.id')
-      ->when(empty($request->only(['id', 'id_campaign'])), function ($query) {
-        return $query->where('characters.id_user', auth()->user()->id);
-      }, function ($query) {
-        return $query->having('auth_user', auth()->user()->id);
+    $model = Characters::where(Characters::ID_USER, auth()->user()->id)
+      ->when(isset($request->id), function ($query) use ($request) {
+        return $query->where(Characters::ID, $request->id);
       })
-      ->when($request->id, function ($query, $id) {
-        return $query->where('characters.id', $id);
-      })
-      ->when($request->id_campaign, function ($query, $id_campaign) {
-        return $query->where('characters.id_campaign',  $id_campaign);
+      ->when(isset($request->id_campaign), function ($query) use ($request) {
+        return $query->where(Characters::ID_CAMPAIGN, $request->id_campaign);
       })
       ->get();
 
@@ -58,7 +57,7 @@ class CharactersController extends Controller
 
   public function update(Request $request)
   {
-    $model = Characters::where('id', $request->id)->first();
+    $model = Characters::where(Characters::ID, $request->id)->first();
 
     if (empty($model)) {
       return response()->json([
@@ -78,7 +77,7 @@ class CharactersController extends Controller
 
   public function delete(Request $request)
   {
-    $model = Characters::where('id', $request->id)->first();
+    $model = Characters::where(Characters::ID, $request->id)->first();
 
     if (empty($model)) {
       return response()->json([

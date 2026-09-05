@@ -11,16 +11,21 @@ class Characters extends Model
 
   protected $table = 'characters';
 
-  public const MAX_LEVEL_ATTRIBUTE = 6;
+  public const INITIAL_LIFE = 6;
+  public const INITIAL_COINS = 3;
+  public const INITIAL_ACTIONS = 3;
+  public const INITIAL_STRENGTH = 1;
+  public const INITIAL_DEXTERITY = 1;
+  public const INITIAL_CONSTITUTION = 1;
+  public const INITIAL_INTELLIGENCE = 1;
+  public const INITIAL_WISDOW = 1;
+  public const INITIAL_CHARISMA = 1;
 
   public const ID = 'id';
   public const ID_USER = 'id_user';
   public const ID_CAMPAIGN = 'id_campaign';
   public const NAME = 'name';
   public const DESCRIPTION = 'description';
-  public const RACE = 'race';
-  public const CASTE = 'caste';
-  public const TENDENCY = 'tendency';
   public const LIFE = 'life';
   public const COINS = 'coins';
   public const ACTIONS = 'actions';
@@ -37,9 +42,6 @@ class Characters extends Model
     self::ID_CAMPAIGN,
     self::NAME,
     self::DESCRIPTION,
-    self::RACE,
-    self::CASTE,
-    self::TENDENCY,
     self::LIFE,
     self::COINS,
     self::ACTIONS,
@@ -57,9 +59,6 @@ class Characters extends Model
     self::ID_CAMPAIGN => 'integer',
     self::NAME => 'string',
     self::DESCRIPTION => 'string',
-    self::RACE => 'string',
-    self::CASTE => 'string',
-    self::TENDENCY => 'string',
     self::LIFE => 'integer',
     self::COINS => 'integer',
     self::ACTIONS => 'integer',

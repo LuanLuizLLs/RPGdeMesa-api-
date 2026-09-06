@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Services\LoggerService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
@@ -11,6 +12,8 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use LoggerService;
+
     /**
      * A list of the exception types that should not be reported.
      *
@@ -55,11 +58,7 @@ class Handler extends ExceptionHandler
         ];
 
         if (env('APP_DEBUG', false)) {
-            $response['error'] = [
-                'detail' => $exception->getMessage(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-            ];
+            $response['error'] = $this->error('Ocorreu um erro no servidor', $exception);
         }
 
         return response()->json($response, 500);
